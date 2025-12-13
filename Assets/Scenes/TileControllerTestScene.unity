@@ -265,9 +265,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1072818938}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb215ef3f51da7944b396b6180966837, type: 3}
+  m_Script: {fileID: 11500000, guid: a82aac85fe1129c4b84dcc1de1ea3335, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TileBoardViewTest
+  m_EditorClassIdentifier: Assembly-CSharp::TileBoardView
   positionThreshold: 1
   returnStartPoint: 1
 --- !u!1660057539 &9223372036854775807
