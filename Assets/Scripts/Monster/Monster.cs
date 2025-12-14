@@ -12,6 +12,10 @@ public enum eMonsterSize
 {
     Small = 1, Medium, Large
 }
+public enum eMonsterAction
+{
+    Idle=1, AttackReady,Attack, AttackSpecial
+}
 
 public class Monster : MonoBehaviour
 {
