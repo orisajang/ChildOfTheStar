@@ -13,7 +13,6 @@ public class MonsterActionCSVData
     public bool isRestore;
     public bool isSpecial;
     public float specialValue;
-    public string sprite;
     public string animation;
     public string effect;
     public string sound;

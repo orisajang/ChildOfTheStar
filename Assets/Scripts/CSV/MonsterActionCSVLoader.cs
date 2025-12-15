@@ -42,7 +42,6 @@ public class MonsterActionCSVLoader
             monsterActionData.isRestore = item[7] == "0" ? false : true;
             monsterActionData.isSpecial = item[8] == "0" ? false : true;
             monsterActionData.specialValue = item[9] == "null" ? 0 : float.Parse(item[9]);
-            //monsterActionData.sprite = item[10];
             monsterActionData.animation = item[10];
             monsterActionData.effect = item[11];
             monsterActionData.sound = item[12];

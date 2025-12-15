@@ -29,7 +29,6 @@ public class Monster : MonoBehaviour
     int _monsterMaxEnergy;
     int _monsterCycleId;
     //몬스터가 어떤 이미지,애니메이션,음성을 가지고있는지
-    string _monsterSprite;
     string _monsterAnimation;
     string _monsterSound;
 
@@ -56,6 +55,10 @@ public class Monster : MonoBehaviour
     //CSV로 읽어야하는 종류가 3종류라 잠시 스탑.. (몬스터정보, 몬스터 행동, 몬스터 행동 정보가.. csv로 되어있음.)
 
 
+    /// <summary>
+    /// CSV로 부터 몬스터 정의에 대한 값 받기
+    /// </summary>
+    /// <param name="data">CSV 파싱 데이터</param>
     public void SetMonsterInfo(MonsterCSVData data)
     {
         _monsterId = data.monsterId;
@@ -66,7 +69,6 @@ public class Monster : MonoBehaviour
         _monsterAttackPower = data.monsterAttackPower;
         _monsterMaxEnergy = data.monsterMaxEnergy;
         _monsterCycleId = data.monsterCycleId;
-        _monsterSprite = data.monsterSprite;
         _monsterAnimation = data.monsterAnimation;
         _monsterSound = data.monsterSound;
     }

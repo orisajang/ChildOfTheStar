@@ -14,7 +14,6 @@ public class MonsterAction
     bool _isRestore;
     bool _isSpecial;
     float _specialValue;
-    string _sprite;
     string _animation;
     string _effect;
     string _sound;

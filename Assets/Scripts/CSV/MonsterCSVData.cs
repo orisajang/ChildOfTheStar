@@ -12,7 +12,6 @@ public class MonsterCSVData
     public int monsterAttackPower;
     public int monsterMaxEnergy;
     public int monsterCycleId;
-    public string monsterSprite;
     public string monsterAnimation;
     public string monsterSound;
 
