@@ -21,11 +21,17 @@ public class TileBoardView : MonoBehaviour
     // 좌우
     private bool _isLeftRight;
 
+    // 타일이 움직이는 중인지 확인
+    private bool _isTileMoveCheck;
+
     // 방향 판단 임계값 이 값 이상 움직여여야지 방향 결정 수치 변경 예정----------------------------------------------------------
     [SerializeField] private float positionThreshold = 1f;
 
-    // 시작지점 근처 확인용 나중에 수치 변경 예정----------------------------------------------------------------------------
+    // 시작지점 근처 확인용 나중에 수치 변경 예정-------------------------------------------------------------------------------
     [SerializeField] private float returnStartPoint = 1f;
+
+    // 타일 이동 속도 나중에 수치 변경 예정-------------------------------------------------------------------------------------
+    [SerializeField] private float tileMoveSpeed = 1f;
 
     /// <summary>
     /// 시작 마우스위치를 저장하고 드래그 상태를 변경(클릭 했을 떄)
@@ -129,6 +135,16 @@ public class TileBoardView : MonoBehaviour
         // 드래그 종료
         _isDragging = false;
     }
+
+    /// <summary>
+    /// 위치를 받으면 해당 위치로 이동
+    /// </summary>
+    /// <param name="targetPosition">클릭을 놨을 때 가장 가까운 타일의 좌표값</param>
+    public void tileMoveToPosition(Vector2 targetPosition)
+    {
+
+    }
+
 
     /// <summary>
     /// 보드 비/활성화
