@@ -39,9 +39,9 @@ public class MonsterCSVLoader
             monsterData.monsterAttackPower = int.Parse(item[5]);
             monsterData.monsterMaxEnergy = int.Parse(item[6]);
             monsterData.monsterCycleId = int.Parse(item[7]);
-            monsterData.monsterSprite = item[8];
-            monsterData.monsterAnimation = item[9];
-            monsterData.monsterSound = item[10];
+            //monsterData.monsterSprite = item[8];
+            monsterData.monsterAnimation = item[8];
+            monsterData.monsterSound = item[9];
 
 
 
