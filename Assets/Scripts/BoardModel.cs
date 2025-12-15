@@ -1,6 +1,5 @@
+using System;
 using System.Collections.Generic;
-using UnityEditor.Tilemaps;
-using UnityEngine;
 
 public enum TileColor
 {
@@ -23,18 +22,6 @@ public abstract class skillTest
 }
 public class BoardModel
 {
-    private int _rows = 5;
-    public int Rows => _rows;
-
-    private int _columns = 6;
-    public int Columns => _columns;
-
-    private TileTest[,] _tiles;
-
-    public void Init()
-    {
-        _tiles = new TileTest[Rows, Columns];
-    }
 
     public enum TileMoveDirection
     {
@@ -43,14 +30,43 @@ public class BoardModel
     }
     private struct Pos
     {
-        public int r;
-        public int c;
+        public int row;
+        public int col;
 
         public Pos(int r, int c)
         {
-            this.r = r;
-            this.c = c;
+            this.row = r;
+            this.col = c;
         }
+    }
+
+    private int _rows = 5;
+    public int Rows => _rows;
+
+    private int _columns = 6;
+    public int Columns => _columns;
+
+    private TileTest[,] _tiles;
+
+    public Func<int, int, TileTest> CreateTile;//모델에서 좌표값 보내주면 컨트롤러에서 타일생성해서 Tile 반환
+
+
+    public void Init()
+    {
+        _tiles = new TileTest[Rows, Columns];
+    }
+
+    /// <summary>
+    /// 해당 좌표에 타일 넣는 함수, 컨트롤러에서 타일 생성해서 넣어줘야한다고 생각함.
+    /// </summary>
+    /// <param name="row">0~4</param>
+    /// <param name="col">0~5</param>
+    /// <param name="tile"></param>
+    public void SetTile(int row, int col, TileTest tile)
+    {
+        if (row < 0 || row >= _rows || col < 0 || col >= _columns) return;
+
+        _tiles[row, col] = tile;
     }
 
     /// <summary>
@@ -67,7 +83,7 @@ public class BoardModel
     /// Vertical일 경우   : col 인덱스
     /// </param>
     /// <param name="moveAmount">
-    /// 이동할 칸 수
+    /// 이동할 칸 수. 
     /// + : 우 / 위
     /// - : 좌 / 아래
     /// </param>
@@ -135,8 +151,60 @@ public class BoardModel
 
         if (matched.Count > 0)
         {
-            ApplyGravity();
+            MatchChain();
         }
+    }
+
+    private void MatchChain()
+    {
+        int loopSafety = 0;
+
+        while (loopSafety < 20)
+        {
+            ApplyGravity();
+            RefillEmptyTile();
+
+            HashSet<Pos> newMatches = GetAllMatch();
+
+            if (newMatches.Count == 0)
+            {
+                break;
+            }
+
+            ExplodeMatched(newMatches);
+
+            loopSafety++;
+        }
+    }
+    private void RefillEmptyTile()
+    {
+        if (CreateTile == null) return;
+
+        for (int col = 0; col < _columns; col++)
+        {
+            for (int row = 0; row < _rows; row++)
+            {
+                if (_tiles[row, col] == null)
+                {
+                    _tiles[row, col] = CreateTile(row, col);
+                }
+            }
+        }
+    }
+    private HashSet<Pos> GetAllMatch()
+    {
+        HashSet<Pos> allMatches = new HashSet<Pos>();
+
+        for (int row = 0; row < _rows; row++)
+        {
+            MatchTile(TileMoveDirection.Horizontal, row, allMatches);
+        }
+        for (int col = 0; col < _columns; col++)
+        {
+            MatchTile(TileMoveDirection.Vertical, col, allMatches);
+        }
+
+        return allMatches;
     }
 
     /// <summary>
@@ -251,7 +319,7 @@ public class BoardModel
 
         foreach (Pos p in matched)
         {
-            TileTest t = _tiles[p.r, p.c];
+            TileTest t = _tiles[p.row, p.col];
             if (t == null) continue;
 
             if (t.skillTest != null)
@@ -259,13 +327,13 @@ public class BoardModel
                 t.skillTest.Excute();
             }
 
-            _tiles[p.r, p.c] = null;
+            _tiles[p.row, p.col] = null;
         }
     }
 
     /// <summary>
     ///  중력 적용 함수
-    /// 각 열을 탐색하여 비어있는 곳 있으면 위에서 당김, 
+    /// 각 열을 탐색하여 빈공간을 위에서 당겨서 채움, 
     /// </summary>
     private void ApplyGravity()
     {
