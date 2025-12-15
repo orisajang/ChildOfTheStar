@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-// 방향 결정을 어떻게 할건지 Vector2로 클릭 했을 때 시작 위치 저장하고 현재 마우스 위치 값을 빼서 x좌표랑 y좌표 중 이동 값이 큰 쪽으로 고정 
+// 1. 위치값 이동을 몇 칸을 이동했는지 추가
 public class TileBoardView : MonoBehaviour
 {
     // 클릭이 시작된 마우스 위치
@@ -12,6 +12,9 @@ public class TileBoardView : MonoBehaviour
 
     // 상하 또는 좌우 고정 여부
     private bool _isMoveFix;
+
+    // 보드 활성화 여부
+    private bool _isBoardActive = true;
 
     // 상하
     private bool _isUpDown;
@@ -30,6 +33,12 @@ public class TileBoardView : MonoBehaviour
     /// <param name="mousePosition">클릭 마우스 위치</param>
     public void Drag(Vector2 mousePosition)
     {
+        // 보드 비활성화 상태시
+        if (_isBoardActive == false)
+        {
+            return;
+        }
+
         startPosition = mousePosition;
         _isDragging = true;
 
@@ -42,39 +51,45 @@ public class TileBoardView : MonoBehaviour
     /// 현재 마우스 위치를 받아 방향 결정(드래그 중)
     /// </summary>
     /// <param name="currentMousePosition">현재 마우스 위치</param>
-    /// <returns></returns>
-    public Vector2 UpdateDrag (Vector2 currentMousePosition)
+    /// <returns>상하 이동값 또는 좌우 이동값</returns>
+    public Vector2 UpdateDrag(Vector2 currentMousePosition)
     {
+        if (_isBoardActive == false)
+        {
+            return Vector2.zero;
+        }
         // 드래그 중이 아니라면 이동 없음
-        if(_isDragging == false)
+        if (_isDragging == false)
         {
             return Vector2.zero;
         }
         // 이동 거리 계산
         Vector2 changePosition = currentMousePosition - startPosition;
 
-        if(_isMoveFix == false)
+        if (_isMoveFix == false)
         {
             // 임계값을 넘었을 때만 방향 결정
-            if(Mathf.Abs(changePosition.x) > positionThreshold || Mathf.Abs(changePosition.y) > positionThreshold)
+            if (Mathf.Abs(changePosition.x) > positionThreshold || Mathf.Abs(changePosition.y) > positionThreshold)
             {
                 // 좌우 이동이 더 클 때
                 if (Mathf.Abs(changePosition.x) > Mathf.Abs(changePosition.y))
                 {
                     _isLeftRight = true;
                     _isUpDown = false;
+                    Debug.Log("좌우 이동 고정" + changePosition);
                 }
                 // 상하 이동이 더 클 때
                 else if (Mathf.Abs(changePosition.x) < Mathf.Abs(changePosition.y))
                 {
                     _isUpDown = true;
                     _isLeftRight = false;
+                    Debug.Log("상하 이동 고정" + changePosition);
                 }
                 _isMoveFix = true;
             }
         }
         // 좌우 이동이 더 크니 상하 이동값 무시
-        if(_isLeftRight == true)
+        if (_isLeftRight == true)
         {
             return new Vector2(changePosition.x, 0);
         }
@@ -91,8 +106,12 @@ public class TileBoardView : MonoBehaviour
     /// <param name="mousePosition">현재 마우스 위치</param>
     public void EndDrag(Vector2 currentMousePosition)
     {
+        if (_isBoardActive == false)
+        {
+            return;
+        }
         // 드래그중이 아니면 종료
-        if(_isDragging == false)
+        if (_isDragging == false)
         {
             return;
         }
@@ -101,7 +120,7 @@ public class TileBoardView : MonoBehaviour
         Vector2 changePosition = currentMousePosition - startPosition;
 
         // 이동거리가 시작 지점으로 돌아왔다고 판단 되면 고정 해제
-        if(changePosition.magnitude < returnStartPoint)
+        if (changePosition.magnitude < returnStartPoint)
         {
             _isMoveFix = false;
             _isUpDown = false;
@@ -109,5 +128,23 @@ public class TileBoardView : MonoBehaviour
         }
         // 드래그 종료
         _isDragging = false;
+    }
+
+    /// <summary>
+    /// 보드 비/활성화
+    /// </summary>
+    /// <param name="active">true 또는 false를 넣어서 활성화 또는 비활성화</param>
+    public void SetBoardActive(bool active)
+    {
+        _isBoardActive = active;
+
+        if (active)
+        {
+            Debug.Log("보드 활성화");
+        }
+        else
+        {
+            Debug.Log("보드 비활성화");
+        }
     }
 }
