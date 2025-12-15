@@ -18,5 +18,5 @@ public class MonsterCSVData
     ///어떤 프리팹을 쓸건지
     public GameObject monsterPrefab;
     //Cycle ID를 통해 ActionCycle들을 가지고있어야해서 추가
-    public List<MonsterActionCycleCSVData> monsterActionCycleList;
+    public List<MonsterActionCycleValue> monsterActionCycleList;
 }

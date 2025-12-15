@@ -10,11 +10,10 @@ public class MonsterManager : MonoBehaviour
     private MonsterActionCSVLoader _monsterActionCSVLoader = new MonsterActionCSVLoader();
     //읽어온 CSV데이터를 한줄씩 리스트로 저장하고있음
     private List<MonsterCSVData> _monsterCSVDataList = new List<MonsterCSVData>();
-    private List<MonsterActionCycleCSVData> _monsterActionCycleCSVDataList = new List<MonsterActionCycleCSVData>();
     private List<MonsterActionCSVData> _monsterActionCSVDataList = new List<MonsterActionCSVData>();
     //딕셔너리로 id값을 입력하면 데이터를 불러오게 하기위해서 선언
     private Dictionary<int, MonsterCSVData> _monsterDataDic = new Dictionary<int, MonsterCSVData>();
-    private Dictionary<int, List<MonsterActionCycleCSVData>> _monsterActionCycleDataDic = new Dictionary<int, List<MonsterActionCycleCSVData>>();
+    private Dictionary<int, List<MonsterActionCycleValue>> _monsterActionCycleDataDic;
     private Dictionary<int, MonsterActionCSVData> _monsterActionDataDic = new Dictionary<int, MonsterActionCSVData>();
 
     //테스트용 몬스터프리팹(삭제예정)
@@ -62,26 +61,26 @@ public class MonsterManager : MonoBehaviour
     private void AddMonsterActionCycleByCSV()
     {
         //리스트로 전부 데이터들을 불러온다
-        _monsterActionCycleCSVDataList = _monsterActionCycleCSVLoader.LoadData("MonsterActionCycleCSVData");
-        //딕셔너리를 같은 group ID로 묶을 수 있도록 리스트를 따로 만들어준다
-        List<MonsterActionCycleCSVData> dataList = new List<MonsterActionCycleCSVData>();
-        //private Dictionary<int, List<MonsterActionCycleCSVData>> _monsterActionCycleDataDic = new Dictionary<int, List<MonsterActionCycleCSVData>>();
-        foreach(var item in _monsterActionCycleCSVDataList)
-        {
-            int currentGroupid = item.groupId;
-            //딕셔너리에 그룹id가 포함되어있다면
-            if (_monsterActionCycleDataDic.ContainsKey(currentGroupid))
-            {
-                _monsterActionCycleDataDic[currentGroupid].Add(item);
-            }
-            else
-            {
-                //딕셔너리에 그룹id가 없는상태 (처음 시작)
-                List<MonsterActionCycleCSVData> list = new List<MonsterActionCycleCSVData>();
-                list.Add(item);
-                _monsterActionCycleDataDic[currentGroupid] = list;
-            }
-        }
+        _monsterActionCycleDataDic = _monsterActionCycleCSVLoader.LoadData("MonsterActionCycleCSVData");
+        ////딕셔너리를 같은 group ID로 묶을 수 있도록 리스트를 따로 만들어준다
+        //List<MonsterActionCycleCSVData> dataList = new List<MonsterActionCycleCSVData>();
+        ////private Dictionary<int, List<MonsterActionCycleCSVData>> _monsterActionCycleDataDic = new Dictionary<int, List<MonsterActionCycleCSVData>>();
+        //foreach(var item in _monsterActionCycleCSVDataList)
+        //{
+        //    int currentGroupid = item.groupId;
+        //    //딕셔너리에 그룹id가 포함되어있다면
+        //    if (_monsterActionCycleDataDic.ContainsKey(currentGroupid))
+        //    {
+        //        _monsterActionCycleDataDic[currentGroupid].Add(item);
+        //    }
+        //    else
+        //    {
+        //        //딕셔너리에 그룹id가 없는상태 (처음 시작)
+        //        List<MonsterActionCycleCSVData> list = new List<MonsterActionCycleCSVData>();
+        //        list.Add(item);
+        //        _monsterActionCycleDataDic[currentGroupid] = list;
+        //    }
+        //}
        
     }
     /// <summary>
@@ -114,8 +113,8 @@ public class MonsterManager : MonoBehaviour
     }
     private void MakeMosnterActionCycle(int groupId)
     {
-        List<MonsterActionCycleCSVData> data = _monsterActionCycleDataDic[groupId];
-        Debug.Log(data[0].groupId);
+        var data = _monsterActionCycleDataDic[groupId];
+        Debug.Log($"액션 사이클은 총 {data.Count}개 입니다.");
         //이거를 이제 Monster에 있는 곳에 넣어주면 됨.
         //3개가 있다는 것을 확인했다. 그렇다면 이제? monster_action에서 해당 키값을 찾아서 MonsterAction이라는 클래스에 가지고있게 하자
         //MonsterAction이라는 클래스를 만들자 몬스터의 행동을 가지고있는
