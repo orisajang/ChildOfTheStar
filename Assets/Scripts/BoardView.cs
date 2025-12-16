@@ -1,104 +1,62 @@
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class BoardView : MonoBehaviour
 {
     [SerializeField] private CreateTilePoint createTilePoint;
-    [SerializeField] private TileBoardView[,] tileViews;
 
-    private Transform[,] tilePoints;
+    [SerializeField] private TileBoardView tilePrefab;
 
-    private int rows;
-    private int cols;
+    private TileBoardView[,] tileViews;
 
-    private void Awake()
+    private BoardModel model;
+
+    public void Init(BoardModel boardModel)
     {
-        BuildTilefill();
+        model = boardModel;
+
+        tileViews = new TileBoardView[model.Rows, model.Columns];
+
+        // 최초 상태를 화면에 반영
+        BoardDraw();
     }
 
     /// <summary>
-    /// createTilePoint에서 좌표 값 받아오는 용도
+    /// model 상태로 다시 그리기
     /// </summary>
-    private void BuildTilefill()
+    public void BoardDraw()
     {
-        Transform parent = createTilePoint.transform;
+        Tile[,] tiles = model.Tiles;
 
-        rows = 0;
-        cols = 0;
-
-        // createTilePoint에서 가져옴
-        foreach (Transform child in parent)
+        for(int i = 0; i < model.Rows; i++)
         {
-            // pointn_m에서 [n, m]으로 추출
-            string[] split = child.name.Replace("point", "").Split('_');
+            for(int j = 0; j < model.Columns; j++)
+            {
+                Tile tile = tiles[i, j];
 
-            // 숫자 변화
-            int row = int.Parse(split[0]);
-            int col = int.Parse(split[1]);
+                Vector2 targetPos = createTilePoint.tempPointPosition[j, i];
 
-            // 갱신
-            rows = Mathf.Max(rows, row);
-            cols = Mathf.Max(cols, col);
-        }
-
-        // 배열 생성
-        tilePoints = new Transform[rows, cols];
-
-        // 배열에 넣기
-        foreach (Transform child in parent)
-        {
-            string[] split = child.name.Replace("point", "").Split('_');
-
-            int row = int.Parse(split[0]) - 1;
-            int col = int.Parse(split[1]) - 1;
-
-            tilePoints[row, col] = child;
-        }
-    }
-
-    /// <summary>
-    /// 가로줄 이동
-    /// </summary>
-    /// <param name="rowIndex">몇 번쨰 줄</param>
-    /// <param name="moveAmount">몇 칸 이동</param>
-    public void MoveRow(int rowIndex, int moveAmount)
-    {
-        // 가로줄 탐색
-        for (int col = 0; col < cols; col++)
-        {
-            // 현재 위치의 타일
-            TileBoardView tile = tileViews[rowIndex, col];
-
-            // 이동 후 도착할 열 인덱스 계산
-            int newCol = (col + moveAmount + cols) % cols;
-
-            // 도착해야 할 좌표
-            Vector2 targetPos = tilePoints[rowIndex, newCol].position;
-
-            // 타일에게 이동 명령
-            tile.tileMoveToPosition(targetPos);
-        }
-    }
-    /// <summary>
-    /// 세로줄 이동
-    /// </summary>
-    /// <param name="colIndex">몇 번째 줄</param>
-    /// <param name="moveAmount">몇 칸 이동</param>
-    public void MoveColumn(int colIndex, int moveAmount)
-    {
-        // 세로줄 탐색
-        for (int row = 0; row < rows; row++)
-        {
-            // 현재 위치의 타일
-            TileBoardView tile = tileViews[row, colIndex];
-
-            // 이동 후 도착할 행 인덱스 계산
-            int newRow = (row + moveAmount + rows) % rows;
-
-            // 도착해야 할 좌표
-            Vector2 targetPos = tilePoints[newRow, colIndex].position;
-
-            // 타일에게 이동 명령
-            tile.tileMoveToPosition(targetPos);
+                // model이 비어있을 때
+                if(tile == null)
+                {
+                    if (tileViews[i, j] != null)
+                    {
+                        Destroy(tileViews[i, j].gameObject);
+                        tileViews[i, j] = null;
+                    }
+                    continue;
+                }
+                // view에 타일이 없을 때
+                if (tileViews[i, j] == null)
+                {
+                    tileViews[i, j] = Instantiate(tilePrefab, targetPos,Quaternion.identity, transform);
+                }
+                else
+                {
+                    // View가 있으면 위치만 이동
+                    tileViews[i, j].tileMoveToPosition(targetPos);
+                }
+            }
         }
     }
 }
