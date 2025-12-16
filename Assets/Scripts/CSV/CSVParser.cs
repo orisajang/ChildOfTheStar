@@ -26,7 +26,7 @@ public class CSVParser
                 //비었을경우 넘어간다
                 if (lines[l] == "") continue;
                 // 한 줄 안에서 쉼표(,)를 기준으로 각 데이터를 나누고 배열에 담는다
-                string[] fields = SplitCsvLine(lines[l]);
+                string[] fields = lines[l].Split(',');
                 //행마다 마지막 요소에 \r 붙어있어서 Trim으로 지워줌
                 if (fields.Length != 0)
                 {
@@ -45,36 +45,6 @@ public class CSVParser
                 }
             }
         }
-    }
-    private string[] SplitCsvLine(string line)
-    {
-        List<string> result = new List<string>();
-        bool inQuotes = false;
-        var current = new System.Text.StringBuilder();
-
-        for (int i = 0; i < line.Length; i++)
-        {
-            char c = line[i];
-
-            if (c == '"')
-            {
-                inQuotes = !inQuotes;
-                continue;
-            }
-
-            if (c == ',' && !inQuotes)
-            {
-                result.Add(current.ToString().Trim());
-                current.Clear();
-            }
-            else
-            {
-                current.Append(c);
-            }
-        }
-
-        result.Add(current.ToString().Trim());
-        return result.ToArray();
     }
 }
 
