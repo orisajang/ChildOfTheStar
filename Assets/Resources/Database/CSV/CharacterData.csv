@@ -1,0 +1,4 @@
+﻿캐릭터 id,캐릭터명 스트링 키,시작 타일 덱 id,캐릭터 최대 체력,캐릭터 최대 이동력,캐릭터 스프라이트 스트링 키,캐릭터 애니메이션 스트링 키,캐릭터 사운드 스트링 키
+id,char_name,startdeck_id,char_hp,movepoint,sprite,animation,sound
+int,string,int,int,int,string,string,string
+101,char_name_101,,100,3,char_sprite_101,char_animation_101,char_sound_101
