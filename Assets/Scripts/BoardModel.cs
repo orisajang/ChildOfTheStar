@@ -29,7 +29,8 @@ public class BoardModel
     public enum TileMoveDirection
     {
         Horizontal, // 가로 라인 이동 (row 한 줄을 좌 / 우로 이동)
-        Vertical    // 세로 라인 이동 (col 한 줄을 상 / 하로 이동)
+        Vertical,    // 세로 라인 이동 (col 한 줄을 상 / 하로 이동)
+        _Null        // 아무것도 아닐 때
     }
     private struct Pos
     {
