@@ -1,3 +1,6 @@
+#define TEST
+
+
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -59,7 +62,16 @@ public class TileBoardController : MonoBehaviour
         _uiAction.started += OnMouseClickStart;
         _uiAction.canceled += OnMouseClickEnd;
 
+
+
     }
+
+#if TEST
+    public void InitTiles(int x, int y, Tile tile)
+    {
+        tileBoardModel.SetTile(x,y,tile);
+    }
+#endif
     private void OnDisable()
     {
         //tileBoardView.OnTileMoved -= OnTileMoveTriggered;
