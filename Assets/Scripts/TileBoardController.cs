@@ -1,6 +1,7 @@
-using UnityEngine.InputSystem;
-using UnityEngine;
 using System;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using static BoardModel;
 
 public class TileBoardController : MonoBehaviour
@@ -31,10 +32,17 @@ public class TileBoardController : MonoBehaviour
     Vector2 startPos;
     // 상하 또는 좌우 고정 여부
     private bool _isMoveFix;
-    // 상하
-    private bool _isUpDown;
-    // 좌우
-    private bool _isLeftRight;
+    private TileMoveDirection _moveDirection;
+    //// 상하
+    //private bool _isUpDown;
+    //// 좌우
+    //private bool _isLeftRight;
+
+    // 인덱스 저장용 스트럭트
+    private struct index
+    { public int x, y; };
+
+    index startIndex;
 
     private void Awake()
     {
@@ -82,28 +90,30 @@ public class TileBoardController : MonoBehaviour
                     // 좌우 이동이 더 클 때
                     if (Mathf.Abs(changePosition.x) > Mathf.Abs(changePosition.y))
                     {
-                        _isLeftRight = true;
-                        _isUpDown = false;
+                        //_isLeftRight = true;
+                        //_isUpDown = false;
+                        _moveDirection = TileMoveDirection.Horizontal;
                     }
                     // 상하 이동이 더 클 때
                     else if (Mathf.Abs(changePosition.x) < Mathf.Abs(changePosition.y))
                     {
-                        _isUpDown = true;
-                        _isLeftRight = false;
+                        //_isUpDown = true;
+                        //_isLeftRight = false;
+                        _moveDirection = TileMoveDirection.Vertical;
                     }
                     _isMoveFix = true;
                 }
             }
             // 좌우 이동이 더 크니 상하 이동값 무시
-            if (_isLeftRight == true)
-            {
-                //return new Vector2(changePosition.x, 0);
-            }
-            // 상하 이동이 더 크니 좌우 이동값 무시
-            if (_isUpDown == true)
-            {
-                //return new Vector2(0, changePosition.y);
-            }
+            //if (_isLeftRight == true)
+            //{
+            //    //return new Vector2(changePosition.x, 0);
+            //}
+            //// 상하 이동이 더 크니 좌우 이동값 무시
+            //if (_isUpDown == true)
+            //{
+            //    //return new Vector2(0, changePosition.y);
+            //}
         }
     }
     /// <summary>
@@ -122,8 +132,10 @@ public class TileBoardController : MonoBehaviour
     {
         // 상태 초기화
         _isMoveFix = false;
-        _isUpDown = false;
-        _isLeftRight = false;
+        //_isUpDown = false;
+        //_isLeftRight = false;
+        _moveDirection = TileMoveDirection._Null;
+
         Vector2 screenPos = _pointAction.ReadValue<Vector2>();
         //Debug.Log("클릭시작 " + screenPos);
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
@@ -163,6 +175,9 @@ public class TileBoardController : MonoBehaviour
         //선택된 타일의 좌표를 보낸다
         Vector2 selectedPos = tilePoint.tempPointPosition[xPos, yPos];
         tileBoardView.Drag(selectedPos);
+        startIndex.x = xPos;
+        startIndex.y = yPos;
+
         Debug.Log($"클릭시작. 좌표= {xPos}, {yPos}");
     }
     private void OnMouseClickEnd(InputAction.CallbackContext ctx)
@@ -232,11 +247,11 @@ public class TileBoardController : MonoBehaviour
         //보드 범위를 초과해서 마우스가 이동한 경우 반대좌표를 강제로 넣어준다
         if(isFixed)
         {
-            if(_isLeftRight)
+            if(_moveDirection == TileMoveDirection.Horizontal)
             {
                 yPos = (int)((tilePoint.standardTilePositionStart.y - worldPos.y) / tilePoint._tileGapY);
             }
-            else if (_isUpDown)
+            else if (_moveDirection == TileMoveDirection.Vertical)
             {
                 xPos = (int)((worldPos.x - tilePoint.standardTilePositionStart.x) / tilePoint._tileGapX);
             }
@@ -255,6 +270,20 @@ public class TileBoardController : MonoBehaviour
         //선택된 타일의 좌표를 보낸다
         tileBoardView.EndDrag(selectedPos);
 
+        //Model 에 타일 이동 명령
+        int lineIndex = 0;
+        int moveIndex = 0;
+        if(_moveDirection == TileMoveDirection.Horizontal)
+        {
+            lineIndex = startIndex.y;
+            moveIndex = startIndex.x - xPos;
+        }
+        else if( _moveDirection == TileMoveDirection.Vertical)
+        {
+            lineIndex = startIndex.x;
+            moveIndex = startIndex.y - yPos;
+        }
+        tileBoardModel.MoveTile(_moveDirection, lineIndex, moveIndex);
 
     }
 
