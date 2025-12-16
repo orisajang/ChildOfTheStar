@@ -1,0 +1,27 @@
+﻿몬스터 행동 id,몬스터 행동명 스트링 키,몬스터 행동 타입,행동 몬스터 id,행동 적용 대상,소모 행동력,공격 여부,체력 회복 여부,특수 여부,특수 행동 수치,몬스터 행동 스프라이트 스트링 키,몬스터 행동 애니메이션 스트링 키,몬스터 행동 이펙트 스트링 키,몬스터 행동 사운드 스트링 키
+id,action_name,action_type,actionmon_id,action_target,action_cost,is_attack,is_restore,is_special,special_value,sprite,animation,effect,sound
+int,string,int,int,int,int,bool,bool,bool,float,string,string,string,string
+310101,action_name_310101,1,3101,2,1,0,0,0,null,null,null,null,null
+310102,action_name_310102,2,3101,2,1,0,0,0,null,action_sprite_310102,action_animation_310102,action_effect_310102,action_sound_310102
+310103,action_name_310103,3,3101,1,1,1,0,0,null,action_sprite_310103,action_animation_310103,action_effect_310103,action_sound_310103
+310201,action_name_310201,2,3102,2,1,0,0,0,null,action_sprite_310201,action_animation_310201,action_effect_310201,action_sound_310201
+310202,action_name_310202,3,3102,1,1,1,0,0,null,action_sprite_310202,action_anmation_310202,action_effect_310202,action_sound_310202
+310301,action_name_310301,1,3103,2,1,0,0,0,null,null,null,null,null
+310302,action_name_310302,2,3103,2,1,0,0,0,null,action_sprite_310302,action_animation_310302,action_effect_310302,action_sound_310302
+310303,action_name_310303,3,3103,1,1,1,0,0,null,action_sprite_310303,action_animation_310303,action_effect_310303,action_sound_310303
+310401,action_name_310401,1,3104,2,1,0,0,0,null,null,null,null,null
+310402,action_name_310402,2,3104,2,1,0,0,0,null,action_sprite_310402,action_animation_310402,action_effect_310402,action_sound_310402
+310403,action_name_310403,3,3104,1,1,1,0,0,null,action_sprite_310403,action_animation_310403,action_effect_310403,action_sound_310403
+310404,action_name_310404,4,3104,2,1,0,1,1,0.05,action_sprite_310404,action_animation_310404,action_effect_310404,action_sound_310404
+320101,action_name_320101,1,3201,2,1,0,0,0,null,null,null,null,null
+320102,action_name_320102,2,3201,2,1,0,0,0,null,action_sprite_320102,action_animation_320102,action_effect_320102,action_sound_320102
+320103,action_name_320103,3,3201,1,1,1,0,0,null,action_sprite_320103,action_animation_320103,action_effect_320103,action_sound_320103
+320201,action_name_320201,2,3202,2,1,0,0,0,null,action_sprite_320201,action_animation_320201,action_effect_320201,action_sound_320201
+320202,action_name_320202,3,3202,1,1,1,0,0,null,action_sprite_320202,action_animation_320202,action_effect_320202,action_sound_320202
+320301,action_name_320301,1,3203,2,1,0,0,0,null,null,null,null,null
+320302,action_name_320302,2,3203,2,1,0,0,0,null,action_sprite_320302,action_animation_320302,action_effect_320302,action_sound_320302
+320303,action_name_320303,3,3203,1,1,1,0,0,null,action_sprite_320303,action_animation_320303,action_effect_320303,action_sound_320303
+320401,action_name_320401,1,3204,2,1,0,0,0,null,null,null,null,null
+320402,action_name_320402,2,3204,2,1,0,0,0,null,action_sprite_320402,action_animation_320402,action_effect_320402,action_sound_320402
+320403,action_name_320403,3,3204,1,1,1,0,0,null,action_sprite_320403,action_animation_320403,action_effect_320403,action_sound_320403
+320404,action_name_320404,4,3204,1,1,1,0,1,0.5,action_sprite_320404,action_animation_320404,action_effect_320404,action_sound_320404
