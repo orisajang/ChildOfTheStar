@@ -66,7 +66,7 @@ public class MonsterActionCycleCSVLoader
     /// <param name="actionId"></param>
     private void AddData(int groupId, int id, int step, int actionId)
     {
-        MonsterActionCycleValue newData;
+        MonsterActionCycleValue newData = new MonsterActionCycleValue();
         newData.actionId = actionId;
         newData.id = id;
         newData.step = step;

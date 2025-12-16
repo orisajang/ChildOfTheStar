@@ -7,14 +7,15 @@ public class MonsterCSVLoader
     CSV csv;
     CSVParser parser = new CSVParser();
 
-    List<MonsterCSVData> monsterCSVDataList = new List<MonsterCSVData>();
+    //List<MonsterCSVData> monsterCSVDataList = new List<MonsterCSVData>();
+    Dictionary<int, MonsterCSVData> monsterCSVDataDic = new Dictionary<int, MonsterCSVData>();
 
     /// <summary>
     /// CSV 데이터 불러오기
     /// </summary>
     /// <param name="fileName">파일이름</param>
     /// <returns></returns>
-    public List<MonsterCSVData> LoadData(string fileName)
+    public Dictionary<int, MonsterCSVData> LoadData(string fileName)
     {
         //LoadCSV
         csv = new CSV(fileName);
@@ -23,7 +24,7 @@ public class MonsterCSVLoader
         SetData(csv.Data);
         AssignPrefabs();
 
-        return monsterCSVDataList;
+        return monsterCSVDataDic;
     }
 
     public void SetData(List<List<string>> Data)
@@ -45,12 +46,13 @@ public class MonsterCSVLoader
 
 
             //monsterData.prefabKey = item[4];
-            monsterCSVDataList.Add(monsterData);
+            //monsterCSVDataList.Add(monsterData);
+            monsterCSVDataDic.Add(monsterData.monsterId, monsterData);
         }
     }
     private void AssignPrefabs()
     {
-        foreach (var w in monsterCSVDataList)
+        //foreach (var w in monsterCSVDataList)
         {
             //w.weaponPrefab = PrefabManager.Instance.GetPrefab(w.prefabKey);
         }

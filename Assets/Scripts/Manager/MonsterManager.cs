@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MonsterManager : MonoBehaviour
@@ -8,9 +9,6 @@ public class MonsterManager : MonoBehaviour
     private MonsterCSVLoader _monsterCSVLoader = new MonsterCSVLoader();
     private MonsterActionCycleCSVLoader _monsterActionCycleCSVLoader = new MonsterActionCycleCSVLoader();
     private MonsterActionCSVLoader _monsterActionCSVLoader = new MonsterActionCSVLoader();
-    //읽어온 CSV데이터를 한줄씩 리스트로 저장하고있음
-    private List<MonsterCSVData> _monsterCSVDataList = new List<MonsterCSVData>();
-    private List<MonsterActionCSVData> _monsterActionCSVDataList = new List<MonsterActionCSVData>();
     //딕셔너리로 id값을 입력하면 데이터를 불러오게 하기위해서 선언
     private Dictionary<int, MonsterCSVData> _monsterDataDic = new Dictionary<int, MonsterCSVData>();
     private Dictionary<int, List<MonsterActionCycleValue>> _monsterActionCycleDataDic;
@@ -44,16 +42,42 @@ public class MonsterManager : MonoBehaviour
     private void AddMonsterByCSV()
     {
         //몬스터 정보를 불러옴
-        _monsterCSVDataList = _monsterCSVLoader.LoadData("MonsterCSVData");
-        //불러온 정보들로 몬스터 만들어주고 딕셔너리에 넣어줌
-        foreach (var item in _monsterCSVDataList)
+        _monsterDataDic = _monsterCSVLoader.LoadData("MonsterCSVData");
+
+
+
+        //몬스터 안에 존재하는 몬스터 행동 주기마다 각각 액션을 넣어준다
+        //미리 CSV데이터를 딕셔너리에 넣었던 것들을 이용
+        int[] keys = _monsterDataDic.Keys.ToArray();
+        foreach(int item in keys)
         {
-            eMonsterType type = item.monsterType;
-            eMonsterSize size = item.monsterSize;
-           
-            //생성된 몬스터 정보를 넣어줌
-            _monsterDataDic.Add(item.monsterId, item);
+            //현재 선택된 몬스터 데이터
+            MonsterCSVData data = _monsterDataDic[item];
+            //몬스터에서 몬스터마다 사이클 id를 꺼낸다
+            int cycleId = data.monsterCycleId;
+            //사이클 id로 monsterActionCycle에 존재하는  사이클id가 동일한 것들을 전부 찾는다(이미 만들어두었음)
+            List<MonsterActionCycleValue> actionCycleList =_monsterActionCycleDataDic[cycleId];
+
+            //이제 해당 리스트안에 어떤 몬스터 액션이 들어가는지 저장해준다
+            int actionCount = actionCycleList.Count;
+            for(int index=0; index < actionCount; index++)
+            {
+                //id를 찾고 액션 딕셔너리에서 정보를 빼온다
+                int actionId = actionCycleList[index].actionId;
+                MonsterActionCSVData actionData =  _monsterActionDataDic[actionId];
+                //struct 값타입이라서 임시변수 만들고 값넣고 다시 원본에 넣어줘야함
+                MonsterActionCycleValue actionCycleData = actionCycleList[index];
+                actionCycleData.SetMonsterActionData(actionData);
+                actionCycleList[index] = actionCycleData;
+            }
+            //data.SetMonsterActionCycle(actionCycleList);
+            //struct 값타입이라서 임시변수 만들고 값넣고 다시 원본에 넣어줘야함
+            MonsterCSVData monsterData = _monsterDataDic[item];
+            monsterData.SetMonsterActionCycle(actionCycleList);
+            _monsterDataDic[item] = monsterData;
         }
+
+
     }
     /// <summary>
     /// 몬스터 액션 주기를 CSV에서 불러와서 SET
@@ -62,6 +86,10 @@ public class MonsterManager : MonoBehaviour
     {
         //리스트로 전부 데이터들을 불러온다
         _monsterActionCycleDataDic = _monsterActionCycleCSVLoader.LoadData("MonsterActionCycleCSVData");
+
+        //몬스터 액션
+
+
         ////딕셔너리를 같은 group ID로 묶을 수 있도록 리스트를 따로 만들어준다
         //List<MonsterActionCycleCSVData> dataList = new List<MonsterActionCycleCSVData>();
         ////private Dictionary<int, List<MonsterActionCycleCSVData>> _monsterActionCycleDataDic = new Dictionary<int, List<MonsterActionCycleCSVData>>();
@@ -89,15 +117,7 @@ public class MonsterManager : MonoBehaviour
     private void AddMonsterActionByCSV()
     {
         //행동 정보를 불러옴
-        _monsterActionCSVDataList = _monsterActionCSVLoader.LoadData("MonsterActionCSVData");
-        //불러온 정보들로 몬스터 만들어주고 딕셔너리에 넣어줌
-        foreach (var item in _monsterActionCSVDataList)
-        {
-            eMonsterAction action = item.actionType;
-
-            //생성된 몬스터 정보를 넣어줌
-            _monsterActionDataDic.Add(item.id, item);
-        }
+        _monsterActionDataDic = _monsterActionCSVLoader.LoadData("MonsterActionCSVData");
     }
     /// <summary>
     /// _monsterDic에 저장된 ID값을 입력하면 해당 정보로 몬스터를 생성해주도록
@@ -110,6 +130,9 @@ public class MonsterManager : MonoBehaviour
         mon.SetMonsterInfo(data);
         //몬스터 생성 (임시 테스트)
         Instantiate(mon, transform.position, transform.rotation);
+
+        //만약에 몬스터의 턴이라고 가정하자. 그렇다면 행동 1개를 사용해야한다.
+
     }
     private void MakeMosnterActionCycle(int groupId)
     {
@@ -124,5 +147,18 @@ public class MonsterManager : MonoBehaviour
         //행동 id를 꺼내면 해당 행동을 가져옴
         Debug.Log(_monsterActionDataDic[id].id);
     }
+
+
+    //몬스터의 상태는 3개가 있다 (대기, 공격준비, Idle) 
+    //대기와 공격준비는 비슷한듯? 
+    /// <summary>
+    /// 몬스터의 상태 Test -Idle 상태
+    /// </summary>
+    private void MonsterIdleState(string animation, string effect, string sound)
+    {
+        //해당 애니메이션, 이펙트, 소리 동작시킨다.
+
+    }
+    
 
 }

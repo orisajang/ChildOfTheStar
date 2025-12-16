@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MonsterActionCSVData
+public struct MonsterActionCSVData
 {
     //CSV파일에 저장되어있는 속성들
     public int id;

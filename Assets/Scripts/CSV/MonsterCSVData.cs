@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterCSVData
+public struct MonsterCSVData
 {
     //CSV파일에 저장되어있는 속성들
     public int monsterId;
@@ -19,4 +19,10 @@ public class MonsterCSVData
     public GameObject monsterPrefab;
     //Cycle ID를 통해 ActionCycle들을 가지고있어야해서 추가
     public List<MonsterActionCycleValue> monsterActionCycleList;
+
+    public void SetMonsterActionCycle(List<MonsterActionCycleValue> data)
+    {
+        monsterActionCycleList = data;
+    }
+
 }
