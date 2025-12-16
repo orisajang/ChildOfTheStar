@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 
@@ -6,6 +7,8 @@ public class TileBoardView : MonoBehaviour
 {
     // 클릭이 시작된 마우스 위치
     private Vector2 startPosition;
+
+    private Vector2 endTilePosition;
 
     // 드래그 중인지
     private bool _isDragging;
@@ -142,7 +145,49 @@ public class TileBoardView : MonoBehaviour
     /// <param name="targetPosition">클릭을 놨을 때 가장 가까운 타일의 좌표값</param>
     public void tileMoveToPosition(Vector2 targetPosition)
     {
+        // 이미 움직이는 중이면 종료
+        if(_isTileMoveCheck == true)
+        {
+            return;
+        }
+        // 도착 위치 저장
+        endTilePosition = targetPosition;
 
+        // 코루틴 사용
+        StartCoroutine(moveCoroutine());
+    }
+
+    /// <summary>
+    ///  이동용 코루틴
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator moveCoroutine()
+    {
+        // 움직이는 중으로 변경
+        _isTileMoveCheck = true;
+
+        // 시작 지점 저장
+        Vector2 start = transform.position;
+
+        // 움직임 진행도
+        float progress = 0f;
+
+        // 움짐임이 1까지 프레임마다 이동
+        while(progress < 1f)
+        {
+            progress += Time.deltaTime * tileMoveSpeed;
+
+            // 현재 위치 계산
+            transform.position = Vector2.Lerp(start, endTilePosition, progress);
+
+            yield return null;
+        }
+
+        // 마지막에 목표 위치 입력
+        transform.position = endTilePosition;
+
+        // 움직임 상태 해제
+        _isTileMoveCheck = false;
     }
 
 
