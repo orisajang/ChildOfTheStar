@@ -48,6 +48,7 @@ public class BoardModel
 
     private TileTest[,] _tiles;
 
+    public TileTest[,] Tiles => _tiles;
     public Func<int, int, TileTest> CreateTile;//모델에서 좌표값 보내주면 컨트롤러에서 타일생성해서 Tile 반환
 
 
