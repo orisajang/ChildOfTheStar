@@ -1,24 +1,72 @@
-using UnityEngine;
+using System;
+using System.Collections.Generic;
 
+public enum TileColor
+{
+    Red,
+    Green,
+    Blue,
+    White,
+    Black
+}
+public abstract class TileTest
+{
+    public TileColor color;
+    public skillTest skillTest;
+
+}
+
+public abstract class skillTest
+{
+    public abstract void Excute();
+}
 public class BoardModel
 {
+
+    public enum TileMoveDirection
+    {
+        Horizontal, // 가로 라인 이동 (row 한 줄을 좌 / 우로 이동)
+        Vertical    // 세로 라인 이동 (col 한 줄을 상 / 하로 이동)
+    }
+    private struct Pos
+    {
+        public int row;
+        public int col;
+
+        public Pos(int r, int c)
+        {
+            this.row = r;
+            this.col = c;
+        }
+    }
+
     private int _rows = 5;
     public int Rows => _rows;
 
     private int _columns = 6;
     public int Columns => _columns;
 
-    private int[,] _tiles;
+    private TileTest[,] _tiles;
+
+    public Func<int, int, TileTest> CreateTile;//모델에서 좌표값 보내주면 컨트롤러에서 타일생성해서 Tile 반환
+
 
     public void Init()
     {
-        _tiles = new int[Rows, Columns];
+        _tiles = new TileTest[Rows, Columns];
     }
 
-    public enum TileMoveDirection
+    /// <summary>
+    /// 해당 좌표에 타일 넣는 함수, 컨트롤러에서 타일 생성해서 넣어줘야한다고 생각함.
+    /// </summary>
+    /// <param name="row">0~4</param>
+    /// <param name="col">0~5</param>
+    /// <param name="tile"></param>
+    public void SetTile(int row, int col, TileTest tile)
     {
-        Horizontal, // 가로 라인 이동 (row 한 줄을 좌 / 우로 이동)
-        Vertical    // 세로 라인 이동 (col 한 줄을 상 / 하로 이동)
+        if (row < 0 || row >= _rows || col < 0 || col >= _columns) return;
+
+        _tiles[row, col] = tile;
     }
 
     /// <summary>
@@ -35,7 +83,7 @@ public class BoardModel
     /// Vertical일 경우   : col 인덱스
     /// </param>
     /// <param name="moveAmount">
-    /// 이동할 칸 수
+    /// 이동할 칸 수. 
     /// + : 우 / 위
     /// - : 좌 / 아래
     /// </param>
@@ -47,7 +95,7 @@ public class BoardModel
         {
             if (lineIndex < 0 || lineIndex >= _rows) return;
 
-            int[] tempRow = new int[_columns];
+            TileTest[] tempRow = new TileTest[_columns];
 
             for (int col = 0; col < _columns; col++)
             {
@@ -64,7 +112,7 @@ public class BoardModel
         {
             if (lineIndex < 0 || lineIndex >= _columns) return;
 
-            int[] tempCol = new int[_rows];
+            TileTest[] tempCol = new TileTest[_rows];
 
             for (int row = 0; row < _rows; row++)
             {
@@ -76,6 +124,240 @@ public class BoardModel
             {
                 _tiles[row, lineIndex] = tempCol[row];
             }
+        }
+
+        HashSet<Pos> matched = new HashSet<Pos>();
+
+        if (direction == TileMoveDirection.Horizontal)
+        {
+            MatchTile(TileMoveDirection.Horizontal, lineIndex, matched);
+
+            for (int col = 0; col < _columns; col++)
+            {
+                MatchTile(TileMoveDirection.Vertical, col, matched);
+            }
+        }
+        else
+        {
+            MatchTile(TileMoveDirection.Vertical, lineIndex, matched);
+
+            for (int row = 0; row < _rows; row++)
+            {
+                MatchTile(TileMoveDirection.Horizontal, row, matched);
+            }
+        }
+
+        ExplodeMatched(matched);
+
+        if (matched.Count > 0)
+        {
+            MatchChain();
+        }
+    }
+
+    private void MatchChain()
+    {
+        int loopSafety = 0;
+
+        while (loopSafety < 20)
+        {
+            ApplyGravity();
+            RefillEmptyTile();
+
+            HashSet<Pos> newMatches = GetAllMatch();
+
+            if (newMatches.Count == 0)
+            {
+                break;
+            }
+
+            ExplodeMatched(newMatches);
+
+            loopSafety++;
+        }
+    }
+    private void RefillEmptyTile()
+    {
+        if (CreateTile == null) return;
+
+        for (int col = 0; col < _columns; col++)
+        {
+            for (int row = 0; row < _rows; row++)
+            {
+                if (_tiles[row, col] == null)
+                {
+                    _tiles[row, col] = CreateTile(row, col);
+                }
+            }
+        }
+    }
+    private HashSet<Pos> GetAllMatch()
+    {
+        HashSet<Pos> allMatches = new HashSet<Pos>();
+
+        for (int row = 0; row < _rows; row++)
+        {
+            MatchTile(TileMoveDirection.Horizontal, row, allMatches);
+        }
+        for (int col = 0; col < _columns; col++)
+        {
+            MatchTile(TileMoveDirection.Vertical, col, allMatches);
+        }
+
+        return allMatches;
+    }
+
+    /// <summary>
+    /// 타일매치하는 함수, 3개이상이면 해시셋에 저장. 중복 방지 및 탐색 전에 없애는거 방지하기위해 해시셋 사용
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <param name="lineIndex"></param>
+    /// <param name="matched"></param>
+    private void MatchTile(TileMoveDirection direction, int lineIndex, HashSet<Pos> matched)
+    {
+        if (direction == TileMoveDirection.Horizontal)
+        {
+            if (lineIndex < 0 || lineIndex >= _rows) return;
+
+            int count = 1;
+
+            TileTest prevTile = _tiles[lineIndex, 0];
+
+            for (int col = 1; col <= _columns; col++)
+            {
+                TileTest currentTile = null;
+
+                if (col < _columns)
+                {
+                    currentTile = _tiles[lineIndex, col];
+                }
+
+                bool isSame = false;
+                if (prevTile != null && currentTile != null)
+                {
+                    if (prevTile.color == currentTile.color)
+                    {
+                        isSame = true;
+                    }
+                }
+
+                if (isSame)
+                {
+                    count++;
+                }
+                else
+                {
+
+                    if (count >= 3 && prevTile != null)
+                    {
+                        for (int i = 1; i <= count; i++)
+                        {
+                            int targetCol = col - i;
+
+                            matched.Add(new Pos(lineIndex, targetCol));
+                        }
+                    }
+
+                    count = 1;
+                    prevTile = currentTile;
+                }
+            }
+        }
+        else
+        {
+            if (lineIndex < 0 || lineIndex >= _columns) return;
+
+            int count = 1;
+            TileTest prevTile = _tiles[0, lineIndex];
+
+            for (int row = 1; row <= _rows; row++)
+            {
+                TileTest currentTile = null;
+                if (row < _rows)
+                {
+                    currentTile = _tiles[row, lineIndex];
+                }
+
+                bool isSame = false;
+                if (prevTile != null && currentTile != null)
+                {
+                    if (prevTile.color == currentTile.color)
+                    {
+                        isSame = true;
+                    }
+                }
+
+                if (isSame)
+                {
+                    count++;
+                }
+                else
+                {
+                    if (count >= 3 && prevTile != null)
+                    {
+                        for (int i = 1; i <= count; i++)
+                        {
+                            int targetRow = row - i;
+                            matched.Add(new Pos(targetRow, lineIndex));
+                        }
+                    }
+
+                    count = 1;
+                    prevTile = currentTile;
+                }
+            }
+        }
+    }
+    /// <summary>
+    /// 해시 셋에 있는 타일들 제거 및 스킬실행
+    /// </summary>
+    /// <param name="matched"></param>
+    private void ExplodeMatched(HashSet<Pos> matched)
+    {
+        if (matched == null) return;
+        if (matched.Count == 0) return;
+
+        foreach (Pos p in matched)
+        {
+            TileTest t = _tiles[p.row, p.col];
+            if (t == null) continue;
+
+            if (t.skillTest != null)
+            {
+                t.skillTest.Excute();
+            }
+
+            _tiles[p.row, p.col] = null;
+        }
+    }
+
+    /// <summary>
+    ///  중력 적용 함수
+    /// 각 열을 탐색하여 빈공간을 위에서 당겨서 채움, 
+    /// </summary>
+    private void ApplyGravity()
+    {
+        for (int col = 0; col < _columns; col++)
+        {
+
+            int writeRow = _rows - 1;
+
+            for (int readRow = _rows - 1; readRow >= 0; readRow--)
+            {
+                TileTest tile = _tiles[readRow, col];
+
+                if (tile != null)
+                {
+                    if (writeRow != readRow)
+                    {
+                        _tiles[writeRow, col] = tile;
+                        _tiles[readRow, col] = null;
+                    }
+
+                    writeRow--;
+                }
+            }
+
         }
     }
 }
