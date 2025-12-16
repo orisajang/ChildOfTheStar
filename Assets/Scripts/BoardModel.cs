@@ -1,14 +1,5 @@
 using System;
 using System.Collections.Generic;
-
-public enum TileColor
-{
-    Red,
-    Green,
-    Blue,
-    White,
-    Black
-}
 public abstract class TileTest
 {
     public TileColor color;
