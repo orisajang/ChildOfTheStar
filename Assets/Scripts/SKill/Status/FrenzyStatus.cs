@@ -7,5 +7,6 @@ public class FrenzyStatus : TileStatusBase
     public override void Execute(Tile[,] board, Tile casterTile)//player 인자 필요함. 추후 추가.
     {
         //player.Damage(_atk);
+        Debug.Log("자해 데미지");
     }
 }
