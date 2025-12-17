@@ -14,7 +14,7 @@ public class TurnManager : Singleton<TurnManager>
 
     private Player player;
 
-    [SerializeField] private TileBoardView tileBoardView;
+    //[SerializeField] private TileBoardView tileBoardView;
 
     // 나중에 Player에서 가져오게 바꾸기
     int _characterHpCurrent;
@@ -71,7 +71,7 @@ public class TurnManager : Singleton<TurnManager>
         //마우스클릭기능 비활성화 하고
         MonsterManager.Instance.DisableSelectMonsterTarget();
         //이후 타일 이동 시작
-        tileBoardView.SetBoardActive(true);
+        //tileBoardView.SetBoardActive(true);
         Debug.Log("플레이어 턴 시작");
     }
 
@@ -83,7 +83,7 @@ public class TurnManager : Singleton<TurnManager>
     {
         if (PlayerManager.Instance._player._MovementPointCurrent <= 0)
         {
-            tileBoardView.SetBoardActive(false);
+            //tileBoardView.SetBoardActive(false);
 
             Debug.Log("플레이어 턴 종료");
 
