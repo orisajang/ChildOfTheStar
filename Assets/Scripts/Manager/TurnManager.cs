@@ -24,7 +24,7 @@ public class TurnManager : MonoBehaviour
     // 나중에 monstermanager에서 가져오기
     int _monsterHp;
     int _monsterMaxEnergy;
-    int _monsterPointCurrent;
+    int _monsterCurrentEnergy;
 
     /// <summary>
     /// 플레이어 턴 시작
@@ -88,7 +88,7 @@ public class TurnManager : MonoBehaviour
             CurrentTurn = Turn.MonsterTurn;
 
             // 몬스터 이동력 채우기
-            _monsterPointCurrent = _monsterMaxEnergy;
+            _monsterCurrentEnergy = _monsterMaxEnergy;
 
             Debug.Log("몬스터 턴 시작");
         }
@@ -99,13 +99,13 @@ public class TurnManager : MonoBehaviour
     /// </summary>
     private void EndMonsterTurn()
     {
-        if(_monsterPointCurrent <= 0)
+        if(_monsterCurrentEnergy <= 0)
         {
             Debug.Log("몬스터 턴 종료");
             StartPlayerTurn();
         }
 
-        else if(_monsterPointCurrent > 0)
+        else if(_monsterCurrentEnergy > 0)
         {
             Debug.Log("몬스터의 이동력이 남았습니다.");
         }
