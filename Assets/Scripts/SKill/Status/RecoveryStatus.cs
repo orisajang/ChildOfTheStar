@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RecoveryStatus", menuName = "Scriptable Objects/RecoveryStatus")]
+[CreateAssetMenu(fileName = "RecoveryStatus", menuName = "Scriptable Objects/Status/RecoveryStatus")]
 public class RecoveryStatus : TileStatusBase
 {
     [SerializeField] private int _healAmout = 2;

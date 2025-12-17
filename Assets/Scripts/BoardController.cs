@@ -7,10 +7,11 @@ public class BoardController : MonoBehaviour
     [SerializeField] TileBoardSizeSO _boardSize;
     [SerializeField] BoardViewer _boardViewer;
     private BoardModel _boardModel = new BoardModel();
+    public BoardModel BoardModel=> _boardModel;
 
     //타일 기준 포지션
     private Vector2[,] _tilePoints;
-    
+
     //타일 클릭 인덱스
     private int startIndexRow;
     private int startIndexCol;
@@ -45,7 +46,7 @@ public class BoardController : MonoBehaviour
         int indexRow;
 
         //자식 중 point 인 객체를 가져와 vector 배열에 위치를 기록
-        for (int i = 0; i< transform.childCount;i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
             child = transform.GetChild(i);
             if (!child.name.Contains("point")) continue;
@@ -58,12 +59,12 @@ public class BoardController : MonoBehaviour
             {
                 continue;
             }
-            if(!int.TryParse(indexMatch.Groups[2].Value, out indexCol))
+            if (!int.TryParse(indexMatch.Groups[2].Value, out indexCol))
             {
                 continue;
             }
 
-            _tilePoints[indexRow-1, indexCol-1] = child.transform.position;
+            _tilePoints[indexRow - 1, indexCol - 1] = child.transform.position;
 
         }
         //갭 측정
@@ -76,14 +77,14 @@ public class BoardController : MonoBehaviour
     }
 
     //임시코드
-    public void SetTile(int row,int col,Tile tile)
+    public void SetTile(int row, int col, Tile tile)
     {
         _boardModel.SetTile(row, col, tile);
     }
 
     public void UpdateClickEvent(Vector2 clickPos, bool isClicked)
     {
-        if(isClicked)
+        if (isClicked)
         {
             var indexs = GetAdjacentIndex(clickPos);
             startIndexRow = indexs[0];
@@ -98,7 +99,7 @@ public class BoardController : MonoBehaviour
             if (_curTileMoveDir == TileMoveDirection.Horizontal)
             {
                 moveAmount = (int)(_totalMoveMousePosition.x / _tileGapX);
-                if (Mathf.Abs( _totalMoveMousePosition.x % _tileGapX )> _tileGapX / 2)
+                if (Mathf.Abs(_totalMoveMousePosition.x % _tileGapX) > _tileGapX / 2)
                 {
                     moveAmount = (_totalMoveMousePosition.x > 0) ? moveAmount + 1 : moveAmount - 1;
                 }
@@ -179,12 +180,12 @@ public class BoardController : MonoBehaviour
         float closestDist = float.MaxValue;
         float curDist;
 
-        for(int i = 0; i< _boardSize.ySize;i++)
+        for (int i = 0; i < _boardSize.ySize; i++)
         {
-            for(int j =0; j< _boardSize.xSize;j++)
+            for (int j = 0; j < _boardSize.xSize; j++)
             {
                 curDist = Vector2.Distance(_tilePoints[i, j], position);
-                if(closestDist > curDist)
+                if (closestDist > curDist)
                 {
                     row = i;
                     col = j;
@@ -193,6 +194,6 @@ public class BoardController : MonoBehaviour
             }
         }
 
-        return new int[]{ row,col};
+        return new int[] { row, col };
     }
 }

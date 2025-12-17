@@ -104,6 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5b7cf8aab389c0408f43b860808a4f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileTemp
+  _tileDataSO: {fileID: 11400000, guid: e73df9b7bb7b02345b50e82215102795, type: 2}
 --- !u!58 &3080177380844662015
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -370,7 +370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInputControll
   _tilesTagName: Tile
-  _bordController: {fileID: 0}
+  _bordController: {fileID: 1916766940}
 --- !u!4 &1011481890
 Transform:
   m_ObjectHideFlags: 0
@@ -552,8 +552,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd682b029acb9a4eb6272c0da07ee4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileDeckTest
+  Height: 5
+  Width: 6
+  PoolSize: 50
   _tilePrefeb: {fileID: 3487534395764373765, guid: db8dae0412ad2a3418e5dcb7947d7052, type: 3}
-  _controller: {fileID: 0}
+  _controller: {fileID: 1916766940}
+  BaseDeckSO:
+  - {fileID: 11400000, guid: 521c13ccb3b81b74793808008f2bd78b, type: 2}
+  - {fileID: 11400000, guid: 8445ce439f044504a8924d9e85a90276, type: 2}
+  - {fileID: 11400000, guid: 8f0ebfe23a5a7d5408ce926f9bf3f3f7, type: 2}
+  - {fileID: 11400000, guid: e73df9b7bb7b02345b50e82215102795, type: 2}
+  - {fileID: 11400000, guid: cba5997d08e2c9445b45c31450c39592, type: 2}
 --- !u!4 &1703700821
 Transform:
   m_ObjectHideFlags: 0
@@ -650,7 +659,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.4811321, g: 0.4811321, b: 0.4811321, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

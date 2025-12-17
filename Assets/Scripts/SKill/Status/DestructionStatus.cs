@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Destruction", menuName = "Scriptable Objects/Destruction")]
+[CreateAssetMenu(fileName = "Destruction", menuName = "Scriptable Objects/Status/Destruction")]
 public class Destruction : TileStatusBase
 {
     public override void Execute(Tile[,] board, Tile casterTile)

@@ -48,8 +48,8 @@ public class Tile : MonoBehaviour
         _y = y;
         _tileDataSO = tileSO;
         _curColor = _tileDataSO.Color;
-        //_sprite = _tileDataSO.Icon;
-        //_spriteColor = _tileDataSO.Color;
+        _renderer.color = _tileDataSO.SpriteColor;
+        _renderer.sprite = _tileDataSO.Sprite;
 
         _nextTileSO = null;
         _willDestroy = false;

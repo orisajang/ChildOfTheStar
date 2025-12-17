@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RebirthStatus", menuName = "Scriptable Objects/RebirthStatus")]
+[CreateAssetMenu(fileName = "RebirthStatus", menuName = "Scriptable Objects/Status/RebirthStatus")]
 public class RebirthStatus : TileStatusBase
 {
     public override void Execute(Tile[,] board, Tile casterTile)

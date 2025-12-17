@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "FrenzyStatus", menuName = "Scriptable Objects/FrenzyStatus")]//
+[CreateAssetMenu(fileName = "FrenzyStatus", menuName = "Scriptable Objects/Status/FrenzyStatus")]//
 public class FrenzyStatus : TileStatusBase
 {
     [SerializeField] private int _atk=1;
