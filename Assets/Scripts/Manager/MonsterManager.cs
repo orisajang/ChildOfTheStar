@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class MonsterManager : MonoBehaviour
+public class MonsterManager : Singleton<MonsterManager>
 {
     //몬스터 정보들을 CSV파일에서 읽어서 딕셔너리에 저장
     //CSV에서 읽어오는 Loader 클래스 생성
@@ -24,12 +25,23 @@ public class MonsterManager : MonoBehaviour
     int _currentSpawnIndex = 0;
     //생성한 몬스터 저장
     List<Monster> _spawnedMonster = new List<Monster>();
+    public List<Monster> SpawnedMonster
+    {
+        get
+        {
+            return _spawnedMonster;
+        }
+    }
 
     //플레이어가 공격을위해 선택한 몬스터가 무엇인지 알기위해서 (이거는 턴관리 매니저에 있어야할듯)
     InputAction _mouseClickAction;
     InputAction _pointAction;
     [SerializeField] LayerMask _monsterLayer;
     public Monster _targetMonster { get; private set; }
+
+    public event Action OnTargetMonsterSelected;
+    //몬스터 행동 처리할때 어떤 몬스터의 행동이 진행중인지 
+    private int _currentActMonsterIndex;
 
     //MonsterManager 에 있는 테스트 생성용 코드를 여러 몬스터가 있을떄 어떻게 생성시키게 할건지 고민 필요
     private void Awake()
@@ -58,7 +70,7 @@ public class MonsterManager : MonoBehaviour
         //_spawnedMonster[0].MonsterDead();
 
         //몬스터 액션 시작 테스트 (턴매니저에서 몬스터 턴이라고 알릴때 동작)
-        StartMonsterAction();
+        //StartMonsterAction();
 
         //입력
         _mouseClickAction = InputSystem.actions.FindAction("UI/Click");
@@ -68,24 +80,36 @@ public class MonsterManager : MonoBehaviour
     private void OnEnable()
     {
         _mouseClickAction.started += OnMouseClick;
+        _mouseClickAction.Disable();
+        
     }
     private void OnDisable()
     {
         _mouseClickAction.started -= OnMouseClick;
     }
-
+    public void EnableSelectMonsterTarget()
+    {
+        _mouseClickAction.Enable();
+    }
+    public void DisableSelectMonsterTarget()
+    {
+        _mouseClickAction.Disable();
+    }
     private void OnMouseClick(InputAction.CallbackContext ctx)
     {
+        Debug.Log("클릭중");
         Vector2 screenPos = _pointAction.ReadValue<Vector2>();
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
         RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero, 100f, _monsterLayer);
         if(hit.collider != null)
         {
             Monster mon = hit.collider.GetComponent<Monster>();
-            //mon.TakeDamage(100);
             _targetMonster = mon;
+            //몬스터가 선택되었다는 것을 알림
+            OnTargetMonsterSelected?.Invoke();
         }
-        _targetMonster.TakeDamage(100);
+        
+        //_targetMonster.TakeDamage(100);
     }
     private void SetMonsterSpawnPosition()
     {
@@ -195,6 +219,7 @@ public class MonsterManager : MonoBehaviour
             _spawnedMonster.Add(monsterBuf);
             //몬스터 사망시 생존 몬스터 삭제
             monsterBuf.OnMonsterDead += MonsterRemove;
+            monsterBuf.OnMonsterActEnd += MonsterActEnd;
             _currentSpawnIndex++;
         }
 
@@ -237,6 +262,21 @@ public class MonsterManager : MonoBehaviour
         _targetMonster = null;
     }
 
+    private void MonsterActEnd()
+    {
+        _currentActMonsterIndex++;
+        if(_currentActMonsterIndex >= _spawnedMonster.Count)
+        {
+            //모든 몬스터 행동 종료
+            TurnManager.Instance.EndMonsterTurn();
+            return;
+        }
+
+        //다음 몬스터 행동 시작
+        _spawnedMonster[_currentActMonsterIndex].MonsterActStart();
+
+        //1,2
+    }
 
     /// <summary>
     /// 턴 매니저한테 몬스터의 턴이라고 알림을 받으면 해당 메서드 실행
@@ -245,13 +285,14 @@ public class MonsterManager : MonoBehaviour
     {
         //1. 몬스터의 아이디순으로 오름차순 정렬 (ID가 낮은게 먼저 행동)
         _spawnedMonster.Sort((a,b) => a._monsterId.CompareTo(b._monsterId));
+        //2. 실행될 몬스터 인덱스 초기화
+        _currentActMonsterIndex = 0;
 
         //2.몬스터가 1마리씩 전부 행동력 쓸때까지 행동
-        for (int index = 0; index < _spawnedMonster.Count; index++)
-        {
-            //_spawnedMonster[index].MonsterActStart();
-        }
+        //for문을 전부 실행시키는게 아닌 0번째끝나면 1번쨰 실행시켜야함
+        //0번 몬스터를 실행시키고, 해당 몬스터가 행동 종료 이벤트를 보내면 다음 몬스터가 알아서 실행된다.
         _spawnedMonster[0].MonsterActStart();
-
     }
+
+    
 }

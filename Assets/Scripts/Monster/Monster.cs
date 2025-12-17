@@ -57,6 +57,8 @@ public class Monster : MonoBehaviour
 
     //몬스터 사망 처리를 위해 invoke 처리
     public event Action<Monster> OnMonsterDead;
+    //몬스터 액션 행동이 전부 끝났을때 몬스터매니저에 알리기위해서
+    public event Action OnMonsterActEnd;
 
     //제약조건
     //1. 스테이지당 최대 소환 객체수 (몬스터매니저)
@@ -109,6 +111,7 @@ public class Monster : MonoBehaviour
     /// </summary>
     public void MonsterActStart()
     {
+        Debug.Log($"{_monsterName}행동 시작");
         //몬스터 초기값
         MonsterInit();
 
@@ -129,6 +132,9 @@ public class Monster : MonoBehaviour
     /// <returns></returns>
     private IEnumerator MonsterActDo()
     {
+        //시작하기전 1초대기
+        yield return _delay;
+        //행동력이 남아있을때까지 진행
         while (_monsterCurrentEnergy > 0)
         {
             //현재 어떤 행동을 해야하는지, 계속 반복하기 위해
@@ -160,6 +166,8 @@ public class Monster : MonoBehaviour
             Debug.Log("몬스터 행동 실행 ");
             yield return _delay;
         }
+
+        OnMonsterActEnd?.Invoke();
     }
     /// <summary>
     /// Idle상태
@@ -203,6 +211,7 @@ public class Monster : MonoBehaviour
                 //배틀매니저에서 계산한 값을 기준으로
                 int damage = BattleManager.Instance.CalcMonsterDamage(_attack, action.monsterActionData.attackValue);
                 PlayerManager.Instance._player.TakeDamage(damage);
+                Debug.Log("플레이어에게 데미지줌");
                 break;
             case eMonsterAttackType.selfHeal:
                 int healAmount = BattleManager.Instance.CalcMonsterHeal(_monsterHp, action.monsterActionData.attackValue);
@@ -210,6 +219,7 @@ public class Monster : MonoBehaviour
                 _monsterCurrentHp += healAmount;
                 //최대체력 넘어갔으면 최대체력으로 설정
                 if (_monsterCurrentHp > _monsterHp) _monsterCurrentHp = _monsterHp;
+                Debug.Log("몬스터 자힐");
                 break;
         }
         
