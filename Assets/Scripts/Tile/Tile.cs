@@ -1,9 +1,6 @@
 
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
-using static UnityEngine.UI.Image;
 
 public enum TileColor
 {
@@ -19,8 +16,8 @@ public class Tile : MonoBehaviour
     static private TileStatus[] _statusSequence = { TileStatus.Frenzy, TileStatus.Recovery, TileStatus.Growth, TileStatus.Rebirth, TileStatus.Destruction };
 
     private int _x, _y;
-    [SerializeField] private TileSO _tileDataSO;
     private TileColor _curColor;
+    [SerializeField] private TileSO _tileDataSO;
     private Dictionary<TileStatus, List<TileStatusBase>> _statusDictionary;
     private TileSO _nextTileSO = null;
     private bool _willDestroy = false;
@@ -29,7 +26,9 @@ public class Tile : MonoBehaviour
     public int Y => _y;
     public TileColor Color => _curColor;
     public TileSO TileData => _tileDataSO;
-    public Dictionary<TileStatus, List<TileStatusBase>> StatusDictionarty => _statusDictionary;
+    public Dictionary<TileStatus, List<TileStatusBase>> StatusDictionarty => _statusDictionary; private
+    SpriteRenderer _renderer;
+
 
     public void Awake()
     {
@@ -38,9 +37,33 @@ public class Tile : MonoBehaviour
         {
             _statusDictionary.Add(seq, new List<TileStatusBase>());
         }
+        _renderer = GetComponent<SpriteRenderer>();
+
     }
+
+
+    public void Init(int x, int y, TileSO tileSO)
+    {
+        _x = x;
+        _y = y;
+        _tileDataSO = tileSO;
+        _curColor = _tileDataSO.Color;
+        //_sprite = _tileDataSO.Icon;
+        //_spriteColor = _tileDataSO.Color;
+
+        _nextTileSO = null;
+        _willDestroy = false;
+
+        if (_statusDictionary != null)
+        {
+            foreach (var list in _statusDictionary.Values) list.Clear();
+        }
+
+    }
+
+
     /// <summary>
-    /// 타일의 스킬과 상태이상 알아서 실행
+    /// 타일의 스킬과 상태이상을 순서, 조건에 따라 실행.
     /// </summary>
     /// <param name="board"></param>
     public void ExecuteTile(Tile[,] board)//추후에 플레이어, 몬스터배열 인자 추가 필요함
@@ -88,14 +111,14 @@ public class Tile : MonoBehaviour
     /// </summary>
     public void ApplyReserve()
     {
-        if(_willDestroy)
+        if (_willDestroy)
         {
             //매니저에게 풀링반환요청해야함 
             _willDestroy = false;
             this.gameObject.SetActive(false);
             return;
         }
-        
+
         if (_nextTileSO != null)
         {
             _tileDataSO = _nextTileSO;
@@ -103,7 +126,7 @@ public class Tile : MonoBehaviour
             //매니저? 에게도 변경알림
             //컬러, 스프라이트도 변경해야함
         }
-        
+
     }
     /// <summary>
     /// 윤회 예약
@@ -111,7 +134,7 @@ public class Tile : MonoBehaviour
     /// <param name="nextSO"></param>
     public void ReserveRebirth(TileSO nextSO)
     {
-        _nextTileSO = nextSO; 
+        _nextTileSO = nextSO;
     }
     /// <summary>
     /// 파괴 예약
