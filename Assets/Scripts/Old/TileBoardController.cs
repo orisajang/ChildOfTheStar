@@ -1,3 +1,4 @@
+#if IS_OLD
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,6 +7,8 @@ using static BoardModel;
 
 public class TileBoardController : MonoBehaviour
 {
+
+
     //1.View에서 가로로 드래그했다 입력 받기
     //2.Model에게 이동 요청
     //3.Model의 이동이 정상적으로 되었다면?
@@ -19,9 +22,11 @@ public class TileBoardController : MonoBehaviour
     InputAction _uiAction;
     //클릭후 드래그중인지 알기위해서 사용
     InputAction _pointAction;
-    
+
     // 방향 판단 임계값 이 값 이상 움직여여야지 방향 결정 수치 변경 예정----------------------------------------------------------
     [SerializeField] private float positionThreshold = 1f;
+
+    [SerializeField] CreateTilePoint tilePoint;
 
     //이벤트
     //이동을 얼마나 해야하는지 
@@ -48,6 +53,7 @@ public class TileBoardController : MonoBehaviour
     {
         //view를 어딘가에서 가져왔다고 가정
         tileBoardView = GetComponent<TileBoardView>();
+        //tileBoardModel.Init();
         //InputSystem 입력값 액션
         _uiAction = InputSystem.actions.FindAction("UI/Click");
         _pointAction = InputSystem.actions.FindAction("UI/Point");
@@ -59,7 +65,16 @@ public class TileBoardController : MonoBehaviour
         _uiAction.started += OnMouseClickStart;
         _uiAction.canceled += OnMouseClickEnd;
 
+
+
     }
+
+#if TEST
+    public void InitTiles(int x, int y, Tile tile)
+    {
+        tileBoardModel.SetTile(x, y, tile);
+    }
+#endif
     private void OnDisable()
     {
         //tileBoardView.OnTileMoved -= OnTileMoveTriggered;
@@ -127,7 +142,7 @@ public class TileBoardController : MonoBehaviour
         //modelTest.MoveTile(pos, moveValue);
         OnMoveTile?.Invoke(direction, currentLine, moveValue);
     }
-    [SerializeField] CreateTilePoint tilePoint;
+    
     private void OnMouseClickStart(InputAction.CallbackContext ctx)
     {
         // 상태 초기화
@@ -212,7 +227,7 @@ public class TileBoardController : MonoBehaviour
             int a1 = (int)(k / tilePoint._tileGapX);
             //x축가로 최대 6개이므로 0~5까지 범위로만 되도록 나머지 연산
             int a2 = a1 % xLength;
-            xPos = (xLength-1) - a2;
+            xPos = (xLength - 1) - a2;
         }
         if (worldPos.x > tilePoint.standardTilePositionEnd.x)
         {
@@ -232,7 +247,7 @@ public class TileBoardController : MonoBehaviour
             int a1 = (int)(k / tilePoint._tileGapY);
             //y축세로 최대 5개이므로 0~4까지 범위로만 되도록 나머지 연산
             int a2 = a1 % yLength;
-            yPos = (yLength-1) - a2;
+            yPos = (yLength - 1) - a2;
         }
         if (worldPos.y < tilePoint.standardTilePositionEnd.y)
         {
@@ -245,9 +260,9 @@ public class TileBoardController : MonoBehaviour
             yPos = a2;
         }
         //보드 범위를 초과해서 마우스가 이동한 경우 반대좌표를 강제로 넣어준다
-        if(isFixed)
+        if (isFixed)
         {
-            if(_moveDirection == TileMoveDirection.Horizontal)
+            if (_moveDirection == TileMoveDirection.Horizontal)
             {
                 yPos = (int)((tilePoint.standardTilePositionStart.y - worldPos.y) / tilePoint._tileGapY);
             }
@@ -258,11 +273,11 @@ public class TileBoardController : MonoBehaviour
         }
 
         //타일 범위 안넘어가고 타일안에서 마우스 작동한 경우는 특별한 예외처리없이 그냥 현재 마우스좌표로 좌표를 계산
-        if(!isFixed)
+        if (!isFixed)
         {
             xPos = (int)((worldPos.x - tilePoint.standardTilePositionStart.x) / tilePoint._tileGapX);
             yPos = (int)((tilePoint.standardTilePositionStart.y - worldPos.y) / tilePoint._tileGapY);
-            
+
         }
         //결과 출력
         Debug.Log($"클릭끝. 좌표= {xPos}, {yPos}");
@@ -273,12 +288,12 @@ public class TileBoardController : MonoBehaviour
         //Model 에 타일 이동 명령
         int lineIndex = 0;
         int moveIndex = 0;
-        if(_moveDirection == TileMoveDirection.Horizontal)
+        if (_moveDirection == TileMoveDirection.Horizontal)
         {
             lineIndex = startIndex.y;
             moveIndex = startIndex.x - xPos;
         }
-        else if( _moveDirection == TileMoveDirection.Vertical)
+        else if (_moveDirection == TileMoveDirection.Vertical)
         {
             lineIndex = startIndex.x;
             moveIndex = startIndex.y - yPos;
@@ -286,6 +301,5 @@ public class TileBoardController : MonoBehaviour
         tileBoardModel.MoveTile(_moveDirection, lineIndex, moveIndex);
 
     }
-
-
 }
+#endif

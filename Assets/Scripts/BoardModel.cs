@@ -9,13 +9,17 @@ public enum TileColor
     White,
     Black
 }
-
+public enum TileMoveDirection
+{
+    Horizontal, // 가로 라인 이동 (row 한 줄을 좌 / 우로 이동)
+    Vertical,    // 세로 라인 이동 (col 한 줄을 상 / 하로 이동)
+    _Null        // 아무것도 아닐 때
+}
 
 //public abstract class TileTest
 //{
 //    public TileColor color;
 //    public skillTest skillTest;
-
 //}
 
 //public abstract class skillTest
@@ -26,12 +30,7 @@ public enum TileColor
 public class BoardModel
 {
 
-    public enum TileMoveDirection
-    {
-        Horizontal, // 가로 라인 이동 (row 한 줄을 좌 / 우로 이동)
-        Vertical,    // 세로 라인 이동 (col 한 줄을 상 / 하로 이동)
-        _Null        // 아무것도 아닐 때
-    }
+
     private struct Pos
     {
         public int row;
@@ -55,11 +54,11 @@ public class BoardModel
     public Tile[,] Tiles => _tiles;
     public Func<int, int, Tile> CreateTile;//모델에서 좌표값 보내주면 컨트롤러에서 타일생성해서 Tile 반환
 
-
-    public void Init()
+    public BoardModel()
     {
         _tiles = new Tile[Rows, Columns];
     }
+
 
     /// <summary>
     /// 해당 좌표에 타일 넣는 함수, 컨트롤러에서 타일 생성해서 넣어줘야한다고 생각함.
