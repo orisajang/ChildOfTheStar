@@ -1,3 +1,4 @@
+#if IS_OLD
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI.Table;
 
@@ -60,3 +61,4 @@ public class BoardView : MonoBehaviour
         }
     }
 }
+#endif
