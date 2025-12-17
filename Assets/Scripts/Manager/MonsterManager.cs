@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MonsterManager : MonoBehaviour
 {
@@ -24,8 +25,13 @@ public class MonsterManager : MonoBehaviour
     //생성한 몬스터 저장
     List<Monster> _spawnedMonster = new List<Monster>();
 
-    //MonsterManager 에 있는 테스트 생성용 코드를 여러 몬스터가 있을떄 어떻게 생성시키게 할건지 고민 필요
+    //플레이어가 공격을위해 선택한 몬스터가 무엇인지 알기위해서 (이거는 턴관리 매니저에 있어야할듯)
+    InputAction _mouseClickAction;
+    InputAction _pointAction;
+    [SerializeField] LayerMask _monsterLayer;
+    public Monster _targetMonster { get; private set; }
 
+    //MonsterManager 에 있는 테스트 생성용 코드를 여러 몬스터가 있을떄 어떻게 생성시키게 할건지 고민 필요
     private void Awake()
     {
         //몬스터가 생성될 좌표 설정
@@ -53,6 +59,33 @@ public class MonsterManager : MonoBehaviour
 
         //몬스터 액션 시작 테스트 (턴매니저에서 몬스터 턴이라고 알릴때 동작)
         StartMonsterAction();
+
+        //입력
+        _mouseClickAction = InputSystem.actions.FindAction("UI/Click");
+        _pointAction = InputSystem.actions.FindAction("UI/Point");
+    }
+
+    private void OnEnable()
+    {
+        _mouseClickAction.started += OnMouseClick;
+    }
+    private void OnDisable()
+    {
+        _mouseClickAction.started -= OnMouseClick;
+    }
+
+    private void OnMouseClick(InputAction.CallbackContext ctx)
+    {
+        Vector2 screenPos = _pointAction.ReadValue<Vector2>();
+        Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero, 100f, _monsterLayer);
+        if(hit.collider != null)
+        {
+            Monster mon = hit.collider.GetComponent<Monster>();
+            //mon.TakeDamage(100);
+            _targetMonster = mon;
+        }
+        _targetMonster.TakeDamage(100);
     }
     private void SetMonsterSpawnPosition()
     {
@@ -201,6 +234,7 @@ public class MonsterManager : MonoBehaviour
     private void MonsterRemove(Monster monster)
     {
         _spawnedMonster.Remove(monster);
+        _targetMonster = null;
     }
 
 

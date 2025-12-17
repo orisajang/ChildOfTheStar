@@ -335,6 +335,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterManager
   _monsterPrefab: {fileID: 447528971723505555, guid: 4fe2016aea8abdc459649f3f66a9f1f9, type: 3}
   _monsterCreatePos: {fileID: 2085984450}
+  _monsterLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!4 &1924099356
 Transform:
   m_ObjectHideFlags: 0

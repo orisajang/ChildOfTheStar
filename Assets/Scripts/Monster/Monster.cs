@@ -214,5 +214,21 @@ public class Monster : MonoBehaviour
         }
         
     }
+
+
+    /// <summary>
+    /// 받는 데미지 처리
+    /// </summary>
+    /// <param name="dmg"></param>
+    public void TakeDamage(int dmg)
+    {
+        _monsterCurrentHp -= dmg;
+        if(_monsterCurrentHp < 0)
+        {
+            MonsterDead();
+        }
+
+        
+    }
 }
 
