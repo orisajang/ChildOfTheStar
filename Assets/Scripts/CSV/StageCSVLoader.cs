@@ -34,8 +34,10 @@ public class StageCSVLoader
             StageCSVData stageData = new StageCSVData();
 
             stageData.stageId = item[0];
-            stageData.monsterWaveId = item[1];
-            stageData.isDimdis = item[2] == "FALSE" ? false : true;
+            stageData.monsterWaveId1 = item[1];
+            stageData.monsterWaveId2 = item[2];
+            stageData.monsterWaveId3 = item[3];
+            stageData.isDimdis = item[4] == "FALSE" ? false : true;
 
 
             //monsterData.prefabKey = item[4];

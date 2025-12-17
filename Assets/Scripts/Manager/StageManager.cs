@@ -29,16 +29,19 @@ public class StageManager : Singleton<StageManager>
         foreach(string key in stageKeys)
         {
             StageCSVData data = _stageCSVDataDic[key];
-            // , 단위로 나누기
-            string[] monsterWave = data.monsterWaveId.Split(",");
-            foreach(var waveId in monsterWave)
+
+            //몬스터 웨이브 아이디를 하나의 배열로 가져와서 동시에 처리
+            string[] monsterWaveIdArray = data.GetMonsterWaveIdArray();
+            foreach(var waveId in monsterWaveIdArray)
             {
-                //공백 제거
-                string id = waveId.Trim();
-                MonsterWaveCSVData waveData = _monsterWaveCSVDataDic[id];
+                //예외처리 (웨이브 아이디가 없고, 키가 존재하지않으면 break)
+                if (waveId == null) break;
+                if (!_monsterWaveCSVDataDic.ContainsKey(waveId)) break;
+
+                //몬스터
+                MonsterWaveCSVData waveData = _monsterWaveCSVDataDic[waveId];
                 data.AddMonsterWaveList(waveData);
             }
-            _stageCSVDataDic[key] = data;
         }
     }
     private void SetMonsterWaveDataByCSV()
