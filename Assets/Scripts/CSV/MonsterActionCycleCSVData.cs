@@ -6,7 +6,7 @@ public struct MonsterActionCycleValue
     public int step;
     public int actionId;
 
-    MonsterActionCSVData monsterActionData;
+    public MonsterActionCSVData monsterActionData;
     public void SetMonsterActionData(MonsterActionCSVData data)
     {
         monsterActionData = data;

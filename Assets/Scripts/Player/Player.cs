@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -19,6 +20,14 @@ public class Player : MonoBehaviour
     int _characterHpCurrent;
     int _MovementPointCurrent;
 
+    //플레이어 사망 이벤트
+    public event Action OnPlayerDead;
+
+    private void Awake()
+    {
+        _characterHpCurrent = _characterHpMax;
+    }
+
     /// <summary>
     /// CSV데이터로 읽어온 데이터를 현재 Player에 적용
     /// </summary>
@@ -32,6 +41,16 @@ public class Player : MonoBehaviour
         _sprite = sprite;
         _animation = animation;
         _sound = sound;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        _characterHpCurrent -= damage;
+        if(_characterHpCurrent < 0)
+        {
+            OnPlayerDead?.Invoke();
+        }
+
     }
 
 }

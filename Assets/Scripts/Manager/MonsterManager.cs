@@ -16,11 +16,21 @@ public class MonsterManager : MonoBehaviour
 
     //테스트용 몬스터프리팹(삭제예정)
     [SerializeField] GameObject _monsterPrefab;
+    //몬스터가 생성될 위치
+    [SerializeField] Transform _monsterCreatePos;
+    Transform[] _monsterCreatePosArray;
+    //몬스터가 소환될 위치
+    int _currentSpawnIndex = 0;
+    //생성한 몬스터 저장
+    List<Monster> _spawnedMonster = new List<Monster>();
 
     //MonsterManager 에 있는 테스트 생성용 코드를 여러 몬스터가 있을떄 어떻게 생성시키게 할건지 고민 필요
 
     private void Awake()
     {
+        //몬스터가 생성될 좌표 설정
+        SetMonsterSpawnPosition();
+
         //CSV파일을 통해 몬스터 정보 Set
         AddMonsterActionByCSV();
         AddMonsterActionCycleByCSV();
@@ -30,11 +40,27 @@ public class MonsterManager : MonoBehaviour
 
         //몬스터 생성 테스트(테스트)
         MakeMonsterById(3101);
+        MakeMonsterById(3102);
+        MakeMonsterById(3103);
         //몬스터 액션 주기 테스트(테스트)
         //MonsterDataDic에 있는 몬스터 종류마다 Monster의 ActionCycle을 채워줘야함
         //아래를 for문돌려서 몬스터 종류마다 가지고 있도록 처리해야함
         MakeMosnterActionCycle(3101);
         MakeMonsterAction(310101);
+
+        //몬스터 사망 테스트 (전투로인해 몬스터 HP가 0이되었다고 가정)
+        //_spawnedMonster[0].MonsterDead();
+
+        //몬스터 액션 시작 테스트 (턴매니저에서 몬스터 턴이라고 알릴때 동작)
+        StartMonsterAction();
+    }
+    private void SetMonsterSpawnPosition()
+    {
+        _monsterCreatePosArray = new Transform[_monsterCreatePos.childCount];
+        for (int i = 0; i < _monsterCreatePos.childCount; i++)
+        {
+            _monsterCreatePosArray[i] = _monsterCreatePos.GetChild(i);
+        }
     }
     /// <summary>
     /// 몬스터에 대한 정보를 CSV에서 불러와서 SET
@@ -127,9 +153,17 @@ public class MonsterManager : MonoBehaviour
         //몬스터 데이터를 꺼내서 몬스터 정보 지정
         MonsterCSVData data = _monsterDataDic[id];
         Monster mon = _monsterPrefab.GetComponent<Monster>();
-        mon.SetMonsterInfo(data);
         //몬스터 생성 (임시 테스트)
-        Instantiate(mon, transform.position, transform.rotation);
+        if(_currentSpawnIndex < _monsterCreatePosArray.Length)
+        {
+            //몬스터 생성후 몬스터를 매니저에서 가지고있음
+            Monster monsterBuf = Instantiate(mon, _monsterCreatePosArray[_currentSpawnIndex].position, _monsterCreatePosArray[_currentSpawnIndex].rotation);
+            monsterBuf.SetMonsterInfo(data);
+            _spawnedMonster.Add(monsterBuf);
+            //몬스터 사망시 생존 몬스터 삭제
+            monsterBuf.OnMonsterDead += MonsterRemove;
+            _currentSpawnIndex++;
+        }
 
         //만약에 몬스터의 턴이라고 가정하자. 그렇다면 행동 1개를 사용해야한다.
 
@@ -157,8 +191,33 @@ public class MonsterManager : MonoBehaviour
     private void MonsterIdleState(string animation, string effect, string sound)
     {
         //해당 애니메이션, 이펙트, 소리 동작시킨다.
+        //몬스터 스스로 턴1개를 감소시킴
+        //만약 턴이 종료되었다면? 턴매니저에 자신의 턴종료를 알림
+        
+    }
+    /// <summary>
+    /// 몬스터가 사망하면 몬스터매니저의 몬스터생존여부도 삭제
+    /// </summary>
+    private void MonsterRemove(Monster monster)
+    {
+        _spawnedMonster.Remove(monster);
+    }
+
+
+    /// <summary>
+    /// 턴 매니저한테 몬스터의 턴이라고 알림을 받으면 해당 메서드 실행
+    /// </summary>
+    public void StartMonsterAction()
+    {
+        //1. 몬스터의 아이디순으로 오름차순 정렬 (ID가 낮은게 먼저 행동)
+        _spawnedMonster.Sort((a,b) => a._monsterId.CompareTo(b._monsterId));
+
+        //2.몬스터가 1마리씩 전부 행동력 쓸때까지 행동
+        for (int index = 0; index < _spawnedMonster.Count; index++)
+        {
+            //_spawnedMonster[index].MonsterActStart();
+        }
+        _spawnedMonster[0].MonsterActStart();
 
     }
-    
-
 }

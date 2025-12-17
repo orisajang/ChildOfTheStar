@@ -8,18 +8,33 @@ public class BattleManager : Singleton<BattleManager>
     }
 
     /// <summary>
-    /// 공격자의 공격력과 피격자의 hp를 이용해서 피격자의 남은 hp 반환
+    /// 몬스터의 공격데미지 계산 공격*공격수치
     /// </summary>
+    /// <param name="attack">공격력</param>
+    /// <param name="attackValue">공격수치</param>
     /// <returns></returns>
-    public int CalcRemainHp(int attack, int hp)
+    public int CalcMonsterDamage(int attack, float attackValue)
     {
-        hp -= attack;
+        //소수점이 있을경우 반올림 처리로
 
-        if (hp < 0) hp = 0;
-
-        return hp;
+        //계산한 후에 반올림한 int값을 보낸다
+        float floatDamage = attack * attackValue;
+        return Mathf.RoundToInt(floatDamage);
     }
+    /// <summary>
+    /// 몬스터의 자힐량 계산 최대체력*공격수치
+    /// </summary>
+    /// <param name="maxHp">최대체력</param>
+    /// <param name="attackValue">공격수치</param>
+    /// <returns></returns>
+    public int CalcMonsterHeal(int maxHp, float attackValue)
+    {
+        //소수점이 있을경우 반올림 처리로
 
+        //계산한 후에 반올림한 int값을 보낸다
+        float floatHealAmount = maxHp * attackValue;
+        return Mathf.RoundToInt(floatHealAmount);
+    }
 
 
 }

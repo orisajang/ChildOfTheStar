@@ -36,17 +36,12 @@ public class MonsterActionCSVLoader
             monsterActionData.id = int.Parse(item[0]);
             monsterActionData.actionName = item[1];
             monsterActionData.actionType = (eMonsterAction)Enum.Parse(typeof(eMonsterAction), item[2]);
-            monsterActionData.actionMonsterId = int.Parse(item[3]);
-            monsterActionData.actionTarget = int.Parse(item[4]);
-            monsterActionData.actionCost = int.Parse(item[5]);
-            monsterActionData.isAttack = item[6] == "0" ? false : true;
-            monsterActionData.isRestore = item[7] == "0" ? false : true;
-            monsterActionData.isSpecial = item[8] == "0" ? false : true;
-            monsterActionData.specialValue = item[9] == "null" ? 0 : float.Parse(item[9]);
-            monsterActionData.animation = item[10];
-            monsterActionData.effect = item[11];
-            monsterActionData.sound = item[12];
-
+            monsterActionData.attackType = (eMonsterAttackType)Enum.Parse(typeof(eMonsterAttackType), item[3]);
+            monsterActionData.attackValue = float.Parse(item[4]);
+            monsterActionData.actionmon_id = int.Parse(item[5]);
+            monsterActionData.animation = item[6];
+            monsterActionData.effect = item[7];
+            monsterActionData.sound = item[8];
 
             //monsterData.prefabKey = item[4];
             //monsterActionCSVDataList.Add(monsterActionData);
