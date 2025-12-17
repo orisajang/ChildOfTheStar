@@ -1,3 +1,4 @@
+#if IS_OLD
 using System.Collections;
 using UnityEngine;
 
@@ -209,3 +210,4 @@ public class TileBoardView : MonoBehaviour
         }
     }
 }
+#endif

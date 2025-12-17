@@ -14,7 +14,7 @@ public class TurnManager : MonoBehaviour
 
     private Player player;
 
-    [SerializeField] private TileBoardView tileBoardView;
+    //[SerializeField] private TileBoardView tileBoardView;
 
     // 나중에 Player에서 가져오게 바꾸기
     int _characterHpCurrent;
@@ -45,7 +45,7 @@ public class TurnManager : MonoBehaviour
             // player에서 가져오면 그 때 수정
             _MovementPointCurrent = _MovementPointMax;
 
-            tileBoardView.SetBoardActive(true);
+            //tileBoardView.SetBoardActive(true);
 
             Debug.Log("플레이어 턴 시작");
         }
@@ -59,7 +59,7 @@ public class TurnManager : MonoBehaviour
     {
         if (_MovementPointCurrent <= 0)
         {
-            tileBoardView.SetBoardActive(false);
+            //tileBoardView.SetBoardActive(false);
 
             Debug.Log("플레이어 턴 종료");
 
