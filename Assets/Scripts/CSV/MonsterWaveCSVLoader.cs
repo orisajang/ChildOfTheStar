@@ -33,7 +33,11 @@ public class MonsterWaveCSVLoader
             MonsterWaveCSVData monsterWaveData = new MonsterWaveCSVData();
             monsterWaveData.monsterWaveId = item[0];
             monsterWaveData.monsterNumber = int.Parse(item[1]);
-            monsterWaveData.monsterId = item[2];
+            monsterWaveData.monsterId1 = item[2];
+            monsterWaveData.monsterId2 = item[3];
+            monsterWaveData.monsterId3 = item[4];
+            monsterWaveData.monsterId4 = item[5];
+            monsterWaveData.monsterId5 = item[6];
 
             //monsterData.prefabKey = item[4];
             monsterWaveCSVDataDic.Add(item[0], monsterWaveData);

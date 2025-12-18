@@ -3,34 +3,40 @@ using UnityEngine;
 
 public class TileDeck : MonoBehaviour
 {
-    public int Height = 5;
-    public int Width = 6;
-    public int PoolSize = 50;
+    private  int Height = 5;
+    private int Width = 6;
+    [SerializeField] private int _poolSize = 50;
+    public int PoolSize => _poolSize;
     [SerializeField] private GameObject _tilePrefeb;
     [SerializeField] private BoardController _controller;
-    public List<TileSO> BaseDeckSO;
+    [SerializeField]private List<TileSO> BaseDeckSO;
 
     private List<TileSO> _drawDeck = new List<TileSO>();
     private Queue<Tile> _tilePool = new Queue<Tile>();
     private void Awake()
     {
-        InitializePool();
-        for (int i = 0; i < 5; i++)
+        InitPool();
+        for (int i = 0; i < Height; i++)
         {
-            for (int j = 0; j < 6; j++)
+            for (int j = 0; j < Width; j++)
             {
                
                 _controller.SetTile(i, j, CreatTile(j, i));
             }
         }
     }
+
     private void Start()
     {
+        //Action 및 Func 연결
         _controller.BoardModel.CreateTile = this.CreatTile;
         _controller.BoardModel.ReturnTile = this.ReturnTilePool;
     }
 
-    private void InitializePool()
+    /// <summary>
+    /// 풀 초기 생성 
+    /// </summary>
+    private void InitPool()
     {
         for (int i = 0; i < PoolSize; i++)
         {
@@ -42,6 +48,10 @@ public class TileDeck : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 풀링에서 타일 얻어오기
+    /// </summary>
+    /// <returns></returns>
     private Tile GetTilePool()
     {
         if (_tilePool.Count == 0)
@@ -55,6 +65,10 @@ public class TileDeck : MonoBehaviour
         return tile;
     }
 
+    /// <summary>
+    /// 풀링에 타일 반환, 비활성화
+    /// </summary>
+    /// <param name="tile"></param>
     public void ReturnTilePool(Tile tile)
     {
         tile.gameObject.SetActive(false);
@@ -65,7 +79,7 @@ public class TileDeck : MonoBehaviour
     {
         if (_drawDeck.Count <= 0)
         {
-            RefillDeck();
+            SuffleDeck();
         }
         int lastIndex = _drawDeck.Count - 1;
         TileSO item = _drawDeck[lastIndex];
@@ -73,8 +87,10 @@ public class TileDeck : MonoBehaviour
 
         return item;
     }
-
-    private void RefillDeck()
+    /// <summary>
+    /// 실제로 사용할 덱 원본에서 복사하여, 피셔에이츠 셔플(중복 방지)
+    /// </summary>
+    private void SuffleDeck()
     {
         _drawDeck.Clear();
         _drawDeck.AddRange(BaseDeckSO);
@@ -89,6 +105,12 @@ public class TileDeck : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 해당 좌표에 타일 생성, 생성한 타일 반환
+    /// </summary>
+    /// <param name="row"></param>
+    /// <param name="col"></param>
+    /// <returns></returns>
     private Tile CreatTile(int row, int col)
     {
         Tile newTile = GetTilePool();

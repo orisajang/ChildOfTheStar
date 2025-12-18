@@ -20,7 +20,7 @@ MonoBehaviour:
   _description: 1
   _color: 4
   _spriteColor: {r: 0, g: 0.45846844, b: 1, a: 1}
-  _sprite: {fileID: -2413806693520163455, guid: 82fb0554e76abfb4f97b697674a2b30e, type: 3}
+  _sprite: {fileID: 7482667652216324306, guid: c4c800d3b6a6cdd4d9dad6712a9b1820, type: 3}
   _rarity: 0
   _price: 0
   _speed: 0

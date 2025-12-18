@@ -16,6 +16,16 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         //데이터를 받아옴
         SetPlayerData();
+        TurnManager.Instance.StartPlayerTurn();
+    }
+
+    private void OnEnable()
+    {
+        _player.OnPlayerDead += PlayerDeadMethod;
+    }
+    private void OnDisable()
+    {
+        _player.OnPlayerDead -= PlayerDeadMethod;
     }
 
     private void SetPlayerData()
@@ -28,6 +38,14 @@ public class PlayerManager : Singleton<PlayerManager>
             playerData.movePoint, playerData.sprite, playerData.animation, playerData.sound);
     }
 
+    /// <summary>
+    /// 플레이어 사망 처리
+    /// </summary>
+    public void PlayerDeadMethod()
+    {
+        //게임매니저에 보내거나.. 그런 처리 진행
+        Debug.Log("플레이어 사망");
+    }
     
 
 }

@@ -534,7 +534,7 @@ GameObject:
   - component: {fileID: 1703700821}
   - component: {fileID: 1703700820}
   m_Layer: 0
-  m_Name: TileDeckTest
+  m_Name: TileDeck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -563,6 +563,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8f0ebfe23a5a7d5408ce926f9bf3f3f7, type: 2}
   - {fileID: 11400000, guid: e73df9b7bb7b02345b50e82215102795, type: 2}
   - {fileID: 11400000, guid: cba5997d08e2c9445b45c31450c39592, type: 2}
+  - {fileID: 11400000, guid: 521c13ccb3b81b74793808008f2bd78b, type: 2}
+  - {fileID: 11400000, guid: c3a5ea2d041290341b4181ad03585402, type: 2}
+  - {fileID: 11400000, guid: 01ad7602f0bf17d4ab4a439b0f7841f4, type: 2}
+  - {fileID: 11400000, guid: 7f42fb25a541a9d4880e2ae0ae3282d7, type: 2}
+  - {fileID: 11400000, guid: 26f6457f1028179429168bd19ddbc3d0, type: 2}
 --- !u!4 &1703700821
 Transform:
   m_ObjectHideFlags: 0
