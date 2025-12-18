@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class PlayerManager : Singleton<PlayerManager>
     //플레이어 정보를 CSV에서 읽어오기 위해 추가
     private PlayerCSVLoader _playerCSVLoader = new PlayerCSVLoader();
     private Dictionary<int, PlayerCSVData > _playerCSVDataDic = new Dictionary<int, PlayerCSVData>();
+    //플레이어 턴이 끝난것을 턴매니저에 알리기위해
+    public event Action OnPlayerTurnEnd;
     protected override void Awake()
     {
         base.Awake();
@@ -46,6 +49,19 @@ public class PlayerManager : Singleton<PlayerManager>
         //게임매니저에 보내거나.. 그런 처리 진행
         Debug.Log("플레이어 사망");
     }
-    
+    /// <summary>
+    /// 플레이어 행동 1회 동작
+    /// </summary>
+    public void OnPlayerActionStartOnce()
+    {
+        int currentMovePoint = _player.PlayerActDo();
+        Debug.Log($"현재 행동력 {currentMovePoint}");
+        if(currentMovePoint <= 0)
+        {
+            OnPlayerTurnEnd?.Invoke();
+        }
+    }
+
+
 
 }

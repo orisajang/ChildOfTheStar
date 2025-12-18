@@ -9,5 +9,7 @@ public class NormalShieldSkill : TileSkillBase
     public override void Execute()
     {
         Debug.Log($"플레이어 {_shieldAmout} 실드 회복");
+        //여기서 플레이어 쉴드 처리
+        PlayerManager.Instance._player.AddShieldValue(_shieldAmout);
     }
 }
