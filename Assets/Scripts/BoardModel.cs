@@ -96,6 +96,7 @@ public class BoardModel
             for (int col = 0; col < _columns; col++)
             {
                 _tiles[lineIndex, col] = tempRow[col];
+                _tiles[lineIndex, col].SetTIlePos(lineIndex, col);
             }
         }
         else if (direction == TileMoveDirection.Vertical)
@@ -113,6 +114,7 @@ public class BoardModel
             for (int row = 0; row < _rows; row++)
             {
                 _tiles[row, lineIndex] = tempCol[row];
+                _tiles[row, lineIndex].SetTIlePos(row, lineIndex);
             }
         }
 
@@ -346,6 +348,7 @@ public class BoardModel
                     if (writeRow != readRow)
                     {
                         _tiles[writeRow, col] = tile;
+                        tile.SetTIlePos(writeRow, col);
                         _tiles[readRow, col] = null;
                     }
 

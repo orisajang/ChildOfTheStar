@@ -1,27 +1,50 @@
 using UnityEngine;
-
+using System.Collections.Generic;
 [CreateAssetMenu(fileName = "RebirthStatus", menuName = "Scriptable Objects/Status/RebirthStatus")]
+
 public class RebirthStatus : TileStatusBase
 {
+    private static List<Tile> _targets = new List<Tile>(30);
     public override void Execute(Tile[,] board, Tile casterTile)
     {
-        int cols = board.GetLength(1);
+        _targets.Clear();
         int rows = board.GetLength(0);
-         
-        int col = Random.Range(0, cols);
-        int row = Random.Range(0, rows);
+        int cols = board.GetLength(1);
 
-        if (cols * rows > 1)
+
+        for (int row = 0; row < rows; row++)
         {
-            while (col == casterTile.Col && row == casterTile.Row)
+            for (int col = 0; col < cols; col++)
             {
+                Tile tile = board[row, col];
 
-                col = Random.Range(0, cols);
-                row = Random.Range(0, rows);
+
+                if (tile == null) 
+                    continue;
+                if (tile == casterTile) 
+                    continue;
+
+                _targets.Add(tile);
             }
         }
-        board[row, col].ReserveRebirth(casterTile.TileData);
 
-        Debug.Log("윤회 예약");
+        for (int i = _targets.Count - 1; i > 0; i--)
+        {
+            int rnd = Random.Range(0, i + 1);
+
+            Tile temp = _targets[i];
+            _targets[i] = _targets[rnd];
+            _targets[rnd] = temp;
+        }
+
+        foreach (Tile tile in _targets)
+        {
+            if (tile.WillRebirth) 
+                continue;
+
+            tile.ReserveRebirth(casterTile.TileData);
+            return;
+        }
+
     }
 }

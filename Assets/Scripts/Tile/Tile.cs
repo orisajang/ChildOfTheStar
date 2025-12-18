@@ -1,4 +1,5 @@
 
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI.Table;
@@ -22,13 +23,17 @@ public class Tile : MonoBehaviour
     private Dictionary<TileStatus, List<TileStatusBase>> _statusDictionary;
     private TileSO _nextTileSO = null;
     private bool _willDestroy = false;
+    private bool _willRebirth =false;
+    private SpriteRenderer _renderer;
 
     public int Col => _col;
     public int Row => _row;
     public TileColor Color => _curColor;
     public TileSO TileData => _tileDataSO;
-    public Dictionary<TileStatus, List<TileStatusBase>> StatusDictionarty => _statusDictionary; private
-    SpriteRenderer _renderer;
+    public Dictionary<TileStatus, List<TileStatusBase>> StatusDictionarty => _statusDictionary; 
+    public bool WillDestroy => _willDestroy;
+    public bool WillRebirth => _willRebirth;
+   
 
 
     public void Awake()
@@ -62,6 +67,11 @@ public class Tile : MonoBehaviour
 
     }
 
+    public void SetTIlePos(int row, int col)
+    {
+        _row = row;
+        _col = col;
+    }
 
     /// <summary>
     /// 타일의 스킬과 상태이상을 순서, 조건에 따라 실행.
@@ -79,7 +89,7 @@ public class Tile : MonoBehaviour
             {
                 foreach (var status in statusList)
                 {
-                    //status.Execute(board, this);
+                    status.Execute(board, this);
                 }
 
                 statusList.Clear();
@@ -127,8 +137,11 @@ public class Tile : MonoBehaviour
         {
             _tileDataSO = _nextTileSO;
             _nextTileSO = null;
-            //매니저? 에게도 변경알림
-            //컬러, 스프라이트도 변경해야함
+            _willRebirth = false;
+            _curColor = _tileDataSO.Color;
+            _renderer.color = _tileDataSO.SpriteColor;
+            _renderer.sprite = _tileDataSO.Sprite;
+
         }
 
     }
@@ -139,6 +152,7 @@ public class Tile : MonoBehaviour
     public void ReserveRebirth(TileSO nextSO)
     {
         _nextTileSO = nextSO;
+        _willRebirth = true;
     }
     /// <summary>
     /// 파괴 예약

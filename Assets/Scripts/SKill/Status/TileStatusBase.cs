@@ -1,5 +1,33 @@
 using UnityEngine;
 
+public abstract class Weapon : MonoBehaviour
+{
+    public abstract void Attack(Player player);
+}
+
+public abstract class Punch : Weapon
+{
+    public override void Attack(Player player)
+    {
+        Debug.Log("playerp.atk");
+    }
+}
+public abstract class Gun : Weapon
+{
+    int gunAtk = 10;
+    public override void Attack(Player player)
+    {
+        Debug.Log("playerp.atk" + gunAtk);
+    }
+}
+public abstract class Bat : Weapon
+{
+    public override void Attack(Player player)
+    {
+        int batAtk = 5;
+        Debug.Log("playerp.atk" + batAtk);
+    }
+}
 public enum TileStatus
 {
     Frenzy,
