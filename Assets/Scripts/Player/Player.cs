@@ -3,23 +3,23 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int _characterId { get; private set; }
-    public string _characterName { get; private set; }
+    public int CharacterId { get; private set; }
+    public string CharacterName { get; private set; }
     //시작 타일덱
-    public int _startDeckId { get; private set; }
+    public int StartDeckId { get; private set; }
     //최대 hp, 최대 이동력
-    public int _characterHpMax { get; private set; }
-    public int _movementPointMax { get; private set; }
+    public int CharacterHpMax { get; private set; }
+    public int MovementPointMax { get; private set; }
 
-    public string _sprite { get; private set; }
-    public string _animation { get; private set; }
-    public string _sound { get; private set; }
-    public string _effect { get; private set; }
+    public string Sprite { get; private set; }
+    public string Animation { get; private set; }
+    public string Sound { get; private set; }
+    public string Effect { get; private set; }
 
     //현재 hp, 현재 이동력
-    public int _characterHpCurrent { get; private set; }
-    public int _MovementPointCurrent { get; private set; }
-
+    public int CharacterHpCurrent { get; private set; }
+    public int MovementPointCurrent { get; private set; }
+    public int Shield { get; private set; }
     //플레이어 사망 이벤트
     public event Action OnPlayerDead;
 
@@ -28,35 +28,65 @@ public class Player : MonoBehaviour
     /// </summary>
     public void SetPlayerDataByCSVData(int id, string name, int deckID,int maxHP, int movePoint, string sprite, string animation, string sound)
     {
-        _characterId = id;
-        _characterName = name;
-        _startDeckId = deckID;
-        _characterHpMax = maxHP;
-        _movementPointMax = movePoint;
-        _sprite = sprite;
-        _animation = animation;
-        _sound = sound;
+        CharacterId = id;
+        CharacterName = name;
+        StartDeckId = deckID;
+        CharacterHpMax = maxHP;
+        MovementPointMax = movePoint;
+        Sprite = sprite;
+        Animation = animation;
+        Sound = sound;
 
         //현재 체력, 현재 이동력 초기값 설정
-        _characterHpCurrent = _characterHpMax;
-        SetMovementPointInit();
+        CharacterHpCurrent = CharacterHpMax;
+        PlayerTurnInit();
     }
     /// <summary>
-    /// 턴이 시작될때마다 이동력 초기화
+    /// 플레이어 턴이 시작될때 초기화해야할 항목 저장
     /// </summary>
-    public void SetMovementPointInit()
+    public void PlayerTurnInit()
     {
-        _MovementPointCurrent = _movementPointMax;
+        MovementPointCurrent = MovementPointMax;
+        Shield = 0;
     }
 
     public void TakeDamage(int damage)
     {
-        _characterHpCurrent -= damage;
-        if(_characterHpCurrent < 0)
+        //플레이어의 쉴드가 있다면 쉴드부터 차감
+        if(Shield > damage)
+        {
+            Shield -= damage;
+            damage = 0;
+        }
+        else
+        {
+            damage -= Shield;
+            Shield = 0;
+        }
+        //실제 데미지 기반으로 HP차감
+        CharacterHpCurrent -= damage;
+        Debug.Log($"현재 플레이어 체력:{CharacterHpCurrent}");
+        if (CharacterHpCurrent < 0)
         {
             OnPlayerDead?.Invoke();
         }
-
     }
-
+    /// <summary>
+    /// 타일 부셔질때 쉴드값을 생성
+    /// </summary>
+    /// <param name="value"></param>
+    public void AddShieldValue(int value)
+    {
+        Shield += value;
+        Debug.Log($"현재 플레이어 쉴드값: {Shield}");
+    }
+    /// <summary>
+    /// 플레이어 1회 행동
+    /// </summary>
+    /// <returns></returns>
+    public int PlayerActDo()
+    {
+        MovementPointCurrent -= 1;
+        return MovementPointCurrent;
+    }
 }

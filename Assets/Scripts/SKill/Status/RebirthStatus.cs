@@ -8,19 +8,19 @@ public class RebirthStatus : TileStatusBase
         int cols = board.GetLength(1);
         int rows = board.GetLength(0);
          
-        int x = Random.Range(0, cols);
-        int y = Random.Range(0, rows);
+        int col = Random.Range(0, cols);
+        int row = Random.Range(0, rows);
 
         if (cols * rows > 1)
         {
-            while (x == casterTile.X && y == casterTile.Y)
+            while (col == casterTile.Col && row == casterTile.Row)
             {
 
-                x = Random.Range(0, cols);
-                y = Random.Range(0, rows);
+                col = Random.Range(0, cols);
+                row = Random.Range(0, rows);
             }
         }
-        board[y, x].ReserveRebirth(casterTile.TileData);
+        board[row, col].ReserveRebirth(casterTile.TileData);
 
         Debug.Log("윤회 예약");
     }

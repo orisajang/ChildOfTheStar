@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class TileDeck : MonoBehaviour
 {
@@ -21,16 +22,22 @@ public class TileDeck : MonoBehaviour
             for (int j = 0; j < Width; j++)
             {
                
-                _controller.SetTile(i, j, CreatTile(j, i));
+                _controller.SetTile(i, j, CreatTile(i, j));
             }
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
         //Action 및 Func 연결
-        _controller.BoardModel.CreateTile = this.CreatTile;
-        _controller.BoardModel.ReturnTile = this.ReturnTilePool;
+        _controller.BoardModel.CreateTile = CreatTile;
+        _controller.BoardModel.ReturnTile = ReturnTilePool;
+    }
+
+    private void OnDisable()
+    {
+        _controller.BoardModel.CreateTile -= CreatTile;
+        _controller.BoardModel.ReturnTile -= ReturnTilePool;
     }
 
     /// <summary>
@@ -115,7 +122,8 @@ public class TileDeck : MonoBehaviour
     {
         Tile newTile = GetTilePool();
         TileSO data = DrawTileSO(); 
-        newTile.Init(col, row, data);
+        newTile.Init(row, col, data);
+
 
         return newTile;
     }

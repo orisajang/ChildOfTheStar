@@ -229,7 +229,7 @@ public class MonsterManager : Singleton<MonsterManager>
     private void MakeMosnterActionCycle(int groupId)
     {
         var data = _monsterActionCycleDataDic[groupId];
-        Debug.Log($"액션 사이클은 총 {data.Count}개 입니다.");
+        //Debug.Log($"액션 사이클은 총 {data.Count}개 입니다.");
         //이거를 이제 Monster에 있는 곳에 넣어주면 됨.
         //3개가 있다는 것을 확인했다. 그렇다면 이제? monster_action에서 해당 키값을 찾아서 MonsterAction이라는 클래스에 가지고있게 하자
         //MonsterAction이라는 클래스를 만들자 몬스터의 행동을 가지고있는
@@ -237,7 +237,7 @@ public class MonsterManager : Singleton<MonsterManager>
     private void MakeMonsterAction(int id)
     {
         //행동 id를 꺼내면 해당 행동을 가져옴
-        Debug.Log(_monsterActionDataDic[id].id);
+        //Debug.Log(_monsterActionDataDic[id].id);
     }
 
 
