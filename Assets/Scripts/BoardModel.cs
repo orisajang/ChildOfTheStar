@@ -169,6 +169,9 @@ public class BoardModel
             loopSafety++;
         }
     }
+    /// <summary>
+    /// 빈 타일이 있다면 타일주머니에서 타일 하나꺼내서 채워준다
+    /// </summary>
     private void RefillEmptyTile()
     {
         if (CreateTile == null) return;
@@ -321,6 +324,9 @@ public class BoardModel
                 tile.ExecuteTile(Tiles);
                 ReturnTile(tile);
                 _tiles[position.row, position.col] = null;
+
+                //자원 주머니에 터진 타일들 색상을 하나씩 넣어주기 위해서 추가
+                ColorResourceManager.Instance.AddColorResource(tile.Color, 1);
             }
 
         }
