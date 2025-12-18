@@ -29,11 +29,15 @@ public class TurnManager : Singleton<TurnManager>
 
     private void OnEnable()
     {
+        //초기 몬스터 타겟을 지정해서 공격할 몬스터를 선택하기 위해
         MonsterManager.Instance.OnTargetMonsterSelected += StartPlayerBoardActive;
+        //플레이어 턴이 종료되었으면 처리하기 위해
+        PlayerManager.Instance.OnPlayerTurnEnd += EndPlayerTurn;
     }
     private void OnDisable()
     {
         MonsterManager.Instance.OnTargetMonsterSelected -= StartPlayerBoardActive;
+        PlayerManager.Instance.OnPlayerTurnEnd -= EndPlayerTurn;
     }
 
     /// <summary>
@@ -42,21 +46,21 @@ public class TurnManager : Singleton<TurnManager>
     /// </summary>
     public void StartPlayerTurn()
     {
-        
-        if(PlayerManager.Instance._player._characterHpCurrent <= 0)
+        Debug.Log("플레이어 턴 시작");
+        if (PlayerManager.Instance._player.CharacterHpCurrent <= 0)
         {
             Debug.Log("플레이어 사망 상태입니다.");
             CurrentTurn = Turn.Nune;
             return;
         }
-        else if (PlayerManager.Instance._player._characterHpCurrent > 0)
+        else if (PlayerManager.Instance._player.CharacterHpCurrent > 0)
         {
             CurrentTurn = Turn.PlayerTurn;
 
             // player에서 가져오면 그 때 수정
             //플레이어 행동력을 최대 행동력값으로
-            PlayerManager.Instance._player.SetMovementPointInit();
-            _MovementPointCurrent = PlayerManager.Instance._player._MovementPointCurrent;
+            PlayerManager.Instance._player.PlayerTurnInit();
+            _MovementPointCurrent = PlayerManager.Instance._player.MovementPointCurrent;
 
 
             //타겟 몬스터 지정 (추가) -플레이어가 타겟 몬스터를 지정할때까지 기다려야함
@@ -81,7 +85,7 @@ public class TurnManager : Singleton<TurnManager>
     /// </summary>
     private void EndPlayerTurn()
     {
-        if (PlayerManager.Instance._player._MovementPointCurrent <= 0)
+        if (PlayerManager.Instance._player.MovementPointCurrent <= 0)
         {
             //tileBoardView.SetBoardActive(false);
 
@@ -89,7 +93,7 @@ public class TurnManager : Singleton<TurnManager>
 
             StartMonsterTurn();
         }
-        else if(PlayerManager.Instance._player._MovementPointCurrent > 0)
+        else if(PlayerManager.Instance._player.MovementPointCurrent > 0)
         {
             Debug.Log("이동력이 남아있습니다.");
         }

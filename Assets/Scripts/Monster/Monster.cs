@@ -37,11 +37,6 @@ public class Monster : MonoBehaviour
     string _monsterAnimation;
     string _monsterSound;
 
-    //행동정보. 상태패턴으로 해야할듯?
-    int _idle;
-    int _attackReady;
-    int _attack;
-    int _attackSpecial;
 
     //현재 HP
     int _monsterCurrentHp;
@@ -93,6 +88,10 @@ public class Monster : MonoBehaviour
         _monsterAnimation = data.monsterAnimation;
         _monsterSound = data.monsterSound;
         monsterActionCycleList = data.monsterActionCycleList;
+
+        //현재HP를 초기에 설정
+        _monsterCurrentHp = _monsterHp;
+        _actPlayCount = 0;
     }
     /// <summary>
     /// 몬스터 사망처리 (몬스터 매니저에서 받음)
@@ -120,10 +119,8 @@ public class Monster : MonoBehaviour
     }
     private void MonsterInit()
     {
-        //몬스터 현재 HP,행동력 초기화
-        _monsterCurrentHp = _monsterHp;
+        //몬스터 행동력 초기화
         _monsterCurrentEnergy = _monsterMaxEnergy;
-        _actPlayCount = 0;
     }
 
     /// <summary>
@@ -163,7 +160,7 @@ public class Monster : MonoBehaviour
             //현재 몬스터 턴 횟수.
             _monsterCurrentEnergy--;
             //1초마다 실행
-            Debug.Log("몬스터 행동 실행 ");
+            //Debug.Log("몬스터 행동 실행 ");
             yield return _delay;
         }
 
@@ -209,7 +206,7 @@ public class Monster : MonoBehaviour
         {
             case eMonsterAttackType.playerAttack:
                 //배틀매니저에서 계산한 값을 기준으로
-                int damage = BattleManager.Instance.CalcMonsterDamage(_attack, action.monsterActionData.attackValue);
+                int damage = BattleManager.Instance.CalcMonsterDamage(_monsterAttackPower, action.monsterActionData.attackValue);
                 PlayerManager.Instance._player.TakeDamage(damage);
                 Debug.Log("플레이어에게 데미지줌");
                 break;
@@ -233,11 +230,12 @@ public class Monster : MonoBehaviour
     public void TakeDamage(int dmg)
     {
         _monsterCurrentHp -= dmg;
-        if(_monsterCurrentHp < 0)
+        Debug.Log($"몬스터 현재 체력은{_monsterCurrentHp}");
+        if (_monsterCurrentHp <= 0)
         {
             MonsterDead();
         }
-
+        
         
     }
 }

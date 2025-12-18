@@ -55,6 +55,6 @@ public class MonsterActionCSVLoader
             //w.weaponPrefab = PrefabManager.Instance.GetPrefab(w.prefabKey);
         }
 
-        Debug.Log("Prefab 연결 완료");
+        //Debug.Log("Prefab 연결 완료");
     }
 }

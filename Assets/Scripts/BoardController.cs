@@ -95,7 +95,7 @@ public class BoardController : MonoBehaviour
         }
         else
         {
-            int moveAmount;
+            int moveAmount = 0;
             if (_curTileMoveDir == TileMoveDirection.Horizontal)
             {
                 moveAmount = (int)(_totalMoveMousePosition.x / _tileGapX);
@@ -118,6 +118,11 @@ public class BoardController : MonoBehaviour
             _boardViewer.InitTileObject(_boardModel);
             //클릭 해제 시 방향도 해제
             _curTileMoveDir = TileMoveDirection._Null;
+            //플레이어 1회 행동 처리 (1칸이라도 이동했을때)
+            if (moveAmount != 0)
+            {
+                PlayerManager.Instance.OnPlayerActionStartOnce();
+            }
         }
     }
     public void UpdateMousePosition(Vector2 mousePos)
