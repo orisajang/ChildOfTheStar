@@ -7,7 +7,7 @@ public class BoardController : MonoBehaviour
     [SerializeField] TileBoardSizeSO _boardSize;
     [SerializeField] BoardViewer _boardViewer;
     private BoardModel _boardModel = new BoardModel();
-    public BoardModel BoardModel=> _boardModel;
+    public BoardModel BoardModel => _boardModel;
 
     //타일 기준 포지션
     private Vector2[,] _tilePoints;
@@ -28,7 +28,6 @@ public class BoardController : MonoBehaviour
 
     //타일 이동 방향
     private TileMoveDirection _curTileMoveDir;
-
     private void Awake()
     {
         _curTileMoveDir = TileMoveDirection._Null;
@@ -36,6 +35,7 @@ public class BoardController : MonoBehaviour
     private void Start()
     {
         _tilePoints = new Vector2[_boardSize.ySize, _boardSize.xSize];
+
 
         Transform child;
 
@@ -75,7 +75,21 @@ public class BoardController : MonoBehaviour
         _boardViewer.InitTilePoints(_tilePoints);
         _boardViewer.InitTileObject(_boardModel);
     }
+    private void OnEnable()
+    {
+        _boardModel.OnBoardChanged += UpdateBoardView;
+        _boardModel.StartCoroutineCallback += StartCoroutine;
+    }
+    private void OnDisable()
+    {
+        _boardModel.OnBoardChanged -= UpdateBoardView;
+        _boardModel.StartCoroutineCallback -= StartCoroutine;
+    }
 
+    private void UpdateBoardView()
+    {
+        _boardViewer.InitTileObject(_boardModel);
+    }
     //임시코드
     public void SetTile(int row, int col, Tile tile)
     {
