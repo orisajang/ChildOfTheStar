@@ -1,7 +1,10 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 public class PlayerInputControll : MonoBehaviour
 {
+    // 보드 입력 막기 위해서 추가된 코드입니다. 문제 될시 삭제해 주세요
+    [SerializeField] BoardBlock _boardBlock;
     [SerializeField] string _tilesTagName = "Tile";
     [SerializeField] BoardController _bordController;
     private InputAction _mouseMove;
@@ -34,6 +37,11 @@ public class PlayerInputControll : MonoBehaviour
 
     private void OnClicked(InputAction.CallbackContext ctx)
     {
+        // 보드 입력 막기 위해서 추가된 코드입니다. 문제 될시 삭제해 주세요 아래 if문 2개
+        if (_boardBlock != null && _boardBlock._IsBlocked)
+            return;
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            return;
         if (ctx.ReadValueAsButton())
         {
             if (_mousePos == null) return;
@@ -49,7 +57,7 @@ public class PlayerInputControll : MonoBehaviour
             }
         }
     }
-    
+
     private void CancleClicked(InputAction.CallbackContext ctx)
     {
         _isMouseDownForBoardMove = false;
