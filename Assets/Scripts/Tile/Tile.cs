@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public enum TileColor
 {
@@ -15,15 +16,15 @@ public class Tile : MonoBehaviour
 {
     static private TileStatus[] _statusSequence = { TileStatus.Frenzy, TileStatus.Recovery, TileStatus.Growth, TileStatus.Rebirth, TileStatus.Destruction };
 
-    private int _x, _y;
+    [SerializeField] private int _col, _row;
     private TileColor _curColor;
     [SerializeField] private TileSO _tileDataSO;
     private Dictionary<TileStatus, List<TileStatusBase>> _statusDictionary;
     private TileSO _nextTileSO = null;
     private bool _willDestroy = false;
 
-    public int X => _x;
-    public int Y => _y;
+    public int Col => _col;
+    public int Row => _row;
     public TileColor Color => _curColor;
     public TileSO TileData => _tileDataSO;
     public Dictionary<TileStatus, List<TileStatusBase>> StatusDictionarty => _statusDictionary; private
@@ -42,10 +43,10 @@ public class Tile : MonoBehaviour
     }
 
 
-    public void Init(int x, int y, TileSO tileSO)
+    public void Init(int row, int col, TileSO tileSO)
     {
-        _x = x;
-        _y = y;
+        _col = col;
+        _row = row;
         _tileDataSO = tileSO;
         _curColor = _tileDataSO.Color;
         _renderer.color = _tileDataSO.SpriteColor;
@@ -68,6 +69,9 @@ public class Tile : MonoBehaviour
     /// <param name="board"></param>
     public void ExecuteTile(Tile[,] board)//추후에 플레이어, 몬스터배열 인자 추가 필요함
     {
+
+
+
         //스테이터스 딕셔너리 순서대로 쭉죽 스테이터스가 가지고있는 함수 실행
         foreach (var seq in _statusSequence)
         {
@@ -75,7 +79,7 @@ public class Tile : MonoBehaviour
             {
                 foreach (var status in statusList)
                 {
-                    status.Execute(board, this);
+                    //status.Execute(board, this);
                 }
 
                 statusList.Clear();

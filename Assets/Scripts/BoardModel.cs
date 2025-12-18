@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public enum TileMoveDirection
 {
@@ -35,6 +37,8 @@ public class BoardModel
     public Tile[,] Tiles => _tiles;
     public Func<int, int, Tile> CreateTile;//모델에서 좌표값 보내주면 컨트롤러에서 타일생성해서 Tile 반환
     public Action<Tile> ReturnTile;
+    public Func<IEnumerator, Coroutine> StartCoroutineCallback;
+    public Action OnBoardChanged;
 
     public BoardModel()
     {
@@ -137,28 +141,31 @@ public class BoardModel
 
         if (matched.Count > 0)
         {
-            MatchChain();
+            StartCoroutineCallback(MatchChainCoroutine());
         }
     }
 
-    private void MatchChain()
+    private IEnumerator MatchChainCoroutine()
     {
         int loopSafety = 0;
-
         while (loopSafety < 20)
         {
+            yield return new WaitForSeconds(0.2f);
             ApplyGravity();
+            OnBoardChanged?.Invoke();
+            yield return new WaitForSeconds(0.75f);
+
             RefillEmptyTile();
+            OnBoardChanged?.Invoke();
+            yield return new WaitForSeconds(0.75f);
 
             HashSet<Pos> newMatches = GetAllMatch();
-
-            if (newMatches.Count == 0)
-            {
-                break;
-            }
+            if (newMatches.Count == 0) break;
 
             ExplodeMatched(newMatches);
+            OnBoardChanged?.Invoke();
 
+            yield return new WaitForSeconds(0.55f);
             loopSafety++;
         }
     }
@@ -310,12 +317,12 @@ public class BoardModel
 
             if (tile != null)
             {
-                tile.ExecuteTile(Tiles);
 
+                tile.ExecuteTile(Tiles);
+                ReturnTile(tile);
+                _tiles[position.row, position.col] = null;
             }
 
-            _tiles[position.row, position.col] = null;
-            ReturnTile(tile);
         }
     }
 
