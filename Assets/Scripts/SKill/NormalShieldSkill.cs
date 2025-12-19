@@ -6,7 +6,7 @@ public class NormalShieldSkill : TileSkillBase
     [SerializeField]private int _shieldAmout;
     public int ShieldAmout => _shieldAmout;
 
-    public override void Execute()
+    protected override void Execute(Tile[,] board, Tile casterTile)
     {
         Debug.Log($"플레이어 {_shieldAmout} 실드 회복");
     }

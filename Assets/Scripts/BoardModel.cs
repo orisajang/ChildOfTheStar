@@ -139,7 +139,7 @@ public class BoardModel
             }
         }
 
-        ExplodeMatched(matched);
+        StartCoroutineCallback(ExplodeMatched(matched));
 
         if (matched.Count > 0)
         {
@@ -164,7 +164,7 @@ public class BoardModel
             HashSet<Pos> newMatches = GetAllMatch();
             if (newMatches.Count == 0) break;
 
-            ExplodeMatched(newMatches);
+            StartCoroutineCallback(ExplodeMatched(newMatches));
             OnBoardChanged?.Invoke();
 
             yield return new WaitForSeconds(0.55f);
@@ -307,25 +307,35 @@ public class BoardModel
     /// 해시 셋에 있는 타일들 제거 및 스킬실행
     /// </summary>
     /// <param name="matched"></param>
-    private void ExplodeMatched(HashSet<Pos> matched)
+    private IEnumerator ExplodeMatched(HashSet<Pos> matched)
     {
-        if (matched == null) return;
-        if (matched.Count == 0) return;
+        if (matched == null) yield return null;
+        if (matched.Count == 0) yield return null;
 
         foreach (Pos position in matched)
         {
             Tile tile = _tiles[position.row, position.col];
-            if (tile == null) continue;
+            if (tile == null) 
+                continue;
 
-            if (tile != null)
-            {
+            tile.ExecutePreSkill(Tiles);
 
-                tile.ExecuteTile(Tiles);
-                ReturnTile(tile);
-                _tiles[position.row, position.col] = null;
-            }
 
         }
+
+        yield return new WaitForSeconds(0.75f);
+        foreach (Pos position in matched)
+        {
+            Tile tile = _tiles[position.row, position.col];
+            if (tile == null) 
+                continue;
+
+            tile.ExecuteTile(Tiles);
+            ReturnTile(tile);
+            _tiles[position.row, position.col] = null;
+
+        }
+        yield return new WaitForSeconds(0.75f);
     }
 
     /// <summary>

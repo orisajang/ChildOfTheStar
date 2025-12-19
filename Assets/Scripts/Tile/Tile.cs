@@ -1,8 +1,6 @@
 
-using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 public enum TileColor
 {
@@ -18,8 +16,12 @@ public class Tile : MonoBehaviour
     static private TileStatus[] _statusSequence = { TileStatus.Frenzy, TileStatus.Recovery, TileStatus.Growth, TileStatus.Rebirth, TileStatus.Destruction };
 
     [SerializeField] private int _col, _row;
-    private TileColor _curColor;
     [SerializeField] private TileSO _tileDataSO;
+    [SerializeField] private int _frenzyNum, _recoveryNum, _growthNum, _destructionNum, _rebirthNum;
+   
+
+
+    private TileColor _curColor;
     private Dictionary<TileStatus, List<TileStatusBase>> _statusDictionary;
     private TileSO _nextTileSO = null;
     private bool _willDestroy = false;
@@ -33,7 +35,12 @@ public class Tile : MonoBehaviour
     public Dictionary<TileStatus, List<TileStatusBase>> StatusDictionarty => _statusDictionary; 
     public bool WillDestroy => _willDestroy;
     public bool WillRebirth => _willRebirth;
-   
+    public int FrenzyNum => _frenzyNum;
+    public int RecoveryNum => _recoveryNum;
+    public int GrowthNum => _growthNum;
+    public int DestructionNum => _destructionNum;
+    public int RebirthNum => _rebirthNum;
+
 
 
     public void Awake()
@@ -64,7 +71,11 @@ public class Tile : MonoBehaviour
         {
             foreach (var list in _statusDictionary.Values) list.Clear();
         }
-
+        _frenzyNum = 0;
+        _recoveryNum = 0;
+        _growthNum = 0;
+        _destructionNum = 0;
+        _rebirthNum = 0;
     }
 
     public void SetTIlePos(int row, int col)
@@ -74,14 +85,25 @@ public class Tile : MonoBehaviour
     }
 
     /// <summary>
+    /// 상태이상 발동전에 발동해야하는 스킬들 쭉쭉
+    /// </summary>
+    /// <param name="board"></param>
+    public void ExecutePreSkill(Tile[,] board)
+    {
+        if (_tileDataSO.PreSkillSOList == null)
+            return;
+        foreach (var skill in _tileDataSO.PreSkillSOList)
+        {
+            skill.TryExecute(board, this);
+        }
+    }
+
+    /// <summary>
     /// 타일의 스킬과 상태이상을 순서, 조건에 따라 실행.
     /// </summary>
     /// <param name="board"></param>
-    public void ExecuteTile(Tile[,] board)//추후에 플레이어, 몬스터배열 인자 추가 필요함
+    public void ExecuteTile(Tile[,] board)
     {
-
-
-
         //스테이터스 딕셔너리 순서대로 쭉죽 스테이터스가 가지고있는 함수 실행
         foreach (var seq in _statusSequence)
         {
@@ -95,10 +117,18 @@ public class Tile : MonoBehaviour
                 statusList.Clear();
             }
         }
+        _frenzyNum = 0;
+        _recoveryNum = 0;
+        _growthNum = 0;
+        _destructionNum = 0;
+        _rebirthNum = 0;
+
+        if (_tileDataSO.SkillSOList == null)
+            return;
         // 스킬리스트 순서대로 쭉쭉 실행
         foreach (var skill in _tileDataSO.SkillSOList)
         {
-            skill.Execute();
+            skill.TryExecute(board,this);
         }
     }
     /// <summary>
@@ -109,6 +139,33 @@ public class Tile : MonoBehaviour
     public void AddStatus(TileStatus statusType, TileStatusBase StautsData)
     {
         _statusDictionary[statusType].Add(StautsData);
+        switch(statusType)
+        {
+            case TileStatus.Frenzy:
+                _frenzyNum++;
+                break;
+            case TileStatus.Recovery:
+                _recoveryNum++; 
+                break;
+            case TileStatus.Growth: 
+                _growthNum++; 
+                break;
+            case TileStatus.Destruction:
+                _destructionNum++; 
+                break;
+            case TileStatus.Rebirth:
+                _rebirthNum++; 
+                break;
+
+        }
+    }
+    public int GetStatusCount(TileStatus status)
+    {
+        if (_statusDictionary.TryGetValue(status, out var list))
+        {
+            return list.Count;
+        }
+        return 0;
     }
 
     /// <summary>
