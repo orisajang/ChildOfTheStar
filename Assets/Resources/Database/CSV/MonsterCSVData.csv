@@ -1,11 +1,11 @@
-﻿몬스터 id,몬스터명 스트링 키,몬스터 타입,몬스터 크기,몬스터 최대 체력,몬스터 공격력,몬스터 최대 행동력,행동 주기 id,몬스터 스프라이트 스트링 키,몬스터 애니메이션 스트링 키,몬스터 사운드 스트링 키
-id,mon_name,mon_type,mon_size,mon_hp,mon_attackpower,mon_maxenergy,cycle_id,sprite,animation,sound
-int,string,int,int,int,int,int,int,string,string,string
-3101,mon_name_3101,1,1,30,10,1,3101,mon_sprite_3101,mon_animation_3101,mon_sound_3101
-3102,mon_name_3102,1,1,20,20,1,3102,mon_sprite_3102,mon_animation_3102,mon_sound_3102
-3103,mon_name_3103,1,2,50,40,1,3103,mon_sprite_3103,mon_animation_3103,mon_sound_3103
-3104,mon_name_3104,2,3,200,20,2,3104,mon_sprite_3104,mon_animation_3104,mon_sound_3104
-3201,mon_name_3201,1,1,30,10,1,3201,mon_sprite_3201,mon_animation_3201,mon_sound_3201
-3202,mon_name_3202,1,1,20,20,1,3202,mon_sprite_3202,mon_animation_3202,mon_sound_3202
-3203,mon_name_3203,1,1,50,100,1,3203,mon_sprite_3203,mon_animation_3203,mon_sound_3203
-3204,mon_name_3204,2,2,200,10,2,3204,mon_sprite_3204,mon_animation_3204,mon_sound_3204
+﻿몬스터 id,몬스터명 스트링 키,몬스터 타입,몬스터 크기,몬스터 최대 체력,몬스터 공격력,몬스터 최대 행동력,행동 주기 id,몬스터 애니메이션 스트링 키,몬스터 사운드 스트링 키
+id,mon_name,mon_type,mon_size,mon_maxhp,mon_attackpower,mon_maxenergy,cycle_id,animation,sound
+int,string,enum,enum,int,int,int,int,string,string
+3101,mon_name_3101,1,1,30,10,1,3101,mon_animation_3101,mon_sound_3101
+3102,mon_name_3102,1,1,20,20,1,3102,mon_animation_3102,mon_sound_3102
+3103,mon_name_3103,1,2,50,40,1,3103,mon_animation_3103,mon_sound_3103
+3104,mon_name_3104,2,3,200,20,2,3104,mon_animation_3104,mon_sound_3104
+3201,mon_name_3201,1,1,30,10,1,3201,mon_animation_3201,mon_sound_3201
+3202,mon_name_3202,1,1,20,20,1,3202,mon_animation_3202,mon_sound_3202
+3203,mon_name_3203,1,1,50,100,1,3203,mon_animation_3203,mon_sound_3203
+3204,mon_name_3204,2,2,200,10,2,3204,mon_animation_3204,mon_sound_3204

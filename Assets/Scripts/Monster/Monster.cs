@@ -35,7 +35,7 @@ public class Monster : MonoBehaviour
     int _monsterMaxEnergy;
     int _monsterCycleId;
     //몬스터가 어떤 이미지,애니메이션,음성을 가지고있는지
-    string _monsterAnimation;
+    public string _monsterAnimation { get; private set; }
     string _monsterSound;
 
 
@@ -92,6 +92,12 @@ public class Monster : MonoBehaviour
         _monsterAnimation = data.monsterAnimation;
         _monsterSound = data.monsterSound;
         monsterActionCycleList = data.monsterActionCycleList;
+
+        //몬스터 이미지 설정
+        SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+        Sprite monsterImage = Resources.Load<Sprite>($"MonsterImages/{_monsterAnimation}");
+        sprite.sprite = monsterImage;
+
 
         //현재HP를 초기에 설정
         _monsterCurrentHp = _monsterHp;
@@ -192,7 +198,7 @@ public class Monster : MonoBehaviour
 
             //어떤 행동인지 찾아서 그 행동을 수행한다
             eMonsterAction actionType = action.monsterActionData.actionType;
-            monsterStateDic[action.monsterActionData.actionType].MonsterActDo(this, action);
+            monsterStateDic[actionType].MonsterActDo(this, action);
             //횟수는 계속 늘리고 나머지 연산을 해준다
             _actPlayCount++;
             //현재 몬스터 턴 횟수.
