@@ -82,18 +82,23 @@ public class BoardController : MonoBehaviour
         _boardModel.StartCoroutineCallback += StartCoroutine;
 
         _boardModel.OnResolveFinished += OnBoardResolveFinished;
+        _boardModel.OnResolveStart += OnBoardResolveStart;
     }
     private void OnDisable()
     {
         _boardModel.OnBoardChanged -= UpdateBoardView;
         _boardModel.StartCoroutineCallback -= StartCoroutine;
 
-        _boardModel.OnResolveFinished -= OnBoardResolveFinished;
+        _boardModel.OnResolveStart -= OnBoardResolveStart;
     }
 
     private void OnBoardResolveFinished()
     {
         boardBlock.SetBoardActive(false);
+    }
+    private void OnBoardResolveStart()
+    {
+        boardBlock.SetBoardActive(true);
     }
 
     private void UpdateBoardView()
@@ -145,7 +150,6 @@ public class BoardController : MonoBehaviour
             //플레이어 1회 행동 처리 (1칸이라도 이동했을때)
             if (moveAmount != 0)
             {
-                boardBlock.SetBoardActive(true);
                 PlayerManager.Instance.OnPlayerActionStartOnce();
             }
         }

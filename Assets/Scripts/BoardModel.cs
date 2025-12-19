@@ -40,6 +40,7 @@ public class BoardModel
     public Func<IEnumerator, Coroutine> StartCoroutineCallback;
     public Action OnBoardChanged;
     public Action OnResolveFinished;
+    public Action OnResolveStart;
     public BoardModel()
     {
         _tiles = new Tile[Rows, Columns];
@@ -147,6 +148,7 @@ public class BoardModel
 
     private IEnumerator MatchChainCoroutine()
     {
+        OnResolveStart?.Invoke();
         int loopSafety = 0;
         while (loopSafety < 20)
         {
