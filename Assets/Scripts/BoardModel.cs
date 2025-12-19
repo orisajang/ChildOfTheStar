@@ -39,7 +39,7 @@ public class BoardModel
     public Action<Tile> ReturnTile;
     public Func<IEnumerator, Coroutine> StartCoroutineCallback;
     public Action OnBoardChanged;
-
+    public Action OnResolveFinished;
     public BoardModel()
     {
         _tiles = new Tile[Rows, Columns];
@@ -168,6 +168,7 @@ public class BoardModel
             yield return new WaitForSeconds(0.55f);
             loopSafety++;
         }
+        OnResolveFinished?.Invoke();
     }
     /// <summary>
     /// 빈 타일이 있다면 타일주머니에서 타일 하나꺼내서 채워준다

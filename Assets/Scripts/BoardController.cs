@@ -4,6 +4,7 @@ using static UnityEngine.Rendering.DebugUI.Table;
 
 public class BoardController : MonoBehaviour
 {
+    [SerializeField] private BoardBlock boardBlock;
     [SerializeField] TileBoardSizeSO _boardSize;
     [SerializeField] BoardViewer _boardViewer;
     private BoardModel _boardModel = new BoardModel();
@@ -79,11 +80,20 @@ public class BoardController : MonoBehaviour
     {
         _boardModel.OnBoardChanged += UpdateBoardView;
         _boardModel.StartCoroutineCallback += StartCoroutine;
+
+        _boardModel.OnResolveFinished += OnBoardResolveFinished;
     }
     private void OnDisable()
     {
         _boardModel.OnBoardChanged -= UpdateBoardView;
         _boardModel.StartCoroutineCallback -= StartCoroutine;
+
+        _boardModel.OnResolveFinished -= OnBoardResolveFinished;
+    }
+
+    private void OnBoardResolveFinished()
+    {
+        boardBlock.SetBoardActive(false);
     }
 
     private void UpdateBoardView()
@@ -135,6 +145,7 @@ public class BoardController : MonoBehaviour
             //플레이어 1회 행동 처리 (1칸이라도 이동했을때)
             if (moveAmount != 0)
             {
+                boardBlock.SetBoardActive(true);
                 PlayerManager.Instance.OnPlayerActionStartOnce();
             }
         }
