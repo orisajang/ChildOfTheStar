@@ -216,7 +216,8 @@ public class MonsterManager : Singleton<MonsterManager>
         if(_currentSpawnIndex < _monsterCreatePosArray.Length)
         {
             //몬스터 생성후 몬스터를 매니저에서 가지고있음
-            Monster monsterBuf = Instantiate(mon, _monsterCreatePosArray[_currentSpawnIndex].position, _monsterCreatePosArray[_currentSpawnIndex].rotation);
+            //오브젝트풀로 몬스터 하나 받아오도록 설정
+            Monster monsterBuf = MonsterSpawner.Instance.GetMonsterByPool(_monsterCreatePosArray[_currentSpawnIndex]);
             monsterBuf.SetMonsterInfo(data);
             _spawnedMonster.Add(monsterBuf);
             //몬스터 사망시 생존 몬스터 삭제
