@@ -1,4 +1,4 @@
-using NUnit.Framework.Interfaces;
+using System;
 using UnityEngine;
 
 public class TurnManager : Singleton<TurnManager>
@@ -16,6 +16,8 @@ public class TurnManager : Singleton<TurnManager>
 
     [SerializeField] private BoardBlock boardBlock;
 
+    //보드에 플레이어 턴이 시작되었다는 것을 알림 (추가이유: 플레이어 턴이 시작될때 과충전상태면 과충전 해제해야함)
+    public event Action OnPlayerTurnStart;
     private void OnEnable()
     {
         //초기 몬스터 타겟을 지정해서 공격할 몬스터를 선택하기 위해
@@ -35,6 +37,10 @@ public class TurnManager : Singleton<TurnManager>
     /// </summary>
     public void StartPlayerTurn()
     {
+        //지금은 플레이어 매니저 Start에서 맨처음 턴을 시작하는데 스테이지나 게임매니저에서 턴 시작하도록 바꿔야함
+        //플레이어턴 시작 이벤트 시작
+        OnPlayerTurnStart?.Invoke();
+
         Debug.Log("플레이어 턴 시작");
         if (PlayerManager.Instance._player.CharacterHpCurrent <= 0)
         {

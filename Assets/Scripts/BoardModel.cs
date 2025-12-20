@@ -139,8 +139,9 @@ public class BoardModel
             }
         }
 
-        //처음 1회는 과충전 체크 안함
-        _isOverChargeCheck = false;
+        //과충전 관련 체크 항목 초기화
+        InitOverCharge();
+
         //블록 3매치 판정 시작
         ExplodeMatched(matched);
 
@@ -149,6 +150,23 @@ public class BoardModel
             StartCoroutineCallback(MatchChainCoroutine());
         }
     }
+    /// <summary>
+    /// //초기(타일이동)에 초기화할 과충전 관련 체크항목들을 모아둔 메소드
+    /// 타일 이동할때마다 과충전상태 해제, 및 플레이어 턴이 시작될때 과중전상태 해제해야함
+    /// </summary>
+    public void InitOverCharge()
+    {
+        //처음 1회는 과충전 체크 안함
+        _isOverChargeCheck = false;
+        //이전턴에 과충전상태였다면 다시 이동했을경우 풀기
+        if(_isOverCharge)
+        {
+            _isOverCharge = false;
+            _overChargeValue = 0;
+            Debug.LogWarning("과충전 해제");
+        }
+    }
+
 
     //과충전 관련 필드들
     //현재 터질 타일의 색상과 갯수들
@@ -157,10 +175,16 @@ public class BoardModel
     HashSet<TileColor> _beforeColorOverChargeHash = new HashSet<TileColor>();
     //과충전 체크 해야하는지 여부
     bool _isOverChargeCheck;
+    //과충전 상태인지 체크
+    bool _isOverCharge;
     // 연속 매치 횟수
     int _loopMatchCount = 0;
     //과충전 게이지 (20되면 과충전상태 되도록 설정예정)
     int _overChargeValue = 0;
+    //과충전 기준값(변동가능)
+    int _limitOverChargeValue = 20;
+    //타일 이동이 전부 끝났을때, Controller에 알려준다 (사용이유: 플레이어 턴이 끝났고 몬스터 턴인데 타일이 계속 터지고 있거나 판정하고있으면 안되서. 턴관리를 위해서)
+    public event Action OnTileMoveEnd;
 
     private IEnumerator MatchChainCoroutine()
     {
@@ -187,12 +211,22 @@ public class BoardModel
 
             //과충전 관련 매치횟수 체크하는 필드(_loopMatchCount)
             _loopMatchCount = loopSafety + 1;
-            ExplodeMatched(newMatches);
-            OnBoardChanged?.Invoke();
-
+            //과충전 상태가 아니면 계속 매치 판별
+            if(!_isOverCharge)
+            {
+                ExplodeMatched(newMatches);
+                OnBoardChanged?.Invoke();
+            }
+            else 
+            {
+                //과충전 상태면 바로 break;
+                break;
+            }
             yield return new WaitForSeconds(0.55f);
             loopSafety++;
         }
+        Debug.LogWarning("타일이동 종료 이벤트 발송");
+        OnTileMoveEnd?.Invoke();
     }
     /// <summary>
     /// 빈 타일이 있다면 타일주머니에서 타일 하나꺼내서 채워준다
@@ -457,9 +491,11 @@ public class BoardModel
         {
             _overChargeValue = 0;
         }
-        else if(_overChargeValue >= 20)
+        else if(_overChargeValue >= _limitOverChargeValue)
         {
-            //오버차지라는 것을 알리는 기능을 추가하자
+            //과충전이라는 것을 알리는 기능을 추가하자
+            _isOverCharge = true;
+            Debug.LogWarning("과충전 상태 진입!");
         }
     }
 

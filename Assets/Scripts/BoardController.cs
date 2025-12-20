@@ -79,11 +79,31 @@ public class BoardController : MonoBehaviour
     {
         _boardModel.OnBoardChanged += UpdateBoardView;
         _boardModel.StartCoroutineCallback += StartCoroutine;
+        //턴관리를 위해서 이벤트 추가
+        TurnManager.Instance.OnPlayerTurnStart += StartPlayerTurn;
+        _boardModel.OnTileMoveEnd += DecreasePlayerMovePoint;
+
     }
     private void OnDisable()
     {
         _boardModel.OnBoardChanged -= UpdateBoardView;
         _boardModel.StartCoroutineCallback -= StartCoroutine;
+        TurnManager.Instance.OnPlayerTurnStart -= StartPlayerTurn;
+        _boardModel.OnTileMoveEnd -= DecreasePlayerMovePoint;
+    }
+    /// <summary>
+    /// 타일 이동이 코루틴으로 되어있기때문에 모델에서 이벤트를 받아야함. 전부 끝난뒤에 플레이어 턴감소
+    /// </summary>
+    private void DecreasePlayerMovePoint()
+    {
+        //플레이어 1회 행동 처리 (1칸이라도 이동했을때)
+        Debug.LogWarning("플레이어 행동1회끝");
+        PlayerManager.Instance.OnPlayerActionStartOnce();
+    }
+
+    private void StartPlayerTurn()
+    {
+        _boardModel.InitOverCharge();
     }
 
     private void UpdateBoardView()
@@ -132,11 +152,6 @@ public class BoardController : MonoBehaviour
             _boardViewer.InitTileObject(_boardModel);
             //클릭 해제 시 방향도 해제
             _curTileMoveDir = TileMoveDirection._Null;
-            //플레이어 1회 행동 처리 (1칸이라도 이동했을때)
-            if (moveAmount != 0)
-            {
-                PlayerManager.Instance.OnPlayerActionStartOnce();
-            }
         }
     }
     public void UpdateMousePosition(Vector2 mousePos)
