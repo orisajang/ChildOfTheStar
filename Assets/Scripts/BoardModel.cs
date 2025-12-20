@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static UnityEngine.Rendering.ProbeAdjustmentVolume;
 
 public enum TileMoveDirection
 {
@@ -137,6 +139,9 @@ public class BoardModel
             }
         }
 
+        //처음 1회는 과충전 체크 안함
+        _isOverChargeCheck = false;
+        //블록 3매치 판정 시작
         ExplodeMatched(matched);
 
         if (matched.Count > 0)
@@ -145,8 +150,26 @@ public class BoardModel
         }
     }
 
+    //과충전 관련 필드들
+    //현재 터질 타일의 색상과 갯수들
+    Dictionary<TileColor, int> _currentColorOverChargeDic = new Dictionary<TileColor, int>();
+    //이전 매치때 터진 색상들이 무엇이었는지
+    HashSet<TileColor> _beforeColorOverChargeHash = new HashSet<TileColor>();
+    //과충전 체크 해야하는지 여부
+    bool _isOverChargeCheck;
+    // 연속 매치 횟수
+    int _loopMatchCount = 0;
+    //과충전 게이지 (20되면 과충전상태 되도록 설정예정)
+    int _overChargeValue = 0;
+
     private IEnumerator MatchChainCoroutine()
     {
+        //과충전 기능 추가
+        //딕셔너리로 이전에 터진 색상들을 기억한다
+        //초기1회 이후에 과충전 체크를 한다. (bool값 체크)
+        _isOverChargeCheck = true;
+        _loopMatchCount = 0;
+
         int loopSafety = 0;
         while (loopSafety < 20)
         {
@@ -162,6 +185,8 @@ public class BoardModel
             HashSet<Pos> newMatches = GetAllMatch();
             if (newMatches.Count == 0) break;
 
+            //과충전 관련 매치횟수 체크하는 필드(_loopMatchCount)
+            _loopMatchCount = loopSafety + 1;
             ExplodeMatched(newMatches);
             OnBoardChanged?.Invoke();
 
@@ -327,10 +352,117 @@ public class BoardModel
 
                 //자원 주머니에 터진 타일들 색상을 하나씩 넣어주기 위해서 추가
                 ColorResourceManager.Instance.AddColorResource(tile.Color, 1);
-            }
 
+                //과충전 체크할때 색상별 타일이 얼마만큼 터졌는지 확인 필요
+                //foreach문에서는 타일이 하나씩 터지기때문에 딕셔너리로 터진 타일들 몇개인지 묶음
+                SetColorOverChargeInfo(tile.Color);
+            }
+        }
+        //과충전 증감 연산 체크
+        CalcOverChargeValue();
+    }
+    /// <summary>
+    /// 과충전 체크할때 색상별 타일이 얼마만큼 터졌는지 확인 필요
+    /// </summary>
+    private void SetColorOverChargeInfo(TileColor color)
+    {
+        
+        if (!_currentColorOverChargeDic.ContainsKey(color))
+        {
+            _currentColorOverChargeDic[color] = 1;
+        }
+        else
+        {
+            _currentColorOverChargeDic[color] += 1;
         }
     }
+    /// <summary>
+    /// 과충전 게이지 증감을 체크하는 메서드
+    /// </summary>
+    private void CalcOverChargeValue()
+    {
+        int totalOverChargeValue = 0;
+        //디버그용. 계산1, 계산2가 각각 어떤값이 나왔는지
+        int calc1 = 0;
+        int calc2 = 0;
+
+        //과충전 체크
+        if (_isOverChargeCheck)
+        {
+            int sameColor = 0;
+            int differentColor = 0;
+            //과충전 체크1.타일마다 따로따로 하는 체크
+            foreach (TileColor color in _currentColorOverChargeDic.Keys)
+            {
+                //해당 타일 갯수
+                int amount = _currentColorOverChargeDic[color];
+
+                //_beforeColorOverChargeHash 에 존재하는지 확인
+                if (_beforeColorOverChargeHash.Contains(color))
+                {
+                    //존재하면 과부하 게이지 상승
+                    //계산식: 그냥 같은 색상 타일 전부다 더한값 * (연속 매치횟수*2) 해버리면 됨
+                    totalOverChargeValue += amount * (_loopMatchCount * 2);
+                    sameColor++;
+                }
+                else
+                {
+                    //존재하지 않으면 과부하 게이지 하락
+                    //계산식: 다른 색상 타일 갯수 * (연속매치횟수)
+                    totalOverChargeValue -= amount * _loopMatchCount;
+                    differentColor++;
+                }
+            }
+            calc1 = totalOverChargeValue;
+            //과충전 체크2. 타일 매치판정 2개이상인경우 파악해서 처리
+            //매치 판정이 2개 이상으로 되었는지 체크
+            int colorSum = sameColor + differentColor;
+            if (colorSum >= 2)
+            {
+                //동일색 > 다른색 : 게이지 +1씩
+                if (sameColor > differentColor)
+                {
+                    //그냥 매치 레벨 을 더해주면된다
+                    totalOverChargeValue += _loopMatchCount;
+                }
+                else if (sameColor < differentColor)
+                {
+                    totalOverChargeValue -= _loopMatchCount;
+                }
+                else if (sameColor == differentColor)
+                {
+                    //아무것도 안함
+                }
+            }
+            //계산값을 현재 과충전 게이지에 넣어준다
+            SetOverChargeValue(totalOverChargeValue);
+            calc2 = totalOverChargeValue - calc1;
+            Debug.LogWarning($"현재 과충전 게이지: {_overChargeValue},체크1값:{calc1} 체크2값:{calc2} 계산했던 과충전게이지 {totalOverChargeValue} 현재 과충전 턴{_loopMatchCount}");
+        }
+
+        //과충전 체크 끝. _beforeColorOverChargeHash를 설정한다. -> _currentColorOverChargeDic의 색깔이 있는거대로
+        _beforeColorOverChargeHash.Clear();
+        foreach (TileColor color in _currentColorOverChargeDic.Keys)
+        {
+            _beforeColorOverChargeHash.Add(color);
+        }
+        //다 쓰고나서 초기화
+        _currentColorOverChargeDic.Clear();
+    }
+
+    private void SetOverChargeValue(int amount)
+    {
+        _overChargeValue += amount;
+        if(_overChargeValue < 0)
+        {
+            _overChargeValue = 0;
+        }
+        else if(_overChargeValue >= 20)
+        {
+            //오버차지라는 것을 알리는 기능을 추가하자
+        }
+    }
+
 
     /// <summary>
     ///  중력 적용 함수

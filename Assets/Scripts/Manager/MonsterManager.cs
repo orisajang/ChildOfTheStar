@@ -58,10 +58,6 @@ public class MonsterManager : Singleton<MonsterManager>
         AddMonsterByCSV();
         
 
-        //몬스터 생성 테스트(테스트)
-        MakeMonsterById(3101);
-        MakeMonsterById(3102);
-        MakeMonsterById(3103);
         //몬스터 액션 주기 테스트(테스트)
         //MonsterDataDic에 있는 몬스터 종류마다 Monster의 ActionCycle을 채워줘야함
         //아래를 for문돌려서 몬스터 종류마다 가지고 있도록 처리해야함
@@ -77,6 +73,13 @@ public class MonsterManager : Singleton<MonsterManager>
         //입력
         _mouseClickAction = InputSystem.actions.FindAction("UI/Click");
         _pointAction = InputSystem.actions.FindAction("UI/Point");
+    }
+    private void Start()
+    {
+        //몬스터 생성 테스트(테스트)
+        MakeMonsterById(3101);
+        MakeMonsterById(3102);
+        MakeMonsterById(3103);
     }
 
     private void OnEnable()
