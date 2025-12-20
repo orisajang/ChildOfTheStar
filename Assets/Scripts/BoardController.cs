@@ -103,7 +103,7 @@ public class BoardController : MonoBehaviour
 
     private void StartPlayerTurn()
     {
-        _boardModel.InitOverCharge();
+        _boardModel.InitOverCharge(true);
     }
 
     private void UpdateBoardView()

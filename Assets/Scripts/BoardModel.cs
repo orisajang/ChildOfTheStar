@@ -140,7 +140,7 @@ public class BoardModel
         }
 
         //과충전 관련 체크 항목 초기화
-        InitOverCharge();
+        InitOverCharge(false);
 
         //블록 3매치 판정 시작
         ExplodeMatched(matched);
@@ -149,20 +149,32 @@ public class BoardModel
         {
             StartCoroutineCallback(MatchChainCoroutine());
         }
+        else
+        {
+            //타일 이동이 끝난다는 것을 알려야되는 구조로 변경되어 else문 추가
+            OnTileMoveEnd?.Invoke();
+        }
     }
+
+
     /// <summary>
-    /// //초기(타일이동)에 초기화할 과충전 관련 체크항목들을 모아둔 메소드
+    /// 초기(타일이동)에 초기화할 과충전 관련 체크항목들을 모아둔 메소드
     /// 타일 이동할때마다 과충전상태 해제, 및 플레이어 턴이 시작될때 과중전상태 해제해야함
     /// </summary>
-    public void InitOverCharge()
+    /// <param name="isplayerInit">플레이어 턴이 시작될때만 전용으로 지울값</param>
+    public void InitOverCharge(bool isplayerInit)
     {
         //처음 1회는 과충전 체크 안함
         _isOverChargeCheck = false;
+        //플레이어 턴이 시작될때만 과충전값 초기화
+        if(isplayerInit)
+        {
+            _overChargeValue = 0;
+        }
         //이전턴에 과충전상태였다면 다시 이동했을경우 풀기
-        if(_isOverCharge)
+        if (_isOverCharge)
         {
             _isOverCharge = false;
-            _overChargeValue = 0;
             Debug.LogWarning("과충전 해제");
         }
     }
