@@ -97,6 +97,13 @@ public class TurnManager : Singleton<TurnManager>
     private void CheckPlayerTurnEnd(int movePoint)
     {
         Debug.Log($"플레이어 행동력:{movePoint}");
+        //몬스터가 남아있는지 확인
+        int monsterCount = MonsterManager.Instance.RemainMonster;
+        if(monsterCount <= 0)
+        {
+            //스테이지 종료 처리 필요
+        }
+
         //아직 턴이 남아서 타일이동을 더 해야한다면
         if (movePoint > 0)
         {

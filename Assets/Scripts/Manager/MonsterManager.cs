@@ -25,6 +25,7 @@ public class MonsterManager : Singleton<MonsterManager>
     int _currentSpawnIndex = 0;
     //생성한 몬스터 저장
     List<Monster> _spawnedMonster = new List<Monster>();
+    public int RemainMonster => _spawnedMonster.Count;
     public List<Monster> SpawnedMonster
     {
         get
