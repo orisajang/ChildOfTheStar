@@ -8,8 +8,8 @@ public class PlayerManager : Singleton<PlayerManager>
     //플레이어 정보를 CSV에서 읽어오기 위해 추가
     private PlayerCSVLoader _playerCSVLoader = new PlayerCSVLoader();
     private Dictionary<int, PlayerCSVData > _playerCSVDataDic = new Dictionary<int, PlayerCSVData>();
-    //플레이어 턴이 끝난것을 턴매니저에 알리기위해
-    public event Action OnPlayerTurnEnd;
+    //플레이어의 현재 행동력을 TurnManager에 보내서 TurnManager에서 턴종료를 판단하도록
+    public event Action<int> SendPlayerMovePoint;
     protected override void Awake()
     {
         base.Awake();
@@ -50,16 +50,14 @@ public class PlayerManager : Singleton<PlayerManager>
         Debug.Log("플레이어 사망");
     }
     /// <summary>
-    /// 플레이어 행동 1회 동작
+    /// 플레이어 행동력 1 감소하는 메서드
     /// </summary>
-    public void OnPlayerActionStartOnce()
+    public void OnPlayerMovePointDecrease()
     {
         int currentMovePoint = _player.PlayerActDo();
         Debug.Log($"현재 행동력 {currentMovePoint}");
-        if(currentMovePoint <= 0)
-        {
-            OnPlayerTurnEnd?.Invoke();
-        }
+        //플레이어의 현재 행동력값 보내기
+        SendPlayerMovePoint?.Invoke(currentMovePoint);
     }
 
 

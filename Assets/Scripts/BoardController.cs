@@ -4,6 +4,9 @@ using static UnityEngine.Rendering.DebugUI.Table;
 
 public class BoardController : MonoBehaviour
 {
+    //보드에서 타일이동이 끝나면 바로 막아야 해서 추가.이유: 블록이 떨어지고 다시 재생성 되는것을 보여주기 위해 코루틴으로 처리하고있음. 턴이 끝났다는것을 턴매니저에 알리기전에 타일 이동이 가능해져서 추가
+    [SerializeField] BoardBlock _boardBlock;
+    //타일관련
     [SerializeField] TileBoardSizeSO _boardSize;
     [SerializeField] BoardViewer _boardViewer;
     private BoardModel _boardModel = new BoardModel();
@@ -82,6 +85,8 @@ public class BoardController : MonoBehaviour
         //턴관리를 위해서 이벤트 추가
         TurnManager.Instance.OnPlayerTurnStart += StartPlayerTurn;
         _boardModel.OnTileMoveEnd += DecreasePlayerMovePoint;
+        //보드 비활성화를 위해 이벤트 추가
+        _boardModel.OnDisableBoard += DisableBoard;
 
     }
     private void OnDisable()
@@ -90,6 +95,12 @@ public class BoardController : MonoBehaviour
         _boardModel.StartCoroutineCallback -= StartCoroutine;
         TurnManager.Instance.OnPlayerTurnStart -= StartPlayerTurn;
         _boardModel.OnTileMoveEnd -= DecreasePlayerMovePoint;
+        _boardModel.OnDisableBoard -= DisableBoard;
+    }
+    private void DisableBoard()
+    {
+        //보드 비활성화
+        _boardBlock.SetBoardActive(true);
     }
     /// <summary>
     /// 타일 이동이 코루틴으로 되어있기때문에 모델에서 이벤트를 받아야함. 전부 끝난뒤에 플레이어 턴감소
@@ -98,7 +109,7 @@ public class BoardController : MonoBehaviour
     {
         //플레이어 1회 행동 처리 (1칸이라도 이동했을때)
         Debug.LogWarning("플레이어 행동1회끝");
-        PlayerManager.Instance.OnPlayerActionStartOnce();
+        TurnManager.Instance.OnPlayerTurnEndOnce();
     }
 
     private void StartPlayerTurn()

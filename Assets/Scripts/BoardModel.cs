@@ -42,6 +42,27 @@ public class BoardModel
     public Func<IEnumerator, Coroutine> StartCoroutineCallback;
     public Action OnBoardChanged;
 
+    //보드 이동이 타일이동 판정이 나야해서 model에서 이벤트 쏴주는 방식으로 변경
+    public event Action OnDisableBoard;
+
+    //과충전 관련 필드들
+    //현재 터질 타일의 색상과 갯수들
+    Dictionary<TileColor, int> _currentColorOverChargeDic = new Dictionary<TileColor, int>();
+    //이전 매치때 터진 색상들이 무엇이었는지
+    HashSet<TileColor> _beforeColorOverChargeHash = new HashSet<TileColor>();
+    //과충전 체크 해야하는지 여부
+    bool _isOverChargeCheck;
+    //과충전 상태인지 체크
+    bool _isOverCharge;
+    // 연속 매치 횟수
+    int _loopMatchCount = 0;
+    //과충전 게이지 (20되면 과충전상태 되도록 설정예정)
+    int _overChargeValue = 0;
+    //과충전 기준값(변동가능)
+    int _limitOverChargeValue = 20;
+    //타일 이동이 전부 끝났을때, Controller에 알려준다 (사용이유: 플레이어 턴이 끝났고 몬스터 턴인데 타일이 계속 터지고 있거나 판정하고있으면 안되서. 턴관리를 위해서)
+    public event Action OnTileMoveEnd;
+
     public BoardModel()
     {
         _tiles = new Tile[Rows, Columns];
@@ -82,6 +103,8 @@ public class BoardModel
     public void MoveTile(TileMoveDirection direction, int lineIndex, int moveAmount)
     {
         if (moveAmount == 0) return;
+        //보드 비활성화 명령. moveAmount가 0이 아닐때만 비활성화 해야함
+        OnDisableBoard.Invoke();
 
         if (direction == TileMoveDirection.Horizontal)
         {
@@ -179,24 +202,6 @@ public class BoardModel
         }
     }
 
-
-    //과충전 관련 필드들
-    //현재 터질 타일의 색상과 갯수들
-    Dictionary<TileColor, int> _currentColorOverChargeDic = new Dictionary<TileColor, int>();
-    //이전 매치때 터진 색상들이 무엇이었는지
-    HashSet<TileColor> _beforeColorOverChargeHash = new HashSet<TileColor>();
-    //과충전 체크 해야하는지 여부
-    bool _isOverChargeCheck;
-    //과충전 상태인지 체크
-    bool _isOverCharge;
-    // 연속 매치 횟수
-    int _loopMatchCount = 0;
-    //과충전 게이지 (20되면 과충전상태 되도록 설정예정)
-    int _overChargeValue = 0;
-    //과충전 기준값(변동가능)
-    int _limitOverChargeValue = 20;
-    //타일 이동이 전부 끝났을때, Controller에 알려준다 (사용이유: 플레이어 턴이 끝났고 몬스터 턴인데 타일이 계속 터지고 있거나 판정하고있으면 안되서. 턴관리를 위해서)
-    public event Action OnTileMoveEnd;
 
     private IEnumerator MatchChainCoroutine()
     {

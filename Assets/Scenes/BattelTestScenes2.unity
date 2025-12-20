@@ -1421,6 +1421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9c539d30ef36dc4da57ea68a2abfd8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoardController
+  _boardBlock: {fileID: 861082392}
   _boardSize: {fileID: 11400000, guid: c0416f36505e7944097c682285c10742, type: 2}
   _boardViewer: {fileID: 1916766939}
 --- !u!1660057539 &9223372036854775807
