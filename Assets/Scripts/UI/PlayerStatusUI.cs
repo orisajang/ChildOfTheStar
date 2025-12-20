@@ -14,10 +14,10 @@ public class PlayerStatusUI : MonoBehaviour
     }
     public void UpdateMovePoint(int movePoint, int maxMovePoint)
     {
-        movePointText.text = $"MovePoint : {movePoint} / {maxMovePoint}";
+        movePointText.text = $"MovePoint: {movePoint} / {maxMovePoint}";
     }
     public void UpdateShield(int shield)
     {
-        shieldText.text = $"Shield : {shield}";
+        shieldText.text = $"Shield: {shield}";
     }
 }
