@@ -78,9 +78,12 @@ public class MonsterManager : Singleton<MonsterManager>
     private void Start()
     {
         //몬스터 생성 테스트(테스트)
+        //이제 스테이지 매니저에서 몬스터 생성함
+        /*
         MakeMonsterById(3101);
         MakeMonsterById(3102);
         MakeMonsterById(3103);
+        */
     }
 
     private void OnEnable()
@@ -230,9 +233,44 @@ public class MonsterManager : Singleton<MonsterManager>
             _currentSpawnIndex++;
         }
 
-        //만약에 몬스터의 턴이라고 가정하자. 그렇다면 행동 1개를 사용해야한다.
-
     }
+    /// <summary>
+    /// 스테이지매니저에서 웨이브마다 소환되는 몬스터에 대한 정보를 받아서 몬스터 생성
+    /// </summary>
+    /// <param name="monsterInfo"></param>
+    public void SetMonsterWaveInfo(MonsterWaveInfo[] monsterInfos)
+    {
+        //monsterInfo.monsterId;
+        //monsterInfo.monsterNumber;
+        //소환위치 초기화
+        _currentSpawnIndex = 0;
+
+        for (int index = 0; index < monsterInfos.Length; index++)
+        {
+            //몬스터 데이터를 꺼내서 몬스터 정보 지정
+            int spawnCount = monsterInfos[index].monsterNumber;
+            for (int spawnIndex = 0; spawnIndex < spawnCount; spawnIndex++)
+            {
+                MonsterCSVData data = _monsterDataDic[monsterInfos[index].monsterId];
+                Monster mon = _monsterPrefab.GetComponent<Monster>();
+                //몬스터 생성
+                if (_currentSpawnIndex < _monsterCreatePosArray.Length)
+                {
+                    //몬스터 생성후 몬스터를 매니저에서 가지고있음
+                    //오브젝트풀로 몬스터 하나 받아오도록 설정
+                    Monster monsterBuf = MonsterSpawner.Instance.GetMonsterByPool(_monsterCreatePosArray[_currentSpawnIndex]);
+                    monsterBuf.SetMonsterInfo(data);
+                    _spawnedMonster.Add(monsterBuf);
+                    //몬스터 사망시 생존 몬스터 삭제
+                    monsterBuf.OnMonsterDead += MonsterRemove;
+                    monsterBuf.OnMonsterActEnd += MonsterActEnd;
+                    _currentSpawnIndex++;
+                }
+            }
+        }
+    }
+
+
     private void MakeMosnterActionCycle(int groupId)
     {
         var data = _monsterActionCycleDataDic[groupId];
