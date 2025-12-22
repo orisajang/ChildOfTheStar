@@ -101,7 +101,8 @@ public class BoardModel
     public void MoveTile(TileMoveDirection direction, int lineIndex, int moveAmount)
     {
         if (moveAmount == 0) return;
-
+        //보드 비활성화 명령. moveAmount가 0이 아닐때만 비활성화 해야함
+        OnResolveStart?.Invoke();
         if (direction == TileMoveDirection.Horizontal)
         {
             if (lineIndex < 0 || lineIndex >= _rows) return;
