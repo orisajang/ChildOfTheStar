@@ -99,11 +99,12 @@ public class BoardViewer : MonoBehaviour
     private IEnumerator DropTileMoving(int srow, int scol, int dropIndex)
     {
         bool isMoveComplate= false;
-        while(!isMoveComplate)
+        Transform dropTarget = _tileObject[srow, scol].transform;
+        while (!isMoveComplate)
         {
-            _tileObject[srow, scol].transform.position = Vector2.Lerp(_tileObject[srow, scol].transform.position,
-                                                                                               _tilePoints[srow + dropIndex, scol],_tileDropSpeed);
-            if (Vector2.Distance(_tileObject[srow, scol].transform.position, _tilePoints[srow + dropIndex, scol]) < 0.1f) isMoveComplate = true;
+            dropTarget.position = Vector2.Lerp(dropTarget.position,
+                                                                _tilePoints[srow + dropIndex, scol],_tileDropSpeed);
+            if (Vector2.Distance(dropTarget.position, _tilePoints[srow + dropIndex, scol]) < 0.1f) isMoveComplate = true;
             yield return null;
         }
     }

@@ -223,11 +223,11 @@ public class BoardModel
         {
             yield return new WaitForSeconds(0.20f);
             ApplyGravity();
-            OnBoardChanged?.Invoke();
+            //OnBoardChanged?.Invoke();
             yield return new WaitForSeconds(0.75f);
 
             RefillEmptyTile();
-            OnBoardChanged?.Invoke();
+            //OnBoardChanged?.Invoke();
             yield return new WaitForSeconds(0.75f);
 
             HashSet<Pos> newMatches = GetAllMatch();
@@ -239,7 +239,7 @@ public class BoardModel
             if(!_isOverCharge)
             {
                 ExplodeMatched(newMatches);
-                OnBoardChanged?.Invoke();
+                //OnBoardChanged?.Invoke();
             }
             else 
             {
@@ -589,21 +589,6 @@ public class BoardModel
             }
 
         }
-
-        //if (_brokenTileIndex.Count == 0) return;
-
-        ////시작, 끝점 기록용
-        //List<Pos> startIndex = new List<Pos>();
-        //List<Pos> endIndex = new List<Pos>();
-
-        ////시작점 끝점 알아내기
-        //foreach (Pos pos in _brokenTileIndex)
-        //{
-        //    if (_tiles[pos.row - 1, pos.col] != null)
-        //        startIndex.Add(new Pos(pos.row - 1, pos.col));
-        //    if (_tiles[pos.row + 1, pos.col] != null)
-        //        endIndex.Add(new Pos(pos.row + 1, pos.col));
-        //}
 
     }
 }
