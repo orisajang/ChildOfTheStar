@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
         UIManager.Instance.PlayerStatusUI.UpdateShield(Shield);
     }
     /// <summary>
-    /// 플레이어 1회 행동
+    /// 플레이어 이동력 1 감소
     /// </summary>
     /// <returns></returns>
     public int PlayerActDo()

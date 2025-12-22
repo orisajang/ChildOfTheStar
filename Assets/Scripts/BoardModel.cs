@@ -43,6 +43,24 @@ public class BoardModel
     public Action OnResolveStart;
 
 
+    //과충전 관련 필드들
+    //현재 터질 타일의 색상과 갯수들
+    Dictionary<TileColor, int> _currentColorOverChargeDic = new Dictionary<TileColor, int>();
+    //이전 매치때 터진 색상들이 무엇이었는지
+    HashSet<TileColor> _beforeColorOverChargeHash = new HashSet<TileColor>();
+    //과충전 체크 해야하는지 여부
+    bool _isOverChargeCheck;
+    //과충전 상태인지 체크
+    bool _isOverCharge;
+    // 연속 매치 횟수
+    int _loopMatchCount = 0;
+    //과충전 게이지 (20되면 과충전상태 되도록 설정예정)
+    int _overChargeValue = 0;
+    //과충전 기준값(변동가능)
+    int _limitOverChargeValue = 20;
+    //타일 이동이 전부 끝났을때, Controller에 알려준다 (사용이유: 플레이어 턴이 끝났고 몬스터 턴인데 타일이 계속 터지고 있거나 판정하고있으면 안되서. 턴관리를 위해서)
+    public event Action OnTileMoveEnd;
+
     public BoardModel()
     {
         _tiles = new Tile[Rows, Columns];
@@ -83,7 +101,8 @@ public class BoardModel
     public void MoveTile(TileMoveDirection direction, int lineIndex, int moveAmount)
     {
         if (moveAmount == 0) return;
-
+        //보드 비활성화 명령. moveAmount가 0이 아닐때만 비활성화 해야함
+        OnResolveStart?.Invoke();
         if (direction == TileMoveDirection.Horizontal)
         {
             if (lineIndex < 0 || lineIndex >= _rows) return;
@@ -142,17 +161,54 @@ public class BoardModel
             }
         }
 
+        //과충전 관련 체크 항목 초기화
+        InitOverCharge(false);
+
+        //블록 3매치 판정 시작
         ExplodeMatched(matched);
 
         if (matched.Count > 0)
         {
             StartCoroutineCallback(MatchChainCoroutine());
         }
+        else
+        {
+            //타일 이동이 끝난다는 것을 알려야되는 구조로 변경되어 else문 추가
+            OnTileMoveEnd?.Invoke();
+        }
+    }
+
+
+    /// <summary>
+    /// 초기(타일이동)에 초기화할 과충전 관련 체크항목들을 모아둔 메소드
+    /// 타일 이동할때마다 과충전상태 해제, 및 플레이어 턴이 시작될때 과중전상태 해제해야함
+    /// </summary>
+    /// <param name="isplayerInit">플레이어 턴이 시작될때만 전용으로 지울값</param>
+    public void InitOverCharge(bool isplayerInit)
+    {
+        //처음 1회는 과충전 체크 안함
+        _isOverChargeCheck = false;
+        //플레이어 턴이 시작될때만 과충전값 초기화
+        if(isplayerInit)
+        {
+            _overChargeValue = 0;
+        }
+        //이전턴에 과충전상태였다면 다시 이동했을경우 풀기
+        if (_isOverCharge)
+        {
+            _isOverCharge = false;
+            Debug.LogWarning("과충전 해제");
+        }
     }
 
     private IEnumerator MatchChainCoroutine()
     {
-        OnResolveStart?.Invoke();
+        //과충전 기능 추가
+        //딕셔너리로 이전에 터진 색상들을 기억한다
+        //초기1회 이후에 과충전 체크를 한다. (bool값 체크)
+        _isOverChargeCheck = true;
+        _loopMatchCount = 0;
+
         int loopSafety = 0;
         while (loopSafety < 20)
         {
@@ -168,14 +224,29 @@ public class BoardModel
             HashSet<Pos> newMatches = GetAllMatch();
             if (newMatches.Count == 0) break;
 
-           ExplodeMatched(newMatches);
-            OnBoardChanged?.Invoke();
-
+            //과충전 관련 매치횟수 체크하는 필드(_loopMatchCount)
+            _loopMatchCount = loopSafety + 1;
+            //과충전 상태가 아니면 계속 매치 판별
+            if(!_isOverCharge)
+            {
+                ExplodeMatched(newMatches);
+                OnBoardChanged?.Invoke();
+            }
+            else 
+            {
+                //과충전 상태면 바로 break;
+                break;
+            }
             yield return new WaitForSeconds(0.55f);
             loopSafety++;
         }
         OnResolveFinished?.Invoke();
+		Debug.LogWarning("타일이동 종료 이벤트 발송");
+        OnTileMoveEnd?.Invoke();
     }
+    /// <summary>
+    /// 빈 타일이 있다면 타일주머니에서 타일 하나꺼내서 채워준다
+    /// </summary>
     private void RefillEmptyTile()
     {
         if (CreateTile == null) return;
@@ -316,7 +387,8 @@ public class BoardModel
     {
         if (matched == null) return;
         if (matched.Count == 0) return;
-        foreach (Pos position in matched)
+
+		foreach (Pos position in matched)
         {
             Tile tile = _tiles[position.row, position.col];
             if (tile == null)
@@ -325,7 +397,6 @@ public class BoardModel
             tile.ExecutePreSkill(Tiles);
 
         }
-
         foreach (Pos position in matched)
         {
             Tile tile = _tiles[position.row, position.col];
@@ -338,7 +409,116 @@ public class BoardModel
 
             //자원 주머니에 터진 타일들 색상을 하나씩 넣어주기 위해서 추가
             ColorResourceManager.Instance.AddColorResource(tile.Color, 1);
+            //과충전 체크할때 색상별 타일이 얼마만큼 터졌는지 확인 필요
+            //foreach문에서는 타일이 하나씩 터지기때문에 딕셔너리로 터진 타일들 몇개인지 묶음
+            SetColorOverChargeInfo(tile.Color);
+        
+        //과충전 증감 연산 체크
+        CalcOverChargeValue();
 
+        }
+    }
+    /// <summary>
+    /// 과충전 체크할때 색상별 타일이 얼마만큼 터졌는지 확인 필요
+    /// </summary>
+    private void SetColorOverChargeInfo(TileColor color)
+    {
+        
+        if (!_currentColorOverChargeDic.ContainsKey(color))
+        {
+            _currentColorOverChargeDic[color] = 1;
+        }
+        else
+        {
+            _currentColorOverChargeDic[color] += 1;
+        }
+    }
+    /// <summary>
+    /// 과충전 게이지 증감을 체크하는 메서드
+    /// </summary>
+    private void CalcOverChargeValue()
+    {
+        int totalOverChargeValue = 0;
+        //디버그용. 계산1, 계산2가 각각 어떤값이 나왔는지
+        int calc1 = 0;
+        int calc2 = 0;
+
+        //과충전 체크
+        if (_isOverChargeCheck)
+        {
+            int sameColor = 0;
+            int differentColor = 0;
+            //과충전 체크1.타일마다 따로따로 하는 체크
+            foreach (TileColor color in _currentColorOverChargeDic.Keys)
+            {
+                //해당 타일 갯수
+                int amount = _currentColorOverChargeDic[color];
+
+                //_beforeColorOverChargeHash 에 존재하는지 확인
+                if (_beforeColorOverChargeHash.Contains(color))
+                {
+                    //존재하면 과부하 게이지 상승
+                    //계산식: 그냥 같은 색상 타일 전부다 더한값 * (연속 매치횟수*2) 해버리면 됨
+                    totalOverChargeValue += amount * (_loopMatchCount * 2);
+                    sameColor++;
+                }
+                else
+                {
+                    //존재하지 않으면 과부하 게이지 하락
+                    //계산식: 다른 색상 타일 갯수 * (연속매치횟수)
+                    totalOverChargeValue -= amount * _loopMatchCount;
+                    differentColor++;
+                }
+            }
+            calc1 = totalOverChargeValue;
+            //과충전 체크2. 타일 매치판정 2개이상인경우 파악해서 처리
+            //매치 판정이 2개 이상으로 되었는지 체크
+            int colorSum = sameColor + differentColor;
+            if (colorSum >= 2)
+            {
+                //동일색 > 다른색 : 게이지 +1씩
+                if (sameColor > differentColor)
+                {
+                    //그냥 매치 레벨 을 더해주면된다
+                    totalOverChargeValue += _loopMatchCount;
+                }
+                else if (sameColor < differentColor)
+                {
+                    totalOverChargeValue -= _loopMatchCount;
+                }
+                else if (sameColor == differentColor)
+                {
+                    //아무것도 안함
+                }
+            }
+            //계산값을 현재 과충전 게이지에 넣어준다
+            SetOverChargeValue(totalOverChargeValue);
+            calc2 = totalOverChargeValue - calc1;
+            Debug.LogWarning($"현재 과충전 게이지: {_overChargeValue},체크1값:{calc1} 체크2값:{calc2} 계산했던 과충전게이지 {totalOverChargeValue} 현재 과충전 턴{_loopMatchCount}");
+        }
+
+        //과충전 체크 끝. _beforeColorOverChargeHash를 설정한다. -> _currentColorOverChargeDic의 색깔이 있는거대로
+        _beforeColorOverChargeHash.Clear();
+        foreach (TileColor color in _currentColorOverChargeDic.Keys)
+        {
+            _beforeColorOverChargeHash.Add(color);
+        }
+        //다 쓰고나서 초기화
+        _currentColorOverChargeDic.Clear();
+    }
+
+    private void SetOverChargeValue(int amount)
+    {
+        _overChargeValue += amount;
+        if(_overChargeValue < 0)
+        {
+            _overChargeValue = 0;
+        }
+        else if(_overChargeValue >= _limitOverChargeValue)
+        {
+            //과충전이라는 것을 알리는 기능을 추가하자
+            _isOverCharge = true;
+            Debug.LogWarning("과충전 상태 진입!");
         }
     }
 
@@ -362,7 +542,7 @@ public class BoardModel
                     if (writeRow != readRow)
                     {
                         _tiles[writeRow, col] = tile;
-                        tile.SetTIlePos(writeRow, col);
+						tile.SetTIlePos(writeRow, col);
                         _tiles[readRow, col] = null;
                     }
 

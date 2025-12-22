@@ -4,11 +4,19 @@ using UnityEngine;
 public struct StageCSVData
 {
     //CSV파일에 저장되어있는 속성들
-    public string stageId;
-    public string monsterWaveId1;
-    public string monsterWaveId2;
-    public string monsterWaveId3;
-    public bool isDimdis;
+    //public string stageId;
+    //public string monsterWaveId1;
+    //public string monsterWaveId2;
+    //public string monsterWaveId3;
+    //public bool isDimdis;
+
+    //CSV파일에 저장되어있는 속성들
+    public int stageId;
+    public int stageGroupId;
+    public float stageGroupChance;
+    public int monsterWaveIdOne;
+    public int monsterWaveIdTwo;
+
 
     public List<MonsterWaveCSVData> monsterWaveList;
 
@@ -25,9 +33,8 @@ public struct StageCSVData
     {
         string[] monsterWaveIdArray = new string[]
         {
-            monsterWaveId1,
-            monsterWaveId2,
-            monsterWaveId3
+            monsterWaveIdOne.ToString(),
+            monsterWaveIdTwo.ToString(),
         };
         return monsterWaveIdArray;
     }

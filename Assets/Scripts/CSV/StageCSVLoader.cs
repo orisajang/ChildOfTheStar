@@ -33,11 +33,18 @@ public class StageCSVLoader
         {
             StageCSVData stageData = new StageCSVData();
 
-            stageData.stageId = item[0];
-            stageData.monsterWaveId1 = item[1];
-            stageData.monsterWaveId2 = item[2];
-            stageData.monsterWaveId3 = item[3];
-            stageData.isDimdis = item[4] == "FALSE" ? false : true;
+            //stageData.stageId = item[0];
+            //stageData.monsterWaveId1 = item[1];
+            //stageData.monsterWaveId2 = item[2];
+            //stageData.monsterWaveId3 = item[3];
+            //stageData.isDimdis = item[4] == "FALSE" ? false : true;
+
+
+            stageData.stageId = int.Parse(item[0]);
+            stageData.stageGroupId = int.Parse(item[1]);
+            stageData.stageGroupChance = float.Parse(item[2]);
+            stageData.monsterWaveIdOne = int.Parse(item[3]);
+            stageData.monsterWaveIdTwo = item[4] == "" ? 0 : int.Parse(item[4]);
 
 
             //monsterData.prefabKey = item[4];
