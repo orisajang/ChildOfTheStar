@@ -39,9 +39,6 @@ public class BoardModel
     public Action<Tile> ReturnTile;
     public Func<IEnumerator, Coroutine> StartCoroutineCallback;
     public Action OnBoardChanged;
-    public Action OnResolveFinished;
-    public Action OnResolveStart;
-
 
     public BoardModel()
     {
@@ -152,7 +149,6 @@ public class BoardModel
 
     private IEnumerator MatchChainCoroutine()
     {
-        OnResolveStart?.Invoke();
         int loopSafety = 0;
         while (loopSafety < 20)
         {
@@ -174,7 +170,6 @@ public class BoardModel
             yield return new WaitForSeconds(0.55f);
             loopSafety++;
         }
-        OnResolveFinished?.Invoke();
     }
     private void RefillEmptyTile()
     {
@@ -316,13 +311,15 @@ public class BoardModel
     {
         if (matched == null) return;
         if (matched.Count == 0) return;
+
         foreach (Pos position in matched)
         {
             Tile tile = _tiles[position.row, position.col];
-            if (tile == null)
+            if (tile == null) 
                 continue;
 
             tile.ExecutePreSkill(Tiles);
+
 
         }
 
@@ -335,9 +332,6 @@ public class BoardModel
             tile.ExecuteTile(Tiles);
             ReturnTile(tile);
             _tiles[position.row, position.col] = null;
-
-            //자원 주머니에 터진 타일들 색상을 하나씩 넣어주기 위해서 추가
-            ColorResourceManager.Instance.AddColorResource(tile.Color, 1);
 
         }
     }
