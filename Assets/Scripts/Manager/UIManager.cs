@@ -1,9 +1,7 @@
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIManager : Singleton<UIManager>
 {
-    public static UIManager Instance { get; private set; }
-
     // 플레이어
     [SerializeField] private PlayerStatusUI playerStatusUI;
     // 자원
@@ -31,11 +29,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
+        isDestroyOnLoad = false;
+        base.Awake();
     }
 }
