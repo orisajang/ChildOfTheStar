@@ -77,6 +77,8 @@ public class BoardController : MonoBehaviour
         //뷰어 init
         _boardViewer.InitTilePoints(_tilePoints);
         _boardViewer.InitTileObject(_boardModel);
+        //Model에 Viewer 연결 시켜줌
+        _boardModel.SetBoardViewer(_boardViewer);
     }
     private void OnEnable()
     {
