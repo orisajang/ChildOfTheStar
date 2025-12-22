@@ -1,13 +1,16 @@
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class DengeonManager : Singleton<DengeonManager>
 {
     //각 던전이 어떤 스테이지를 가지고있는지와 현재 스테이지가 몇스테이지인지,  스테이지별로 랜덤확률로 스테이지 선택
-    //스테이지 번호
-    int stageNumber;
+    //현재 던전번호
+    int currentDengeonNumber;
+    //현재 스테이지 번호
+    int currentStageNumber;
     //현재 스테이지에서 몇단계 진행중인지
-    int stageInstanceNumber;
+    //int stageInstanceNumber;
     //현재 선택중인 스테이지
     StageCSVData currentSelectStage;
 
@@ -36,14 +39,29 @@ public class DengeonManager : Singleton<DengeonManager>
         //던전1의 스테이지 1번을 쓰겠다.
         //지금 던전에는 키값으로 10, 20, 30, 40 -> int형으로 변환 int.Parse 하고 /10
         //스테이지에는 키값으로 그룹넘버 100001
+        //예시) 던전4를 진행하겠다
+        SetStageDataForStageManager(1);
+    }
 
-        //던전 1을 선택, 스테이지 1을 선택
-        int dengeonSelect = 1;
-        int stageSelect = 1;
+    private void Start()
+    {
+        //스테이지매니저에 정보 설정
+        StageManager.Instance.SetStageInstanceData(currentSelectStage);
+        //스테이지 시작 명령
+        StageManager.Instance.StartStageTask();
+
+    }
+
+    private void SetStageDataForStageManager(int dengeonSelect)
+    {
+        //예시) 던전 1을 선택, 스테이지는 무조건 1부터 시작
+        //int dengeonSelect = 4;
+        currentDengeonNumber = dengeonSelect;
+        currentStageNumber++;
 
         //던전 키값, 스테이지 키값 생성
         string dengeonSelectKey = (dengeonSelect * 10).ToString(); //10
-        string stageSelectKeyString = "10000" + stageSelect.ToString(); //1000001
+        string stageSelectKeyString = dengeonSelectKey.ToString() + "000" + currentStageNumber.ToString(); //10 000 1
         int stageSelectKey = int.Parse(stageSelectKeyString); //1000001
         //2. 스테이지 그룹id로 다시 묶어준다
         //foreach(string dengeonNumber in _dengeonDataDic.Keys)
@@ -70,36 +88,33 @@ public class DengeonManager : Singleton<DengeonManager>
         }
         //현재 선택된 던전의 스테이지 리스트를 가져옴
         List<StageCSVData> currentStageInstanceList = _stageDataDic[stageSelectKey];
-        
+
 
         //리스트중에서 랜덤으로 1개를 선택한다  (그런데 각자 가지고있는 확률을 고려해서 스테이지를 선택해야함)
         float randomValue = Random.Range(0f, 1.0f);
         float currentPercent = 0;
         //확률을 더해주면서 설정된 스테이지 랜덤 가중치에 따라 스테이지 인스턴스를 선택한다
-        for(int index = 0; index < currentStageInstanceList.Count; index++)
+        for (int index = 0; index < currentStageInstanceList.Count; index++)
         {
             //1회 랜덤 확률을 더해줌
             currentPercent += currentStageInstanceList[index].stageGroupChance;
-            if(currentPercent >= randomValue)
+            if (currentPercent >= randomValue)
             {
                 //현재 선택된 스테이지를 저장
                 currentSelectStage = currentStageInstanceList[index];
+                Debug.Log($"랜덤으로 선택된 스테이지: {currentSelectStage.stageId}");
                 break;
             }
         }
     }
-
-    private void Start()
+    public void SetAndStartNextStage()
     {
+        SetStageDataForStageManager(currentDengeonNumber);
         //스테이지매니저에 정보 설정
         StageManager.Instance.SetStageInstanceData(currentSelectStage);
         //스테이지 시작 명령
         StageManager.Instance.StartStageTask();
-
     }
-
-
-    List<StageCSVData> currentCSVData = new List<StageCSVData>();
 
     private void SetStageInstanceData()
     {
@@ -156,17 +171,6 @@ public class DengeonManager : Singleton<DengeonManager>
 
 
             }
-            //string[] monsterWaveIdArray = data.GetMonsterWaveIdArray();
-            //foreach(var waveId in monsterWaveIdArray)
-            //{
-            //    //예외처리 (웨이브 아이디가 없고, 키가 존재하지않으면 break)
-            //    if (waveId == null) break;
-            //    if (!_monsterWaveCSVDataDic.ContainsKey(waveId)) break;
-            //
-            //    //몬스터
-            //    MonsterWaveCSVData waveData = _monsterWaveCSVDataDic[waveId];
-            //    data.AddMonsterWaveList(waveData);
-            //}
         }
     }
     private void SetMonsterWaveDataByCSV()

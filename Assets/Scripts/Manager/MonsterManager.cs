@@ -57,13 +57,6 @@ public class MonsterManager : Singleton<MonsterManager>
         AddMonsterActionCycleByCSV();
         //Monster에 MonsterActionCycle이 들어가있어야해서 AddMonsterActionCycleByCSV를 먼저 해야함
         AddMonsterByCSV();
-        
-
-        //몬스터 액션 주기 테스트(테스트)
-        //MonsterDataDic에 있는 몬스터 종류마다 Monster의 ActionCycle을 채워줘야함
-        //아래를 for문돌려서 몬스터 종류마다 가지고 있도록 처리해야함
-        MakeMosnterActionCycle(3101);
-        MakeMonsterAction(310101);
 
         //몬스터 사망 테스트 (전투로인해 몬스터 HP가 0이되었다고 가정)
         //_spawnedMonster[0].MonsterDead();
@@ -268,21 +261,6 @@ public class MonsterManager : Singleton<MonsterManager>
                 }
             }
         }
-    }
-
-
-    private void MakeMosnterActionCycle(int groupId)
-    {
-        var data = _monsterActionCycleDataDic[groupId];
-        //Debug.Log($"액션 사이클은 총 {data.Count}개 입니다.");
-        //이거를 이제 Monster에 있는 곳에 넣어주면 됨.
-        //3개가 있다는 것을 확인했다. 그렇다면 이제? monster_action에서 해당 키값을 찾아서 MonsterAction이라는 클래스에 가지고있게 하자
-        //MonsterAction이라는 클래스를 만들자 몬스터의 행동을 가지고있는
-    }
-    private void MakeMonsterAction(int id)
-    {
-        //행동 id를 꺼내면 해당 행동을 가져옴
-        //Debug.Log(_monsterActionDataDic[id].id);
     }
 
 

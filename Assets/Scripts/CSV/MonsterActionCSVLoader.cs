@@ -34,14 +34,14 @@ public class MonsterActionCSVLoader
         {
             MonsterActionCSVData monsterActionData = new MonsterActionCSVData();
             monsterActionData.id = int.Parse(item[0]);
-            monsterActionData.actionName = item[1];
-            monsterActionData.actionType = (eMonsterAction)Enum.Parse(typeof(eMonsterAction), item[2]);
-            monsterActionData.attackType = (eMonsterAttackType)Enum.Parse(typeof(eMonsterAttackType), item[3]);
-            monsterActionData.attackValue = float.Parse(item[4]);
-            monsterActionData.actionmon_id = int.Parse(item[5]);
-            monsterActionData.animation = item[6];
-            monsterActionData.effect = item[7];
-            monsterActionData.sound = item[8];
+            //monsterActionData.actionName = item[1];
+            monsterActionData.actionType = (eMonsterAction)Enum.Parse(typeof(eMonsterAction), item[1]);
+            monsterActionData.attackType = item[2] == "null" ? eMonsterAttackType.playerAttack : (eMonsterAttackType)Enum.Parse(typeof(eMonsterAttackType), item[2]);
+            monsterActionData.attackValue = item[3] == "null" ? 0 : float.Parse(item[3]);
+            monsterActionData.actionmon_id = int.Parse(item[4]);
+            monsterActionData.animation = item[5];
+            monsterActionData.effect = item[6];
+            monsterActionData.sound = item[7];
 
             //monsterData.prefabKey = item[4];
             //monsterActionCSVDataList.Add(monsterActionData);

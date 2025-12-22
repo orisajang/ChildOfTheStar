@@ -19,7 +19,6 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         //데이터를 받아옴
         SetPlayerData();
-        TurnManager.Instance.StartPlayerTurn();
     }
 
     private void OnEnable()

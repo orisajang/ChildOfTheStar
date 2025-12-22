@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TurnManager : Singleton<TurnManager>
@@ -104,7 +105,7 @@ public class TurnManager : Singleton<TurnManager>
         {
             //스테이지 종료 처리 필요
             StageManager.Instance.PlayNextStage();
-
+            return;
         }
 
         //아직 턴이 남아서 타일이동을 더 해야한다면

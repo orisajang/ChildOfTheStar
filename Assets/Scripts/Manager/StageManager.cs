@@ -39,23 +39,26 @@ public class StageManager : Singleton<StageManager>
     }
     public void PlayNextStage()
     {
-        //다음  스테이지가 존재하는지 확인
+        //다음 몬스터 웨이브가 남아있는지 확인, 
         //currentStageData = _stageInstanceDataDic[currentStageInstanceId.ToString()];
         
         if (currentWaveIndex >= currentStageData.monsterWaveList.Count)
         {
             //웨이브가 더 안남아있음., 다음 스테이지로 이동하도록 처리해야함
-            
+            //실제 게임에서는 스테이지 클리어 했다면 스테이지 선택창으로 다시 돌아감. (자동으로 다음 스테이지 실행하지 않는다)
+            //테스트용 -> 스테이지1 끝나면 바로 스테이지 2 시작되도록
+            DengeonManager.Instance.SetAndStartNextStage();
         }
         else
         {
-            //스테이지가 남아있다. 계속 진행
+            //몬스터 웨이브가 남아있다. 계속 진행
             List<MonsterWaveCSVData> waveData = currentStageData.monsterWaveList;
             StartMonsterWave(waveData);
         }
     }
     private void StartMonsterWave(List<MonsterWaveCSVData> waveData)
     {
+        Debug.Log($"현재 스테이지번호:{currentStageData.stageId} 몬스터 웨이브: {currentWaveIndex+1}번째");
         //소환할 몬스터 정보는?
         MonsterWaveInfo[] monsterInfo = waveData[currentWaveIndex].monsterWaveInfo;
         //그대로 정보를 몬스터매니저에 넘겨준다
@@ -63,6 +66,8 @@ public class StageManager : Singleton<StageManager>
 
         //다음 실행할 웨이브 번호를 위해서 ++
         currentWaveIndex++;
+        //플레이어 턴 부터 시작
+        TurnManager.Instance.StartPlayerTurn();
     }
 
 
