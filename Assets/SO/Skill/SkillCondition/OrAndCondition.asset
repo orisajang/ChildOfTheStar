@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbc7e2cf6c8bf0f4a8dd67cd930cc27b, type: 3}
   m_Name: OrAndCondition
   m_EditorClassIdentifier: Assembly-CSharp::OrAndCondition
-  descriptionText: 
+  descriptionText: "Or \uCCB4\uD06C\uC2DC \uC870\uAC74 \uB9AC\uC2A4\uD2B8\uC911 \uD558\uB098\uB77C\uB3C4 
+    true\uC77C\uB54C true\uBC18\uD658\n\uC804\uBD80 false\uC77C\uB54C fasle\uBC18\uD658.\nAnd
+    \uCCB4\uD06C\uC2DC \uC870\uAC74 \uB9AC\uC2A4\uD2B8\uC911 \uC804\uBD80 true\uC77C\uB54C
+    true\uBC18\uD658\n\uD558\uB098\uB77C\uB3C4 false\uC77C\uB54C false\uBC18\uD658\n "
   _conditionType: 0
   _conditionList: []

@@ -21,7 +21,7 @@ public class Tile : MonoBehaviour
     [SerializeField] private int _frenzyNum, _recoveryNum, _growthNum, _destructionNum, _rebirthNum;
 
 
-
+    private TileEventBus _eventBus;
     private TileColor _curColor;
     private Dictionary<TileStatus, List<TileStatusBase>> _statusDictionary;
     private TileSO _nextTileSO = null;
@@ -35,6 +35,7 @@ public class Tile : MonoBehaviour
     public TileColor Color => _curColor;
     public TileSO TileData => _tileDataSO;
     public Dictionary<TileStatus, List<TileStatusBase>> StatusDictionarty => _statusDictionary;
+    public TileEventBus EventBus => _eventBus;
     public bool WillDestroy => _willDestroy;
     public bool WillRebirth => _willRebirth;
     public int FrenzyNum => _frenzyNum;
@@ -57,7 +58,7 @@ public class Tile : MonoBehaviour
     }
 
 
-    public void Init(int row, int col, TileSO tileSO, Action<Tile> returnTile)
+    public void Init(int row, int col, TileSO tileSO, Action<Tile> returnTile, TileEventBus eventBus)
     {
         _col = col;
         _row = row;
@@ -65,6 +66,7 @@ public class Tile : MonoBehaviour
         _curColor = _tileDataSO.Color;
         _renderer.color = _tileDataSO.SpriteColor;
         _renderer.sprite = _tileDataSO.Sprite;
+        _eventBus = eventBus;
 
         _nextTileSO = null;
         _willDestroy = false;
