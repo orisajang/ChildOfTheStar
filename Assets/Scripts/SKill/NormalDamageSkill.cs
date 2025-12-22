@@ -5,8 +5,7 @@ public class NormalDamageSkill : TileSkillBase
 {
     [SerializeField]private int _damage;
     public int Damage=> _damage;
-
-    public override void Execute()
+    protected override void Execute(Tile[,] board, Tile casterTile)
     {
         Debug.Log($"적에게 {_damage} 피해");
         //여기서 몬스터매니저를 통해서 데미지 처리

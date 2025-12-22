@@ -12,7 +12,7 @@ public class TileDeck : MonoBehaviour
     [SerializeField] private BoardController _controller;
     [SerializeField]private List<TileSO> BaseDeckSO;
 
-    private List<TileSO> _drawDeck = new List<TileSO>();
+    [SerializeField]private List<TileSO> _drawDeck = new List<TileSO>();
     private Queue<Tile> _tilePool = new Queue<Tile>();
     private void Awake()
     {
@@ -122,7 +122,7 @@ public class TileDeck : MonoBehaviour
     {
         Tile newTile = GetTilePool();
         TileSO data = DrawTileSO(); 
-        newTile.Init(row, col, data);
+        newTile.Init(row, col, data, ReturnTilePool);
 
 
         return newTile;

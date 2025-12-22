@@ -8,6 +8,6 @@ public class RecoveryStatus : TileStatusBase
     {
         //player.Heal(_healAmout);
 
-        Debug.Log("체력 회복");
+        Debug.Log("회복으로 인한 플레이어 체력 2 회복");
     }
 }

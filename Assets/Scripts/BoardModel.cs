@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using static UnityEngine.Rendering.ProbeAdjustmentVolume;
 
 public enum TileMoveDirection
 {
@@ -41,9 +39,9 @@ public class BoardModel
     public Action<Tile> ReturnTile;
     public Func<IEnumerator, Coroutine> StartCoroutineCallback;
     public Action OnBoardChanged;
+    public Action OnResolveFinished;
+    public Action OnResolveStart;
 
-    //보드 이동이 타일이동 판정이 나야해서 model에서 이벤트 쏴주는 방식으로 변경
-    public event Action OnDisableBoard;
 
     //과충전 관련 필드들
     //현재 터질 타일의 색상과 갯수들
@@ -103,8 +101,6 @@ public class BoardModel
     public void MoveTile(TileMoveDirection direction, int lineIndex, int moveAmount)
     {
         if (moveAmount == 0) return;
-        //보드 비활성화 명령. moveAmount가 0이 아닐때만 비활성화 해야함
-        OnDisableBoard.Invoke();
 
         if (direction == TileMoveDirection.Horizontal)
         {
@@ -121,6 +117,7 @@ public class BoardModel
             for (int col = 0; col < _columns; col++)
             {
                 _tiles[lineIndex, col] = tempRow[col];
+                _tiles[lineIndex, col].SetTIlePos(lineIndex, col);
             }
         }
         else if (direction == TileMoveDirection.Vertical)
@@ -138,6 +135,7 @@ public class BoardModel
             for (int row = 0; row < _rows; row++)
             {
                 _tiles[row, lineIndex] = tempCol[row];
+                _tiles[row, lineIndex].SetTIlePos(row, lineIndex);
             }
         }
 
@@ -202,7 +200,6 @@ public class BoardModel
         }
     }
 
-
     private IEnumerator MatchChainCoroutine()
     {
         //과충전 기능 추가
@@ -214,7 +211,7 @@ public class BoardModel
         int loopSafety = 0;
         while (loopSafety < 20)
         {
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.20f);
             ApplyGravity();
             OnBoardChanged?.Invoke();
             yield return new WaitForSeconds(0.75f);
@@ -242,7 +239,8 @@ public class BoardModel
             yield return new WaitForSeconds(0.55f);
             loopSafety++;
         }
-        Debug.LogWarning("타일이동 종료 이벤트 발송");
+        OnResolveFinished?.Invoke();
+		Debug.LogWarning("타일이동 종료 이벤트 발송");
         OnTileMoveEnd?.Invoke();
     }
     /// <summary>
@@ -389,28 +387,35 @@ public class BoardModel
         if (matched == null) return;
         if (matched.Count == 0) return;
 
+		foreach (Pos position in matched)
+        {
+            Tile tile = _tiles[position.row, position.col];
+            if (tile == null)
+                continue;
+
+            tile.ExecutePreSkill(Tiles);
+
+        }
         foreach (Pos position in matched)
         {
             Tile tile = _tiles[position.row, position.col];
-            if (tile == null) continue;
+            if (tile == null) 
+                continue;
 
-            if (tile != null)
-            {
+            tile.ExecuteTile(Tiles);
+            ReturnTile(tile);
+            _tiles[position.row, position.col] = null;
 
-                tile.ExecuteTile(Tiles);
-                ReturnTile(tile);
-                _tiles[position.row, position.col] = null;
-
-                //자원 주머니에 터진 타일들 색상을 하나씩 넣어주기 위해서 추가
-                ColorResourceManager.Instance.AddColorResource(tile.Color, 1);
-
-                //과충전 체크할때 색상별 타일이 얼마만큼 터졌는지 확인 필요
-                //foreach문에서는 타일이 하나씩 터지기때문에 딕셔너리로 터진 타일들 몇개인지 묶음
-                SetColorOverChargeInfo(tile.Color);
-            }
-        }
+            //자원 주머니에 터진 타일들 색상을 하나씩 넣어주기 위해서 추가
+            ColorResourceManager.Instance.AddColorResource(tile.Color, 1);
+            //과충전 체크할때 색상별 타일이 얼마만큼 터졌는지 확인 필요
+            //foreach문에서는 타일이 하나씩 터지기때문에 딕셔너리로 터진 타일들 몇개인지 묶음
+            SetColorOverChargeInfo(tile.Color);
+        
         //과충전 증감 연산 체크
         CalcOverChargeValue();
+
+        }
     }
     /// <summary>
     /// 과충전 체크할때 색상별 타일이 얼마만큼 터졌는지 확인 필요
@@ -516,7 +521,6 @@ public class BoardModel
         }
     }
 
-
     /// <summary>
     ///  중력 적용 함수
     /// 각 열을 탐색하여 빈공간을 위에서 당겨서 채움, 
@@ -537,6 +541,7 @@ public class BoardModel
                     if (writeRow != readRow)
                     {
                         _tiles[writeRow, col] = tile;
+						tile.SetTIlePos(writeRow, col);
                         _tiles[readRow, col] = null;
                     }
 

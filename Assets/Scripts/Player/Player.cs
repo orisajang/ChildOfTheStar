@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// CSV데이터로 읽어온 데이터를 현재 Player에 적용
     /// </summary>
-    public void SetPlayerDataByCSVData(int id, string name, int deckID,int maxHP, int movePoint, string sprite, string animation, string sound)
+    public void SetPlayerDataByCSVData(int id, string name, int deckID, int maxHP, int movePoint, string sprite, string animation, string sound)
     {
         CharacterId = id;
         CharacterName = name;
@@ -40,6 +40,11 @@ public class Player : MonoBehaviour
         //현재 체력, 현재 이동력 초기값 설정
         CharacterHpCurrent = CharacterHpMax;
         PlayerTurnInit();
+
+        //UI 초기화
+        UIManager.Instance.PlayerStatusUI.UpdateHP(CharacterHpCurrent, CharacterHpMax);
+        UIManager.Instance.PlayerStatusUI.UpdateShield(Shield);
+        UIManager.Instance.PlayerStatusUI.UpdateMovePoint(MovementPointCurrent, MovementPointMax);
     }
     /// <summary>
     /// 플레이어 턴이 시작될때 초기화해야할 항목 저장
@@ -48,12 +53,14 @@ public class Player : MonoBehaviour
     {
         MovementPointCurrent = MovementPointMax;
         Shield = 0;
+        UIManager.Instance.PlayerStatusUI.UpdateShield(Shield);
+        UIManager.Instance.PlayerStatusUI.UpdateMovePoint(MovementPointCurrent, MovementPointMax);
     }
 
     public void TakeDamage(int damage)
     {
         //플레이어의 쉴드가 있다면 쉴드부터 차감
-        if(Shield > damage)
+        if (Shield > damage)
         {
             Shield -= damage;
             damage = 0;
@@ -66,6 +73,10 @@ public class Player : MonoBehaviour
         //실제 데미지 기반으로 HP차감
         CharacterHpCurrent -= damage;
         Debug.Log($"현재 플레이어 체력:{CharacterHpCurrent}");
+
+        UIManager.Instance.PlayerStatusUI.UpdateHP(CharacterHpCurrent, CharacterHpMax);
+        UIManager.Instance.PlayerStatusUI.UpdateShield(Shield);
+
         if (CharacterHpCurrent < 0)
         {
             OnPlayerDead?.Invoke();
@@ -79,6 +90,8 @@ public class Player : MonoBehaviour
     {
         Shield += value;
         Debug.Log($"현재 플레이어 쉴드값: {Shield}");
+
+        UIManager.Instance.PlayerStatusUI.UpdateShield(Shield);
     }
     /// <summary>
     /// 플레이어 이동력 1 감소
@@ -87,6 +100,9 @@ public class Player : MonoBehaviour
     public int PlayerActDo()
     {
         MovementPointCurrent -= 1;
+
+        UIManager.Instance.PlayerStatusUI.UpdateMovePoint(MovementPointCurrent, MovementPointMax);
+
         return MovementPointCurrent;
     }
 }

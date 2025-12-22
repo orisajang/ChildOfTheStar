@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f94bfbc0540e9742810f06d9deafdef, type: 3}
   m_Name: NormalDamage5
   m_EditorClassIdentifier: Assembly-CSharp::NormalDamageSkill
+  descriptionText: 
+  _skillCondition: {fileID: 0}
   _damage: 5
