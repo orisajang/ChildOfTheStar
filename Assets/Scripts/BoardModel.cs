@@ -56,6 +56,7 @@ public class BoardModel
     int _loopMatchCount = 0;
     //과충전 게이지 (20되면 과충전상태 되도록 설정예정)
     int _overChargeValue = 0;
+    public int OverChargeValue => _overChargeValue;
     //과충전 기준값(변동가능)
     int _limitOverChargeValue = 20;
     //타일 이동이 전부 끝났을때, Controller에 알려준다 (사용이유: 플레이어 턴이 끝났고 몬스터 턴인데 타일이 계속 터지고 있거나 판정하고있으면 안되서. 턴관리를 위해서)
