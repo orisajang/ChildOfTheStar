@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BoardViewer : MonoBehaviour
@@ -14,6 +16,9 @@ public class BoardViewer : MonoBehaviour
     private float _tileTotalGapX;
     private float _tileTotalGapY;
     private int _overTileIndex;
+
+    //private Coroutine _dropTileCoroutine;
+    [SerializeField] float _tileDropSpeed;
 
     public void InitTilePoints(Vector2[,] points)
     {
@@ -48,6 +53,7 @@ public class BoardViewer : MonoBehaviour
     {
     }
 
+   
     public void MoveTilesPosition(TileMoveDirection dir, Vector3 toMove, int index)
     {
         int length = 0;
@@ -83,5 +89,22 @@ public class BoardViewer : MonoBehaviour
                     _tileObject[i, index].transform.position = _tileObject[i, index].transform.position - new Vector3(0, _tileTotalGapY, 0);
             }
         }  // ★ 중괄호 제대로 닫기
+    }
+
+    public void DropTile(int srow, int scol, int dropIndex)
+    {
+        StartCoroutine(DropTileMoving(srow, scol, dropIndex));
+    }
+
+    private IEnumerator DropTileMoving(int srow, int scol, int dropIndex)
+    {
+        bool isMoveComplate= false;
+        while(!isMoveComplate)
+        {
+            _tileObject[srow, scol].transform.position = Vector2.Lerp(_tileObject[srow, scol].transform.position,
+                                                                                               _tilePoints[srow + dropIndex, scol],_tileDropSpeed);
+            if (Vector2.Distance(_tileObject[srow, scol].transform.position, _tilePoints[srow + dropIndex, scol]) < 0.1f) isMoveComplate = true;
+            yield return null;
+        }
     }
 }

@@ -48,6 +48,8 @@ public class BoardModel
     Dictionary<TileColor, int> _currentColorOverChargeDic = new Dictionary<TileColor, int>();
     //이전 매치때 터진 색상들이 무엇이었는지
     HashSet<TileColor> _beforeColorOverChargeHash = new HashSet<TileColor>();
+    //터진 타일 인덱스 기록
+    private List<Pos> _brokenTileIndex;
     //과충전 체크 해야하는지 여부
     bool _isOverChargeCheck;
     //과충전 상태인지 체크
@@ -62,12 +64,18 @@ public class BoardModel
     //타일 이동이 전부 끝났을때, Controller에 알려준다 (사용이유: 플레이어 턴이 끝났고 몬스터 턴인데 타일이 계속 터지고 있거나 판정하고있으면 안되서. 턴관리를 위해서)
     public event Action OnTileMoveEnd;
 
+    private BoardViewer _boardViewer;
+
     public BoardModel()
     {
         _tiles = new Tile[Rows, Columns];
+        _brokenTileIndex = new List<Pos>();
     }
 
-
+    public void SetBoardViewer(BoardViewer bv)
+    {
+        _boardViewer = bv;
+    }
     /// <summary>
     /// 해당 좌표에 타일 넣는 함수, 컨트롤러에서 타일 생성해서 넣어줘야한다고 생각함.
     /// </summary>
@@ -407,6 +415,7 @@ public class BoardModel
             tile.ExecuteTile(Tiles);
             ReturnTile(tile);
             _tiles[position.row, position.col] = null;
+            _brokenTileIndex.Add(position);
 
             //자원 주머니에 터진 타일들 색상을 하나씩 넣어주기 위해서 추가
             ColorResourceManager.Instance.AddColorResource(tile.Color, 1);
@@ -530,6 +539,33 @@ public class BoardModel
     /// </summary>
     private void ApplyGravity()
     {
+
+        int dropIndex;
+        //List<Pos> dropIndexs = new List<Pos>();
+        //List<int> dropLens = new List<int>();
+        for (int col = 0; col < _columns; col++)
+        {
+            dropIndex = 0;
+            for (int row = _rows - 1; row >= 0; row--)
+            {
+                if (_tiles[row, col] == null)
+                {
+                    dropIndex++;
+                }
+                else if(dropIndex != 0)
+                {
+                    //dropIndexs.Add(new Pos(row, col));
+                    //dropLens.Add(dropIndex);
+                    if(_boardViewer == null)
+                    {
+                        Debug.LogError("Board Model에 Board Viewer 가 없습니다.");
+                        return;
+                    }
+                    _boardViewer.DropTile(row, col, dropIndex);
+                }
+            }
+        }
+
         for (int col = 0; col < _columns; col++)
         {
 
@@ -544,7 +580,7 @@ public class BoardModel
                     if (writeRow != readRow)
                     {
                         _tiles[writeRow, col] = tile;
-						tile.SetTIlePos(writeRow, col);
+                        tile.SetTIlePos(writeRow, col);
                         _tiles[readRow, col] = null;
                     }
 
@@ -553,5 +589,21 @@ public class BoardModel
             }
 
         }
+
+        //if (_brokenTileIndex.Count == 0) return;
+
+        ////시작, 끝점 기록용
+        //List<Pos> startIndex = new List<Pos>();
+        //List<Pos> endIndex = new List<Pos>();
+
+        ////시작점 끝점 알아내기
+        //foreach (Pos pos in _brokenTileIndex)
+        //{
+        //    if (_tiles[pos.row - 1, pos.col] != null)
+        //        startIndex.Add(new Pos(pos.row - 1, pos.col));
+        //    if (_tiles[pos.row + 1, pos.col] != null)
+        //        endIndex.Add(new Pos(pos.row + 1, pos.col));
+        //}
+
     }
 }
