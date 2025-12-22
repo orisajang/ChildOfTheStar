@@ -496,6 +496,7 @@ public class BoardModel
             SetOverChargeValue(totalOverChargeValue);
             calc2 = totalOverChargeValue - calc1;
             Debug.LogWarning($"현재 과충전 게이지: {_overChargeValue},체크1값:{calc1} 체크2값:{calc2} 계산했던 과충전게이지 {totalOverChargeValue} 현재 과충전 턴{_loopMatchCount}");
+            UIManager.Instance.OverchargeUI.UpdateOverCharge(_overChargeValue);
         }
 
         //과충전 체크 끝. _beforeColorOverChargeHash를 설정한다. -> _currentColorOverChargeDic의 색깔이 있는거대로

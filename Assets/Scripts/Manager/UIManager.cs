@@ -23,7 +23,7 @@ public class UIManager : Singleton<UIManager>
         ResourceUI.UpdateResource(TileColor.White, ColorResourceManager.Instance.GetResource(TileColor.White));
         ResourceUI.UpdateResource(TileColor.Black, ColorResourceManager.Instance.GetResource(TileColor.Black));
         // 과충전이랑 스테이지 테스트용
-        OverchargeUI.UpdateOverCharge(30, 100);
+        OverchargeUI.UpdateOverCharge(0);
         StageUI.testStageText("TEST");
     }
 
