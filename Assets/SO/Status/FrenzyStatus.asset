@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2a85d2ac3911df4b922d797163ee369, type: 3}
-  m_Name: SetStatus
-  m_EditorClassIdentifier: Assembly-CSharp::SetStatus
-  descriptionText: 
-  _skillCondition: {fileID: 0}
-  _status: 0
+  m_Script: {fileID: 11500000, guid: 17d61f257230e074788beb23b2de017f, type: 3}
+  m_Name: FrenzyStatus
+  m_EditorClassIdentifier: Assembly-CSharp::FrenzyStatus
+  _tileStatus: 0
+  _atk: 1

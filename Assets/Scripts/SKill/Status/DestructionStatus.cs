@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Destruction", menuName = "Scriptable Objects/Status/Destruction")]
-public class Destruction : TileStatusBase
+[CreateAssetMenu(fileName = "DestructionStatus", menuName = "Scriptable Objects/Status/DestructionStatus")]
+public class DestructionStatus : TileStatusBase
 {
     private List<Tile> _targets = new List<Tile>(20);
     public override void Execute(Tile[,] board, Tile casterTile)

@@ -122,7 +122,7 @@ public class TileDeck : MonoBehaviour
     {
         Tile newTile = GetTilePool();
         TileSO data = DrawTileSO(); 
-        newTile.Init(row, col, data);
+        newTile.Init(row, col, data, ReturnTilePool);
 
 
         return newTile;

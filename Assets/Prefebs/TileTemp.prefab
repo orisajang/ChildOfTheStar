@@ -107,6 +107,11 @@ MonoBehaviour:
   _col: 0
   _row: 0
   _tileDataSO: {fileID: 11400000, guid: e73df9b7bb7b02345b50e82215102795, type: 2}
+  _frenzyNum: 0
+  _recoveryNum: 0
+  _growthNum: 0
+  _destructionNum: 0
+  _rebirthNum: 0
 --- !u!58 &3080177380844662015
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -137,7 +142,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

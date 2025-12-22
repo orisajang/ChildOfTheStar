@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,21 +19,22 @@ public class Tile : MonoBehaviour
     [SerializeField] private int _col, _row;
     [SerializeField] private TileSO _tileDataSO;
     [SerializeField] private int _frenzyNum, _recoveryNum, _growthNum, _destructionNum, _rebirthNum;
-   
+
 
 
     private TileColor _curColor;
     private Dictionary<TileStatus, List<TileStatusBase>> _statusDictionary;
     private TileSO _nextTileSO = null;
     private bool _willDestroy = false;
-    private bool _willRebirth =false;
+    private bool _willRebirth = false;
     private SpriteRenderer _renderer;
+    private Action<Tile> _returnTile;
 
     public int Col => _col;
     public int Row => _row;
     public TileColor Color => _curColor;
     public TileSO TileData => _tileDataSO;
-    public Dictionary<TileStatus, List<TileStatusBase>> StatusDictionarty => _statusDictionary; 
+    public Dictionary<TileStatus, List<TileStatusBase>> StatusDictionarty => _statusDictionary;
     public bool WillDestroy => _willDestroy;
     public bool WillRebirth => _willRebirth;
     public int FrenzyNum => _frenzyNum;
@@ -55,7 +57,7 @@ public class Tile : MonoBehaviour
     }
 
 
-    public void Init(int row, int col, TileSO tileSO)
+    public void Init(int row, int col, TileSO tileSO, Action<Tile> returnTile)
     {
         _col = col;
         _row = row;
@@ -76,6 +78,7 @@ public class Tile : MonoBehaviour
         _growthNum = 0;
         _destructionNum = 0;
         _rebirthNum = 0;
+        _returnTile = returnTile;
     }
 
     public void SetTIlePos(int row, int col)
@@ -128,7 +131,7 @@ public class Tile : MonoBehaviour
         // 스킬리스트 순서대로 쭉쭉 실행
         foreach (var skill in _tileDataSO.SkillSOList)
         {
-            skill.TryExecute(board,this);
+            skill.TryExecute(board, this);
         }
     }
     /// <summary>
@@ -139,22 +142,27 @@ public class Tile : MonoBehaviour
     public void AddStatus(TileStatus statusType, TileStatusBase StautsData)
     {
         _statusDictionary[statusType].Add(StautsData);
-        switch(statusType)
+        switch (statusType)
         {
             case TileStatus.Frenzy:
                 _frenzyNum++;
+                Debug.Log($"{_row},{_col}에 광분 부여됨");
                 break;
             case TileStatus.Recovery:
-                _recoveryNum++; 
+                _recoveryNum++;
+                Debug.Log($"{_row},{_col}에 회복 부여됨");
                 break;
-            case TileStatus.Growth: 
-                _growthNum++; 
+            case TileStatus.Growth:
+                _growthNum++;
+                Debug.Log($"{_row},{_col}에 성장 부여됨");
                 break;
             case TileStatus.Destruction:
-                _destructionNum++; 
+                _destructionNum++;
+                Debug.Log($"{_row},{_col}에 파괴 부여됨");
                 break;
             case TileStatus.Rebirth:
-                _rebirthNum++; 
+                _rebirthNum++;
+                Debug.Log($"{_row},{_col}에 윤회 부여됨");
                 break;
 
         }
@@ -184,9 +192,8 @@ public class Tile : MonoBehaviour
     {
         if (_willDestroy)
         {
-            //매니저에게 풀링반환요청해야함 
             _willDestroy = false;
-            this.gameObject.SetActive(false);
+            _returnTile?.Invoke(this);
             return;
         }
 

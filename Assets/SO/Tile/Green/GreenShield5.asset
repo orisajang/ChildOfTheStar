@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a8be61759a24b046a7b2e046ffcb273, type: 3}
   m_Name: GreenShield5
   m_EditorClassIdentifier: Assembly-CSharp::TileSO
+  descriptionText: "\uCD08\uB85D\uC0C9 \uC274\uB4DC 5\uD0C0\uC77C"
+  _preSkillSOList: []
   _skillSOList:
   - {fileID: 11400000, guid: ca82c299ddee45f4698185de8aa05d17, type: 2}
   _id: 0

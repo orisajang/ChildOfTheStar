@@ -10,19 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a8be61759a24b046a7b2e046ffcb273, type: 3}
-  m_Name: RedShield5
+  m_Name: RedFrenzy
   m_EditorClassIdentifier: Assembly-CSharp::TileSO
-  descriptionText: "\uBE68\uAC04\uC0C9 \uC274\uB4DC 5\uD0C0\uC77C"
-  _preSkillSOList: []
-  _skillSOList:
-  - {fileID: 11400000, guid: ca82c299ddee45f4698185de8aa05d17, type: 2}
+  descriptionText: "\uB79C\uB364\uD55C \uD0C0\uC77C\uB300\uC0C1\uC73C\uB85C \uAD11\uBD84
+    \uBD80\uC5EC\uD558\uB294 \uBE68\uAC04\uC0C9 \uD0C0\uC77C"
+  _preSkillSOList:
+  - {fileID: 11400000, guid: 5237e0417bb8fb044867ed137e331af3, type: 2}
+  _skillSOList: []
   _id: 0
-  _name: 1
-  _icon: 1
-  _description: 1
+  _name: 2
+  _icon: 2
+  _description: 2
   _color: 2
   _spriteColor: {r: 1, g: 0, b: 0, a: 1}
-  _sprite: {fileID: 7482667652216324306, guid: c4c800d3b6a6cdd4d9dad6712a9b1820, type: 3}
+  _sprite: {fileID: 7482667652216324306, guid: 6b34972c1fa0c5145905179c7255f794, type: 3}
   _rarity: 0
   _price: 0
   _speed: 0
