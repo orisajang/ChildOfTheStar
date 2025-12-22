@@ -4,6 +4,7 @@ using static UnityEngine.Rendering.DebugUI.Table;
 
 public class BoardController : MonoBehaviour
 {
+    [SerializeField] private BoardBlock boardBlock;
     [SerializeField] TileBoardSizeSO _boardSize;
     [SerializeField] BoardViewer _boardViewer;
     private BoardModel _boardModel = new BoardModel();
@@ -79,11 +80,25 @@ public class BoardController : MonoBehaviour
     {
         _boardModel.OnBoardChanged += UpdateBoardView;
         _boardModel.StartCoroutineCallback += StartCoroutine;
+
+        _boardModel.OnResolveFinished += OnBoardResolveFinished;
+        _boardModel.OnResolveStart += OnBoardResolveStart;
     }
     private void OnDisable()
     {
         _boardModel.OnBoardChanged -= UpdateBoardView;
         _boardModel.StartCoroutineCallback -= StartCoroutine;
+
+        _boardModel.OnResolveStart -= OnBoardResolveStart;
+    }
+
+    private void OnBoardResolveFinished()
+    {
+        boardBlock.SetBoardActive(false);
+    }
+    private void OnBoardResolveStart()
+    {
+        boardBlock.SetBoardActive(true);
     }
 
     private void UpdateBoardView()
@@ -109,7 +124,7 @@ public class BoardController : MonoBehaviour
         }
         else
         {
-            int moveAmount;
+            int moveAmount = 0;
             if (_curTileMoveDir == TileMoveDirection.Horizontal)
             {
                 moveAmount = (int)(_totalMoveMousePosition.x / _tileGapX);
@@ -132,6 +147,11 @@ public class BoardController : MonoBehaviour
             _boardViewer.InitTileObject(_boardModel);
             //클릭 해제 시 방향도 해제
             _curTileMoveDir = TileMoveDirection._Null;
+            //플레이어 1회 행동 처리 (1칸이라도 이동했을때)
+            if (moveAmount != 0)
+            {
+                PlayerManager.Instance.OnPlayerActionStartOnce();
+            }
         }
     }
     public void UpdateMousePosition(Vector2 mousePos)

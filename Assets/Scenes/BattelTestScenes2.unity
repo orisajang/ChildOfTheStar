@@ -739,6 +739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 300ba0be55f7afe45a58307486ad4c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TurnManager
+  boardBlock: {fileID: 861082392}
 --- !u!4 &1004600373
 Transform:
   m_ObjectHideFlags: 0
@@ -783,6 +784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f075f293a628ce4db8349034db4d344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInputControll
+  _boardBlock: {fileID: 861082392}
   _tilesTagName: Tile
   _bordController: {fileID: 1916766940}
 --- !u!4 &1011481890
@@ -1002,16 +1004,10 @@ MonoBehaviour:
   _controller: {fileID: 1916766940}
   BaseDeckSO:
   - {fileID: 11400000, guid: 521c13ccb3b81b74793808008f2bd78b, type: 2}
-  - {fileID: 11400000, guid: d5c4952654ce361459db6696b4c50216, type: 2}
-  - {fileID: 11400000, guid: c3a5ea2d041290341b4181ad03585402, type: 2}
   - {fileID: 11400000, guid: 8445ce439f044504a8924d9e85a90276, type: 2}
-  - {fileID: 11400000, guid: 01ad7602f0bf17d4ab4a439b0f7841f4, type: 2}
   - {fileID: 11400000, guid: 8f0ebfe23a5a7d5408ce926f9bf3f3f7, type: 2}
-  - {fileID: 11400000, guid: 7f42fb25a541a9d4880e2ae0ae3282d7, type: 2}
   - {fileID: 11400000, guid: e73df9b7bb7b02345b50e82215102795, type: 2}
-  - {fileID: 11400000, guid: 26f6457f1028179429168bd19ddbc3d0, type: 2}
   - {fileID: 11400000, guid: cba5997d08e2c9445b45c31450c39592, type: 2}
-  _drawDeck: []
 --- !u!4 &1703700821
 Transform:
   m_ObjectHideFlags: 0
