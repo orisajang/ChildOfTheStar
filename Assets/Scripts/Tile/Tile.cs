@@ -19,7 +19,7 @@ public class Tile : MonoBehaviour
     [SerializeField] private int _col, _row;
     [SerializeField] private TileSO _tileDataSO;
     [SerializeField] private int _frenzyNum, _recoveryNum, _growthNum, _destructionNum, _rebirthNum;
-
+    private HashSet<TileKeyword> _activeKeywords = new HashSet<TileKeyword>();
 
     private TileEventBus _eventBus;
     private TileColor _curColor;
@@ -67,14 +67,15 @@ public class Tile : MonoBehaviour
         _renderer.color = _tileDataSO.SpriteColor;
         _renderer.sprite = _tileDataSO.Sprite;
         _eventBus = eventBus;
-
         _nextTileSO = null;
         _willDestroy = false;
 
+        _activeKeywords.Clear();
         if (_statusDictionary != null)
         {
             foreach (var list in _statusDictionary.Values) list.Clear();
         }
+
         _frenzyNum = 0;
         _recoveryNum = 0;
         _growthNum = 0;
@@ -226,5 +227,24 @@ public class Tile : MonoBehaviour
     public void ReserveDestroy()
     {
         _willDestroy = true;
+    }
+
+    /// <summary>
+    /// 키워드 활성화
+    /// </summary>
+    /// <param name="keyword"></param>
+    public void AddKeyword(TileKeyword keyword)
+    {
+        _activeKeywords.Add(keyword);
+    }
+
+    /// <summary>
+    /// 키워드 확인
+    /// </summary>
+    /// <param name="keyword"></param>
+    /// <returns></returns>
+    public bool HasKeyword(TileKeyword keyword)
+    {
+        return _activeKeywords.Contains(keyword);
     }
 }

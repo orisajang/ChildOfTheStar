@@ -19,13 +19,13 @@ public class TileEventBus
         _tileEvents[type].Add(skill);
     }
     
-    public void Publish(TileEventType type, Tile[,] board, Tile caster)
+    public void Publish(TileEventType type, Tile[,] board)
     {
         if (_tileEvents.TryGetValue(type, out var skills))
         {
             for (int i = skills.Count - 1; i >= 0; i--)
             {
-                skills[i].TryExecute(board, caster);
+                skills[i].TryExecute(board, null);
             }
         }
     }
