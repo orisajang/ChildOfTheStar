@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStatusUI : MonoBehaviour
 {
@@ -7,9 +8,12 @@ public class PlayerStatusUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private TextMeshProUGUI movePointText;
     [SerializeField] private TextMeshProUGUI shieldText;
+    [SerializeField] private Image hpImage;
 
     public void UpdateHP(int currentHp, int maxHp)
     {
+        float ratio = (float)currentHp / maxHp;
+        hpImage.fillAmount = ratio;
         hpText.text = $"HP: {currentHp} / {maxHp}";
     }
     public void UpdateMovePoint(int movePoint, int maxMovePoint)
