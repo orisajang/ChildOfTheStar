@@ -1,9 +1,7 @@
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIManager : Singleton<UIManager>
 {
-    public static UIManager Instance { get; private set; }
-
     // 플레이어
     [SerializeField] private PlayerStatusUI playerStatusUI;
     // 자원
@@ -25,17 +23,13 @@ public class UIManager : MonoBehaviour
         ResourceUI.UpdateResource(TileColor.White, ColorResourceManager.Instance.GetResource(TileColor.White));
         ResourceUI.UpdateResource(TileColor.Black, ColorResourceManager.Instance.GetResource(TileColor.Black));
         // 과충전이랑 스테이지 테스트용
-        OverchargeUI.UpdateOverCharge(30, 100);
+        OverchargeUI.UpdateOverCharge(0);
         StageUI.testStageText("TEST");
     }
 
     private void Awake()
     {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
+        isDestroyOnLoad = false;
+        base.Awake();
     }
 }

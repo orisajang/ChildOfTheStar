@@ -89,6 +89,7 @@ public class TurnManager : Singleton<TurnManager>
     {
         //플레이어 턴 1회 감소
         PlayerManager.Instance.OnPlayerMovePointDecrease();
+        UIManager.Instance.OverchargeUI.UpdateOverCharge(0);
     }
     /// <summary>
     /// 플레이어의 현재 이동력을 매개변수로 받아서 플레이어의 턴이 끝났는지 체크
