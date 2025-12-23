@@ -53,7 +53,7 @@ public class TileEventBus
         Execute(_statusEvents, addedStatus, SkillManager.Instance.BoardController.BoardModel.Tiles);
     }
 
-    
+
     private void AddToDict<T>(Dictionary<T, List<TileSkillBase>> dictionary, T key, TileSkillBase skill)
     {
         if (!dictionary.ContainsKey(key))
@@ -65,13 +65,13 @@ public class TileEventBus
 
     private void Execute<T>(Dictionary<T, List<TileSkillBase>> dictionary, T key, Tile[,] board)
     {
-       
+
         if (dictionary.TryGetValue(key, out var list))
         {
-            
+
             for (int i = list.Count - 1; i >= 0; i--)
             {
-                
+
                 list[i].TryExecute(board, null);
             }
         }

@@ -1,17 +1,18 @@
-    using System.Collections.Generic;
-    using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Pool;
 
-    [CreateAssetMenu(fileName = "AddStatusToRandomTile", menuName = "Scriptable Objects/PreSkill/AddStatusToRandomTile")]
-    public class AddStatusToRandomTile : TileSkillBase
-    {
-        [SerializeField] TileStatus _status;
-        [SerializeField] TileColor _color =TileColor.None;
-        [SerializeField] TileStatusBase _tileStatus;
+[CreateAssetMenu(fileName = "AddStatusToRandomTile", menuName = "Scriptable Objects/PreSkill/AddStatusToRandomTile")]
+public class AddStatusToRandomTile : TileSkillBase
+{
+    [SerializeField] TileStatus _status;
+    [SerializeField] TileColor _color = TileColor.None;
+    [SerializeField] TileStatusBase _tileStatus;
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
         if (_tileStatus == null) return;
 
-        List<Tile> targetTiles = new List<Tile>(10);
+        List<Tile> targetTiles = ListPool<Tile>.Get();
 
         int row = board.GetLength(0);
         int col = board.GetLength(1);
@@ -40,5 +41,6 @@
             int randomIndex = Random.Range(0, targetTiles.Count);
             targetTiles[randomIndex].AddStatus(_status, _tileStatus);
         }
+        ListPool<Tile>.Release(targetTiles);
     }
-    }
+}
