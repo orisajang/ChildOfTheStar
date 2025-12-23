@@ -16,4 +16,5 @@ MonoBehaviour:
     \uB79C\uB364 \uD0C0\uC77C \uB300\uC0C1\uC73C\uB85C \uC131\uC7A5\uBD80\uC5EC"
   _skillCondition: {fileID: 0}
   _status: 2
+  _color: 5
   _tileStatus: {fileID: 11400000, guid: b09eae41a7a6b8c48bdee7558871c570, type: 2}

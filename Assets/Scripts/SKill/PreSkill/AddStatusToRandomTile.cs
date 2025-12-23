@@ -1,28 +1,44 @@
-using UnityEngine;
+    using System.Collections.Generic;
+    using UnityEngine;
 
-[CreateAssetMenu(fileName = "AddStatusToRandomTile", menuName = "Scriptable Objects/PreSkill/AddStatusToRandomTile")]
-public class AddStatusToRandomTile : TileSkillBase
-{
-    [SerializeField] TileStatus _status;
-    [SerializeField] TileStatusBase _tileStatus;
+    [CreateAssetMenu(fileName = "AddStatusToRandomTile", menuName = "Scriptable Objects/PreSkill/AddStatusToRandomTile")]
+    public class AddStatusToRandomTile : TileSkillBase
+    {
+        [SerializeField] TileStatus _status;
+        [SerializeField] TileColor _color =TileColor.None;
+        [SerializeField] TileStatusBase _tileStatus;
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
         if (_tileStatus == null) return;
 
+        List<Tile> targetTiles = new List<Tile>(10);
+
         int row = board.GetLength(0);
         int col = board.GetLength(1);
 
-        int targetRow =Random.Range(0, row);
-        int targetCol =Random.Range(0, col);
-
-        if (row * col <= 1) return;
-
-
-            while (board[targetRow, targetCol]==casterTile)
+        for (int r = 0; r < row; r++)
         {
-            targetRow = Random.Range(0, row);
-            targetCol = Random.Range(0, col);
+            for (int c = 0; c < col; c++)
+            {
+                Tile target = board[r, c];
+
+                if (target == null) continue;
+
+                if (target == casterTile) continue;
+
+                bool isColorMatch = (_color == TileColor.None) || (target.Color == _color);
+
+                if (isColorMatch)
+                {
+                    targetTiles.Add(target);
+                }
+            }
         }
-        board[targetRow, targetCol].AddStatus(_status, _tileStatus);
+
+        if (targetTiles.Count > 0)
+        {
+            int randomIndex = Random.Range(0, targetTiles.Count);
+            targetTiles[randomIndex].AddStatus(_status, _tileStatus);
+        }
     }
-}
+    }

@@ -939,7 +939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -2019,6 +2019,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0109110fd0fd81744b0dd3e4406048d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoardViewer
+  _tileDropSpeed: 0.1
 --- !u!114 &1916766940
 MonoBehaviour:
   m_ObjectHideFlags: 0

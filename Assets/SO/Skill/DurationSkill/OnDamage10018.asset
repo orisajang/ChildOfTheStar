@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f94bfbc0540e9742810f06d9deafdef, type: 3}
-  m_Name: NormalDamage5
-  m_EditorClassIdentifier: Assembly-CSharp::NormalDamageSkill
+  m_Script: {fileID: 11500000, guid: 4cfacae2e6ddbbc438f63c933b62da1b, type: 3}
+  m_Name: OnDamage10018
+  m_EditorClassIdentifier: Assembly-CSharp::RegisterSkillEvent
   descriptionText: 
   _skillCondition: {fileID: 0}
-  _damage: 5
+  _eventType: 0
+  _skill: {fileID: 11400000, guid: 1068a7d8088e978469551859d9fbd15d, type: 2}

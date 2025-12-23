@@ -11,7 +11,6 @@ public class TileDeck : MonoBehaviour
     [SerializeField] private GameObject _tilePrefeb;
     [SerializeField] private BoardController _controller;
     [SerializeField]private List<TileSO> BaseDeckSO;
-    [SerializeField]private TileEventBus _eventBus;
 
     [SerializeField]private List<TileSO> _drawDeck = new List<TileSO>();
     private Queue<Tile> _tilePool = new Queue<Tile>();
@@ -123,7 +122,7 @@ public class TileDeck : MonoBehaviour
     {
         Tile newTile = GetTilePool();
         TileSO data = DrawTileSO(); 
-        newTile.Init(row, col, data, ReturnTilePool, _eventBus);
+        newTile.Init(row, col, data, ReturnTilePool);
 
 
         return newTile;

@@ -25,4 +25,4 @@ MonoBehaviour:
   _sprite: {fileID: -2413806693520163455, guid: 82fb0554e76abfb4f97b697674a2b30e, type: 3}
   _rarity: 0
   _price: 0
-  _speed: 0
+  _speed: 2

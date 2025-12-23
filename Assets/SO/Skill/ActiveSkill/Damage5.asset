@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7795dc6a15462774d953b5dfde676ff5, type: 3}
-  m_Name: NormalShield5
-  m_EditorClassIdentifier: Assembly-CSharp::NormalShieldSkill
-  _shieldAmout: 5
+  m_Script: {fileID: 11500000, guid: 8f94bfbc0540e9742810f06d9deafdef, type: 3}
+  m_Name: Damage5
+  m_EditorClassIdentifier: Assembly-CSharp::NormalDamageSkill
+  descriptionText: 
+  _skillCondition: {fileID: 0}
+  _damage: 5

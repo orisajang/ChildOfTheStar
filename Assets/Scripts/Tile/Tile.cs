@@ -10,6 +10,7 @@ public enum TileColor
     Red,
     Green,
     Blue,
+    None,
 }
 
 public class Tile : MonoBehaviour
@@ -43,6 +44,7 @@ public class Tile : MonoBehaviour
     public int GrowthNum => _growthNum;
     public int DestructionNum => _destructionNum;
     public int RebirthNum => _rebirthNum;
+    public bool Matched {  get; set; }
 
 
 
@@ -58,7 +60,7 @@ public class Tile : MonoBehaviour
     }
 
 
-    public void Init(int row, int col, TileSO tileSO, Action<Tile> returnTile, TileEventBus eventBus)
+    public void Init(int row, int col, TileSO tileSO, Action<Tile> returnTile)
     {
         _col = col;
         _row = row;
@@ -66,7 +68,6 @@ public class Tile : MonoBehaviour
         _curColor = _tileDataSO.Color;
         _renderer.color = _tileDataSO.SpriteColor;
         _renderer.sprite = _tileDataSO.Sprite;
-        _eventBus = eventBus;
         _nextTileSO = null;
         _willDestroy = false;
 
@@ -104,11 +105,7 @@ public class Tile : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 타일의 스킬과 상태이상을 순서, 조건에 따라 실행.
-    /// </summary>
-    /// <param name="board"></param>
-    public void ExecuteTile(Tile[,] board)
+    public void ExecuteStatus(Tile[,] board)
     {
         //스테이터스 딕셔너리 순서대로 쭉죽 스테이터스가 가지고있는 함수 실행
         foreach (var seq in _statusSequence)
@@ -128,6 +125,16 @@ public class Tile : MonoBehaviour
         _growthNum = 0;
         _destructionNum = 0;
         _rebirthNum = 0;
+
+    }
+   
+    /// <summary>
+    /// 타일의 스킬을 순서, 조건에 따라 실행.
+    /// </summary>
+    /// <param name="board"></param>
+    public void ExecuteTile(Tile[,] board)
+    {
+        
 
         if (_tileDataSO.SkillSOList == null)
             return;
@@ -246,5 +253,10 @@ public class Tile : MonoBehaviour
     public bool HasKeyword(TileKeyword keyword)
     {
         return _activeKeywords.Contains(keyword);
+    }
+
+    public int GetSpeed()
+    {
+        return _tileDataSO.Speed;
     }
 }

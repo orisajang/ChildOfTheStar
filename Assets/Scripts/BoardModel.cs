@@ -20,7 +20,6 @@ public enum TileMoveDirection
 public class BoardModel
 {
 
-
     private struct Pos
     {
         public int row;
@@ -33,6 +32,7 @@ public class BoardModel
         }
     }
 
+    private List<Tile> matchedTiles = new List<Tile>(30);
     private int _rows = 5;
     public int Rows => _rows;
 
@@ -434,32 +434,43 @@ public class BoardModel
         if (matched == null) return;
         if (matched.Count == 0) return;
 
-		foreach (Pos position in matched)
-        {
-            Tile tile = _tiles[position.row, position.col];
-            if (tile == null)
-                continue;
-            if (_beforeColorOverChargeHash.Contains(tile.Color))
-                tile.AddKeyword(TileKeyword.Wave);
-            if(_loopMatchCount>0)
-                tile.AddKeyword(TileKeyword.Link);
-            if (!_MatchedColorHash.Contains(tile.Color))
-                tile.AddKeyword(TileKeyword.Harmony);
-
-
-                tile.ExecutePreSkill(Tiles);
-
-        }
         foreach (Pos position in matched)
         {
             Tile tile = _tiles[position.row, position.col];
-            if (tile == null) 
-                continue;
+            if (tile != null)
+                matchedTiles.Add(tile);
+            tile.Matched = true;
 
+        }
+
+        foreach (Tile tile in matchedTiles)
+        {
+            if (_beforeColorOverChargeHash.Contains(tile.Color))
+                tile.AddKeyword(TileKeyword.Wave);
+            if (_loopMatchCount > 0)
+                tile.AddKeyword(TileKeyword.Link);
+            if (!_MatchedColorHash.Contains(tile.Color))
+                tile.AddKeyword(TileKeyword.Harmony);
+        }
+
+        matchedTiles.Sort(CompareTilePriority);
+
+
+        foreach (Tile tile in matchedTiles)
+        {
+            tile.ExecutePreSkill(Tiles);
+        }
+        foreach (Tile tile in matchedTiles)
+        {
+            tile.ExecuteStatus(Tiles);
+        }
+
+        foreach (Tile tile in matchedTiles)
+        {
             tile.ExecuteTile(Tiles);
+
             ReturnTile(tile);
-            _tiles[position.row, position.col] = null;
-            _brokenTileIndex.Add(position);
+            _tiles[tile.Row, tile.Col] = null;
 
             //자원 주머니에 터진 타일들 색상을 하나씩 넣어주기 위해서 추가
             ColorResourceManager.Instance.AddColorResource(tile.Color, 1);
@@ -470,7 +481,6 @@ public class BoardModel
 
             //과충전 증감 연산 체크
             CalcOverChargeValue();
-
         }
     }
     /// <summary>
@@ -626,4 +636,39 @@ public class BoardModel
         }
         return _boardViewer.StartCheckDropComplate();
     }
+
+    private int GetColorPriority(TileColor color)
+    {
+        switch (color)
+        {
+            case TileColor.Red: return 0;
+            case TileColor.Blue: return 1;
+            case TileColor.Green: return 2;
+            case TileColor.White: return 3;
+            case TileColor.Black: return 4;
+            default: return 99;
+        }
+    }
+
+    private int CompareTilePriority(Tile a, Tile b)
+    {
+        int speedA = a.GetSpeed();
+        int speedB = b.GetSpeed();
+
+        if (speedA != speedB)
+        {
+            return speedA.CompareTo(speedB);
+        }
+
+        int colorPriorityA = GetColorPriority(a.Color);
+        int colorPriorityB = GetColorPriority(b.Color);
+
+        if (colorPriorityA != colorPriorityB)
+        {
+            return colorPriorityA.CompareTo(colorPriorityB);
+        }
+
+        return a.TileData.Id.CompareTo(a.TileData.Id);
+    }
+
 }

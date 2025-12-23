@@ -10,20 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a8be61759a24b046a7b2e046ffcb273, type: 3}
-  m_Name: RedFrenzy
+  m_Name: Red Firefly
   m_EditorClassIdentifier: Assembly-CSharp::TileSO
-  descriptionText: "\uB79C\uB364\uD55C \uD0C0\uC77C\uB300\uC0C1\uC73C\uB85C \uAD11\uBD84
-    \uBD80\uC5EC\uD558\uB294 \uBE68\uAC04\uC0C9 \uD0C0\uC77C"
-  _preSkillSOList:
-  - {fileID: 11400000, guid: 5237e0417bb8fb044867ed137e331af3, type: 2}
-  _skillSOList: []
-  _id: 0
-  _name: 2
+  descriptionText: "\uB300\uC0C1\uC5D0\uAC8C \uD53C\uD574\uB97C 8\uC90D\uB2C8\uB2E4.
+    \uBB34\uC791\uC704 \uD0C0\uC77C\uC5D0 \uAD11\uBD84\uC744 \uBD80\uC5EC\uD569\uB2C8\uB2E4,"
+  _preSkillSOList: []
+  _skillSOList:
+  - {fileID: 11400000, guid: 355280a7b7b639743af11d4fb21043ba, type: 2}
+  - {fileID: 11400000, guid: 090746b758da23b4cbc3f32a66cca57e, type: 2}
+  _id: 10012
+  _name: "\uBC18\uB527\uBD88"
   _icon: 2
   _description: 2
   _color: 2
-  _spriteColor: {r: 1, g: 0, b: 0, a: 1}
+  _spriteColor: {r: 0.9339623, g: 0.3815163, b: 0.24230155, a: 1}
   _sprite: {fileID: 7482667652216324306, guid: 6b34972c1fa0c5145905179c7255f794, type: 3}
   _rarity: 0
   _price: 0
-  _speed: 0
+  _speed: 2
