@@ -6,7 +6,8 @@ public static class SceneName
     //씬의 이름을 저장하는 static 클래스
     public const string Tile = "TestSampleLobbyScene";
     public const string Battle = "MVPScene_BattleTest";
-    public const string shop = "Shop";
+    public const string Shop = "Shop";
+    public const string Stage = "Stage";
     //이후 추가되는 씬들을 똑같이 string으로 추가
 
 }
@@ -40,5 +41,10 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("타이틀씬으로 이동");
         SceneManager.LoadScene(SceneName.Tile);
     }
-
+    public void GoToStageScene()
+    {
+        //게임시작, 게임종료될 경우 이 메서드 사용
+        Debug.Log("스테이지씬으로 이동");
+        SceneManager.LoadScene(SceneName.Stage);
+    }
 }
