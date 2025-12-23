@@ -56,18 +56,15 @@ public class Monster : MonoBehaviour
     //몬스터 액션 행동이 전부 끝났을때 몬스터매니저에 알리기위해서
     public event Action OnMonsterActEnd;
 
-    //전략패턴
+    //몬스터의 행동(전략패턴)
+    //몬스터는 3가지 행동을 가지고있을수있으며 (Idle, ready,attack)
+    //턴이 남아있으면 몬스터의 행동 양식에 따라 계속 반복하면서 공격을 한다.
     private MonsterStrategy _mosnterStrategy;
     private Dictionary<eMonsterAction, MonsterStrategy> monsterStateDic = new Dictionary<eMonsterAction, MonsterStrategy>();
     private MonsterAttackBehaviorStrategy _monsterAttackStrategy;
     private Dictionary<eMonsterAttackType, MonsterAttackBehaviorStrategy> _monsterAttackTypeDic = new Dictionary<eMonsterAttackType, MonsterAttackBehaviorStrategy>();
     public Dictionary<eMonsterAttackType, MonsterAttackBehaviorStrategy> MonsterAttacktypeDic { get { return _monsterAttackTypeDic; } }
 
-    //몬스터의 행동 (상태패턴)
-    //몬스터는 4가지 행동을 가지고있으며 (Idle, ready,attack,special)
-    //턴이 남아있으면 몬스터의 행동 양식에 따라 계속 반복하면서 공격을 한다.
-    //몬스터의 행동양식은 반복되어야하므로 List로 저장하고, 그것을 %나머지연산을 통해 계속 어떤 행동해야하는지 찾는다
-    //CSV로 읽어야하는 종류가 3종류라 잠시 스탑.. (몬스터정보, 몬스터 행동, 몬스터 행동 정보가.. csv로 되어있음.)
     private void Awake()
     {
         _delay = new WaitForSeconds(1);
@@ -110,8 +107,8 @@ public class Monster : MonoBehaviour
     {
         //invoke를 해준다
         OnMonsterDead?.Invoke(this);
-        //자신 삭제
-        Destroy(gameObject);
+        //자신 삭제 (이제 오브젝트 풀로 관리하기때문에 삭제안함)
+        //Destroy(gameObject);
         
     }
 
