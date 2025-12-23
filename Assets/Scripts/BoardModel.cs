@@ -222,13 +222,12 @@ public class BoardModel
         while (loopSafety < 20)
         {
             yield return new WaitForSeconds(0.20f);
-            ApplyGravity();
-            //OnBoardChanged?.Invoke();
-            yield return new WaitForSeconds(0.75f);
 
-            RefillEmptyTile();
-            //OnBoardChanged?.Invoke();
-            yield return new WaitForSeconds(0.75f);
+            yield return ApplyGravity();
+            OnBoardChanged?.Invoke();
+
+            yield return RefillEmptyTile();
+            OnBoardChanged?.Invoke();
 
             HashSet<Pos> newMatches = GetAllMatch();
             if (newMatches.Count == 0) break;
@@ -256,9 +255,9 @@ public class BoardModel
     /// <summary>
     /// 빈 타일이 있다면 타일주머니에서 타일 하나꺼내서 채워준다
     /// </summary>
-    private void RefillEmptyTile()
+    private Coroutine RefillEmptyTile()
     {
-        if (CreateTile == null) return;
+        if (CreateTile == null) return null;
 
         for (int col = 0; col < _columns; col++)
         {
@@ -267,9 +266,11 @@ public class BoardModel
                 if (_tiles[row, col] == null)
                 {
                     _tiles[row, col] = CreateTile(row, col);
+                    _boardViewer.InitDropTile(row,col, row);
                 }
             }
         }
+        return _boardViewer.StartCheckDropComplate();
     }
     private HashSet<Pos> GetAllMatch()
     {
@@ -537,12 +538,9 @@ public class BoardModel
     ///  중력 적용 함수
     /// 각 열을 탐색하여 빈공간을 위에서 당겨서 채움, 
     /// </summary>
-    private void ApplyGravity()
+    private Coroutine ApplyGravity()
     {
-
         int dropIndex;
-        //List<Pos> dropIndexs = new List<Pos>();
-        //List<int> dropLens = new List<int>();
         for (int col = 0; col < _columns; col++)
         {
             dropIndex = 0;
@@ -554,12 +552,10 @@ public class BoardModel
                 }
                 else if(dropIndex != 0)
                 {
-                    //dropIndexs.Add(new Pos(row, col));
-                    //dropLens.Add(dropIndex);
                     if(_boardViewer == null)
                     {
                         Debug.LogError("Board Model에 Board Viewer 가 없습니다.");
-                        return;
+                        return null;
                     }
                     _boardViewer.DropTile(row, col, dropIndex);
                 }
@@ -568,13 +564,10 @@ public class BoardModel
 
         for (int col = 0; col < _columns; col++)
         {
-
             int writeRow = _rows - 1;
-
             for (int readRow = _rows - 1; readRow >= 0; readRow--)
             {
                 Tile tile = _tiles[readRow, col];
-
                 if (tile != null)
                 {
                     if (writeRow != readRow)
@@ -583,12 +576,10 @@ public class BoardModel
                         tile.SetTIlePos(writeRow, col);
                         _tiles[readRow, col] = null;
                     }
-
                     writeRow--;
                 }
             }
-
         }
-
+        return _boardViewer.StartCheckDropComplate();
     }
 }

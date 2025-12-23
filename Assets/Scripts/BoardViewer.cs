@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class BoardViewer : MonoBehaviour
 {
@@ -16,10 +17,15 @@ public class BoardViewer : MonoBehaviour
     private float _tileTotalGapX;
     private float _tileTotalGapY;
     private int _overTileIndex;
+    private Queue<Coroutine> _coroutineQueue;
 
     //private Coroutine _dropTileCoroutine;
-    [SerializeField] float _tileDropSpeed;
+    [SerializeField] float _tileDropSpeed = 0.1f;
 
+    private void Awake()
+    {
+        _coroutineQueue = new Queue<Coroutine>();
+    }
     public void InitTilePoints(Vector2[,] points)
     {
         _tilePoints = points;
@@ -44,6 +50,7 @@ public class BoardViewer : MonoBehaviour
                 if (_tileObject[i, j] != null)
                 {
                     _tileObject[i, j].transform.position = _tilePoints[i, j];
+                    _tileObject[i, j].gameObject.SetActive(true);
                 }
             }
         }
@@ -93,9 +100,18 @@ public class BoardViewer : MonoBehaviour
 
     public void DropTile(int srow, int scol, int dropIndex)
     {
-        StartCoroutine(DropTileMoving(srow, scol, dropIndex));
+        _coroutineQueue.Enqueue(StartCoroutine(DropTileMoving(srow, scol, dropIndex)));
+        
+    }
+    public void InitDropTile(int srow,int scol,int dropIndex)
+    {
+        _coroutineQueue.Enqueue(StartCoroutine(DropInitTileMoving(srow, scol, dropIndex)));
     }
 
+    public Coroutine StartCheckDropComplate()
+    {
+        return StartCoroutine(DropComplateCheck());
+    }
     private IEnumerator DropTileMoving(int srow, int scol, int dropIndex)
     {
         bool isMoveComplate= false;
@@ -108,4 +124,31 @@ public class BoardViewer : MonoBehaviour
             yield return null;
         }
     }
+    private IEnumerator DropInitTileMoving(int srow, int scol, int dropIndex)
+    {
+        bool isMoveComplate = false;
+        Transform dropTarget = _tileObject[srow, scol].transform;
+
+        //신규 타일을 위한 위치 재배치
+        dropTarget.position = _tilePoints[0, scol];
+
+        if (dropIndex == 0) yield break;
+
+        while (!isMoveComplate)
+        {
+            dropTarget.position = Vector2.Lerp(dropTarget.position,
+                                                                _tilePoints[srow , scol], _tileDropSpeed);
+            if (Vector2.Distance(dropTarget.position, _tilePoints[srow, scol]) < 0.1f) isMoveComplate = true;
+            yield return null;
+        }
+    }
+    private IEnumerator DropComplateCheck()
+    {
+        while(true)
+        {
+            if (_coroutineQueue.Count == 0) break;
+            yield return _coroutineQueue.Dequeue();
+        }
+    }
+
 }
