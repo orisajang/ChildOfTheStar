@@ -40,27 +40,32 @@ public class DengeonManager : Singleton<DengeonManager>
         //지금 던전에는 키값으로 10, 20, 30, 40 -> int형으로 변환 int.Parse 하고 /10
         //스테이지에는 키값으로 그룹넘버 100001
         //예시) 던전4를 진행하겠다
-        SetStageDataForStageManager(1);
+        //던전 넘버 선택은 
+        currentDengeonNumber = 1;
+        //SetStageDataForStageManager();
+        //초기시작시 1회 버튼을 활성화해주기위해
+        SetStageDataForStageManager();
     }
 
     private void Start()
     {
         //스테이지매니저에 정보 설정
-        StageManager.Instance.SetStageInstanceData(currentSelectStage);
+        //StageManager.Instance.SetStageInstanceData(currentSelectStage);
         //스테이지 시작 명령
-        StageManager.Instance.StartStageTask();
+        //StageManager.Instance.StartStageTask();
 
     }
 
-    private void SetStageDataForStageManager(int dengeonSelect)
+    //private void SetStageDataForStageManager(int dengeonSelect)
+    public void SetStageDataForStageManager()
     {
         //예시) 던전 1을 선택, 스테이지는 무조건 1부터 시작
         //int dengeonSelect = 4;
-        currentDengeonNumber = dengeonSelect;
+        //currentDengeonNumber = dengeonSelect;
         currentStageNumber++;
 
         //던전 키값, 스테이지 키값 생성
-        string dengeonSelectKey = (dengeonSelect * 10).ToString(); //10
+        string dengeonSelectKey = (currentDengeonNumber * 10).ToString(); //10
         string stageSelectKeyString = dengeonSelectKey.ToString() + "000" + currentStageNumber.ToString(); //10 000 1
         int stageSelectKey = int.Parse(stageSelectKeyString); //1000001
         //2. 스테이지 그룹id로 다시 묶어준다
@@ -87,12 +92,20 @@ public class DengeonManager : Singleton<DengeonManager>
             }
         }
         //현재 선택된 던전의 스테이지 리스트를 가져옴
+        if(!_stageDataDic.ContainsKey(stageSelectKey))
+        {
+            //키가 존재하지않는다면 return; -> (보스까지 끝났을떄 체크 해야함)
+            //return 하지말고 뭔가 스테이지가 보스까지 끝났다면 바로 던전메뉴로 나가게 해야할듯
+            Debug.Log("여기 뜨면 안됨. 뭔가 확인해보기");
+            return;
+        }
         List<StageCSVData> currentStageInstanceList = _stageDataDic[stageSelectKey];
 
 
         //리스트중에서 랜덤으로 1개를 선택한다  (그런데 각자 가지고있는 확률을 고려해서 스테이지를 선택해야함)
         float randomValue = Random.Range(0f, 1.0f);
         float currentPercent = 0;
+        int selectInstanceIndex = 0;
         //확률을 더해주면서 설정된 스테이지 랜덤 가중치에 따라 스테이지 인스턴스를 선택한다
         for (int index = 0; index < currentStageInstanceList.Count; index++)
         {
@@ -101,15 +114,47 @@ public class DengeonManager : Singleton<DengeonManager>
             if (currentPercent >= randomValue)
             {
                 //현재 선택된 스테이지를 저장
+                selectInstanceIndex = index;
                 currentSelectStage = currentStageInstanceList[index];
                 Debug.Log($"랜덤으로 선택된 스테이지: {currentSelectStage.stageId}");
                 break;
             }
         }
+
+        //UI에도 정보 설정
+        StageSelectUIManager.Instance.SetStageInfo(currentStageNumber-1, selectInstanceIndex);
+
     }
+
+    /// <summary>
+    /// 스테이지가 전부 끝나면 처리할 행동 메서드
+    /// </summary>
+    public void AllStageClear()
+    {
+        //SetStageDataForStageManager();
+        //스테이지가 전부 끝났다면 던전 선택화면으로 돌아가면 됨.
+        GameManager.Instance.GoToTitleScene();
+    }
+    public void ReturnToStageSelect()
+    {
+        //GameManager.Instance.GoToStageScene(); //추후 구현예정
+        //현재 스테이지 번호가 총 스테이지 갯수보다 많다면
+        if (currentStageNumber >= _stageDataDic.Count)
+        {
+            //스테이지를 전부 클리어했으니 해당 작업 진행
+            Debug.Log("해당 던전의 모든 스테이지 클리어");
+            AllStageClear();
+        }
+        else
+        {
+            //아니라면 계속 다음 스테이지 진행할 수 있게 다음 스테이지 랜덤으로 버튼 활성화
+            SetStageDataForStageManager();
+        }
+    }
+
     public void SetAndStartNextStage()
     {
-        SetStageDataForStageManager(currentDengeonNumber);
+        //SetStageDataForStageManager();
         //스테이지매니저에 정보 설정
         StageManager.Instance.SetStageInstanceData(currentSelectStage);
         //스테이지 시작 명령
