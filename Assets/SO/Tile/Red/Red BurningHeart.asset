@@ -17,13 +17,9 @@ MonoBehaviour:
     \uBB34\uC791\uC704 \uD0C0\uC77C\uC5D0 \uAD11\uBD84\uC744 \uBD80\uC5EC\uD569\uB2C8\uB2E4."
   _preSkillSOList: []
   _skillSOList:
-  - {fileID: 11400000, guid: a88abdecf109df84db97f70c13b3427e, type: 2}
-  - {fileID: 11400000, guid: 5237e0417bb8fb044867ed137e331af3, type: 2}
-  - {fileID: 11400000, guid: 5237e0417bb8fb044867ed137e331af3, type: 2}
-  - {fileID: 11400000, guid: 5237e0417bb8fb044867ed137e331af3, type: 2}
-  - {fileID: 11400000, guid: 5237e0417bb8fb044867ed137e331af3, type: 2}
+  - {fileID: 11400000, guid: 915202371afd80848998708352a75679, type: 2}
   _id: 10018
-  _name: "\uD0C0\uC624\uB974\uB294\uACB0\uC758"
+  _name: "\uD0C0\uC624\uB974\uB294 \uACB0\uC758"
   _icon: 2
   _description: 2
   _color: 2

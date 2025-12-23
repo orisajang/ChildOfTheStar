@@ -152,6 +152,8 @@ public class Tile : MonoBehaviour
     public void AddStatus(TileStatus statusType, TileStatusBase StautsData)
     {
         _statusDictionary[statusType].Add(StautsData);
+
+        SkillManager.Instance.TileEventBus.TriggerEvent(statusType);
         switch (statusType)
         {
             case TileStatus.Frenzy:
@@ -174,7 +176,6 @@ public class Tile : MonoBehaviour
                 _rebirthNum++;
                 Debug.Log($"{_row},{_col}에 윤회 부여됨");
                 break;
-
         }
     }
     public int GetStatusCount(TileStatus status)
@@ -217,7 +218,11 @@ public class Tile : MonoBehaviour
             _renderer.sprite = _tileDataSO.Sprite;
 
         }
-
+    }
+    public void ChangeTileColor(TileColor color)
+    {
+        _curColor = color;
+        SkillManager.Instance.TileEventBus.TriggerEvent(SkillEventType.OnColorChanged);
     }
     /// <summary>
     /// 윤회 예약

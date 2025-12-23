@@ -40,17 +40,17 @@ public class TileEventBus
     /// <summary>
     /// 피해, 회복, 턴 종료 등 이벤트 시 등록된 스킬 실행
     /// </summary>
-    public void TriggerEvent(SkillEventType type, Tile[,] board)
+    public void TriggerEvent(SkillEventType type)
     {
-        Execute(_battleEvents, type, board);
+        Execute(_battleEvents, type, SkillManager.Instance.BoardController.BoardModel.Tiles);
     }
 
     /// <summary>
     /// 특정 상태가 부여될 때 등록된 스킬 실행
     /// </summary>
-    public void TriggerEvent(TileStatus addedStatus, Tile[,] board)
+    public void TriggerEvent(TileStatus addedStatus)
     {
-        Execute(_statusEvents, addedStatus, board);
+        Execute(_statusEvents, addedStatus, SkillManager.Instance.BoardController.BoardModel.Tiles);
     }
 
     
@@ -60,6 +60,7 @@ public class TileEventBus
         {
             dictionary[key] = new List<TileSkillBase>();
         }
+        dictionary[key].Add(skill);
     }
 
     private void Execute<T>(Dictionary<T, List<TileSkillBase>> dictionary, T key, Tile[,] board)

@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class SkillManager : Singleton<SkillManager>
 {
-    [SerializeField]private TileEventBus _eventBus;
+    [SerializeField]private TileEventBus _eventBus = new TileEventBus();
+
+    [SerializeField] private BoardController _boardController;
 
     private Dictionary<int, int> _TileSkillStack = new Dictionary<int, int>();
 
-
     public TileEventBus TileEventBus => _eventBus;
+    public BoardController BoardController => _boardController;
 
     public int GetStack(int Tile_ID)
     {
