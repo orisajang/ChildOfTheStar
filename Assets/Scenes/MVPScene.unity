@@ -2080,6 +2080,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce8804743246630449e001106c322f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DengeonManager
+  isDestroyOnLoad: 1
+  stageNumber: 0
+  stageInstanceNumber: 0
 --- !u!1 &1427661078
 GameObject:
   m_ObjectHideFlags: 0
@@ -2983,7 +2986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98e63ec32de9f544a9150eb7786eedff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterSpawner
-  _monsterPrefab: {fileID: 7452714710847199178, guid: 4fe2016aea8abdc459649f3f66a9f1f9, type: 3}
+  _monsterPrefab: {fileID: 7452714710847199178, guid: 7bffe248194198840a2506ad17a284d5, type: 3}
   poolSize: 10
 --- !u!4 &1841086642
 Transform:
