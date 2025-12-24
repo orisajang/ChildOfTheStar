@@ -44,7 +44,7 @@ public class Tile : MonoBehaviour
     public int GrowthNum => _growthNum;
     public int DestructionNum => _destructionNum;
     public int RebirthNum => _rebirthNum;
-    public bool Matched {  get; set; }
+    public bool Matched { get; set; }
 
 
 
@@ -77,12 +77,12 @@ public class Tile : MonoBehaviour
             foreach (var list in _statusDictionary.Values) list.Clear();
         }
 
-        _frenzyNum = 0;
-        _recoveryNum = 0;
-        _growthNum = 0;
-        _destructionNum = 0;
-        _rebirthNum = 0;
+        ClearStatus();
+
+
         _returnTile = returnTile;
+
+
     }
 
     public void SetTIlePos(int row, int col)
@@ -116,25 +116,32 @@ public class Tile : MonoBehaviour
                 {
                     status.Execute(board, this);
                 }
-
-                statusList.Clear();
             }
         }
+    }
+    public void ClearStatus()
+    {
         _frenzyNum = 0;
         _recoveryNum = 0;
         _growthNum = 0;
         _destructionNum = 0;
         _rebirthNum = 0;
-
+        foreach (var seq in _statusSequence)
+        {
+            if (_statusDictionary.TryGetValue(seq, out var statusList))
+            {
+                statusList.Clear();
+            }
+        }
     }
-   
+
     /// <summary>
     /// 타일의 스킬을 순서, 조건에 따라 실행.
     /// </summary>
     /// <param name="board"></param>
     public void ExecuteTile(Tile[,] board)
     {
-        
+
 
         if (_tileDataSO.SkillSOList == null)
             return;
