@@ -77,8 +77,14 @@ public class TileDeck : MonoBehaviour
     /// <param name="tile"></param>
     public void ReturnTilePool(Tile tile)
     {
+        if (_controller.BoardModel.Tiles[tile.Row, tile.Col] == tile)
+        {
+            //보드 이차원배열안에서 해당위치 null로 만들기
+            _controller.BoardModel.RemoveTile(tile);
+        }
         tile.gameObject.SetActive(false);
         _tilePool.Enqueue(tile);
+        
     }
 
     private TileSO DrawTileSO()

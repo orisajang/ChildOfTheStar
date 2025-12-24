@@ -5,8 +5,8 @@ using UnityEngine.Pool;
 [CreateAssetMenu(fileName = "ConvertAllStatusToRandomTile", menuName = "Scriptable Objects/StatusSkill/ConvertAllStatusToRandomTile")]
 public class ConvertAllStatusToRandomTile : TileSkillBase
 {
-    [SerializeField] TileStatusBase _statusData;
-    [SerializeField] TileStatus tileStatus;
+    [SerializeField] TileStatus _statusType;
+    [SerializeField] TileStatusBase _tileStatus;
 
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
@@ -51,7 +51,7 @@ public class ConvertAllStatusToRandomTile : TileSkillBase
                 int randomIndex = Random.Range(0, targetlist.Count);
                 Tile selectedTile = targetlist[randomIndex];
 
-                selectedTile.AddStatus(tileStatus, _statusData);
+                selectedTile.AddStatus(_statusType, _tileStatus);
             }
         }
 

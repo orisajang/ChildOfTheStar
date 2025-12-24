@@ -5,8 +5,8 @@ using UnityEngine.Pool;
 [CreateAssetMenu(fileName = "ConvertSurroundTileStatus", menuName = "Scriptable Objects/StatusSkill/ConvertSurroundTileStatus")]
 public class ConvertSurroundTileStatus : TileSkillBase
 {
-    [SerializeField] TileStatusBase _statusData;
-    [SerializeField] TileStatus _status;
+    [SerializeField] TileStatus _statusType;
+    [SerializeField] TileStatusBase _tileStatus;
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
         List<Tile> targetTiles = ListPool<Tile>.Get();
@@ -55,7 +55,7 @@ public class ConvertSurroundTileStatus : TileSkillBase
 
                 for (int count = 0; count < totalCount; count++)
                 {
-                    target.AddStatus(_status, _statusData);
+                    target.AddStatus(_statusType, _tileStatus);
                 }
             }
         }

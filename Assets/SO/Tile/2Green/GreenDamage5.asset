@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a8be61759a24b046a7b2e046ffcb273, type: 3}
+  m_Name: GreenDamage5
+  m_EditorClassIdentifier: Assembly-CSharp::TileSO
+  descriptionText: "\uB300\uC0C1\uC5D0\uAC8C \uD53C\uD574\uB97C 5\uC90D\uB2C8\uB2E4."
+  _preSkillSOList: []
+  _skillSOList:
+  - {fileID: 11400000, guid: a88abdecf109df84db97f70c13b3427e, type: 2}
+  _id: 10005
+  _name: "\uACF5\uACA9"
+  _icon: 1
+  _description: 1
+  _color: 3
+  _spriteColor: {r: 0.1764418, g: 0.5754717, b: 0.25033623, a: 1}
+  _sprite: {fileID: -2413806693520163455, guid: 82fb0554e76abfb4f97b697674a2b30e, type: 3}
+  _rarity: 1
+  _price: 0
+  _speed: 2

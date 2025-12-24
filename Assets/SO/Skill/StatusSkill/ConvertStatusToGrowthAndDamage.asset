@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f24453609c458147b0dcfd436fa7681, type: 3}
+  m_Name: ConvertStatusToGrowthAndDamage
+  m_EditorClassIdentifier: Assembly-CSharp::ConvertStatusToGrowthAndDamage
+  descriptionText: 
+  _skillCondition: {fileID: 0}
+  _damage: 1
+  _tileStatus: {fileID: 11400000, guid: b09eae41a7a6b8c48bdee7558871c570, type: 2}

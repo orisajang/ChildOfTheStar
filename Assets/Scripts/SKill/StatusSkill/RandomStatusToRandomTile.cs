@@ -16,11 +16,11 @@ public class RandomStatusToRandomTile : TileSkillBase
     
     [Tooltip("None이면 모든 색 대상")]
     [SerializeField] TileColor _color = TileColor.None;
-    [SerializeField] List<RandStatus> _StatusList;
+    [SerializeField] List<RandStatus> _statusList;
    
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
-        if (_StatusList == null) return;
+        if (_statusList == null) return;
 
         List<Tile> _tileList = ListPool<Tile>.Get();
 
@@ -49,8 +49,8 @@ public class RandomStatusToRandomTile : TileSkillBase
         if (_tileList.Count > 0)
         {
             int randomIndex = Random.Range(0, _tileList.Count);
-            int randomStatusIndex = Random.Range(0, _StatusList.Count);
-            _tileList[randomIndex].AddStatus(_StatusList[randomStatusIndex].Status, _StatusList[randomStatusIndex].TileStatus);
+            int randomStatusIndex = Random.Range(0, _statusList.Count);
+            _tileList[randomIndex].AddStatus(_statusList[randomStatusIndex].Status, _statusList[randomStatusIndex].TileStatus);
         }
         ListPool<Tile>.Release(_tileList);
     }
