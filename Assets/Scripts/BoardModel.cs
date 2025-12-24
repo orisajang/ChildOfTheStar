@@ -48,6 +48,8 @@ public class BoardModel
     Dictionary<TileColor, int> _currentColorOverChargeDic = new Dictionary<TileColor, int>();
     //이전 매치때 터진 색상들이 무엇이었는지
     HashSet<TileColor> _beforeColorOverChargeHash = new HashSet<TileColor>();
+    //터진 타일 인덱스 기록
+    private List<Pos> _brokenTileIndex;
     //과충전 체크 해야하는지 여부
     bool _isOverChargeCheck;
     //과충전 상태인지 체크
@@ -62,12 +64,18 @@ public class BoardModel
     //타일 이동이 전부 끝났을때, Controller에 알려준다 (사용이유: 플레이어 턴이 끝났고 몬스터 턴인데 타일이 계속 터지고 있거나 판정하고있으면 안되서. 턴관리를 위해서)
     public event Action OnTileMoveEnd;
 
+    private BoardViewer _boardViewer;
+
     public BoardModel()
     {
         _tiles = new Tile[Rows, Columns];
+        _brokenTileIndex = new List<Pos>();
     }
 
-
+    public void SetBoardViewer(BoardViewer bv)
+    {
+        _boardViewer = bv;
+    }
     /// <summary>
     /// 해당 좌표에 타일 넣는 함수, 컨트롤러에서 타일 생성해서 넣어줘야한다고 생각함.
     /// </summary>
@@ -214,13 +222,12 @@ public class BoardModel
         while (loopSafety < 20)
         {
             yield return new WaitForSeconds(0.20f);
-            ApplyGravity();
-            OnBoardChanged?.Invoke();
-            yield return new WaitForSeconds(0.75f);
 
-            RefillEmptyTile();
+            yield return ApplyGravity();
             OnBoardChanged?.Invoke();
-            yield return new WaitForSeconds(0.75f);
+
+            yield return RefillEmptyTile();
+            OnBoardChanged?.Invoke();
 
             HashSet<Pos> newMatches = GetAllMatch();
             if (newMatches.Count == 0) break;
@@ -231,7 +238,7 @@ public class BoardModel
             if(!_isOverCharge)
             {
                 ExplodeMatched(newMatches);
-                OnBoardChanged?.Invoke();
+                //OnBoardChanged?.Invoke();
             }
             else 
             {
@@ -248,9 +255,9 @@ public class BoardModel
     /// <summary>
     /// 빈 타일이 있다면 타일주머니에서 타일 하나꺼내서 채워준다
     /// </summary>
-    private void RefillEmptyTile()
+    private Coroutine RefillEmptyTile()
     {
-        if (CreateTile == null) return;
+        if (CreateTile == null) return null;
 
         for (int col = 0; col < _columns; col++)
         {
@@ -259,9 +266,11 @@ public class BoardModel
                 if (_tiles[row, col] == null)
                 {
                     _tiles[row, col] = CreateTile(row, col);
+                    _boardViewer.InitDropTile(row,col, row);
                 }
             }
         }
+        return _boardViewer.StartCheckDropComplate();
     }
     private HashSet<Pos> GetAllMatch()
     {
@@ -407,6 +416,7 @@ public class BoardModel
             tile.ExecuteTile(Tiles);
             ReturnTile(tile);
             _tiles[position.row, position.col] = null;
+            _brokenTileIndex.Add(position);
 
             //자원 주머니에 터진 타일들 색상을 하나씩 넣어주기 위해서 추가
             ColorResourceManager.Instance.AddColorResource(tile.Color, 1);
@@ -528,30 +538,48 @@ public class BoardModel
     ///  중력 적용 함수
     /// 각 열을 탐색하여 빈공간을 위에서 당겨서 채움, 
     /// </summary>
-    private void ApplyGravity()
+    private Coroutine ApplyGravity()
     {
+        int dropIndex;
         for (int col = 0; col < _columns; col++)
         {
+            dropIndex = 0;
+            for (int row = _rows - 1; row >= 0; row--)
+            {
+                if (_tiles[row, col] == null)
+                {
+                    dropIndex++;
+                }
+                else if(dropIndex != 0)
+                {
+                    if(_boardViewer == null)
+                    {
+                        Debug.LogError("Board Model에 Board Viewer 가 없습니다.");
+                        return null;
+                    }
+                    _boardViewer.DropTile(row, col, dropIndex);
+                }
+            }
+        }
 
+        for (int col = 0; col < _columns; col++)
+        {
             int writeRow = _rows - 1;
-
             for (int readRow = _rows - 1; readRow >= 0; readRow--)
             {
                 Tile tile = _tiles[readRow, col];
-
                 if (tile != null)
                 {
                     if (writeRow != readRow)
                     {
                         _tiles[writeRow, col] = tile;
-						tile.SetTIlePos(writeRow, col);
+                        tile.SetTIlePos(writeRow, col);
                         _tiles[readRow, col] = null;
                     }
-
                     writeRow--;
                 }
             }
-
         }
+        return _boardViewer.StartCheckDropComplate();
     }
 }
