@@ -17,6 +17,14 @@ public class SkillManager : Singleton<SkillManager>
     public bool IsExecuteNextDestory { get; set; } = true;
     public int TotalOverchargeIncrease { get; private set; } = 0;
     public int LastOverchargeIncrease { get; private set; } = 0;
+
+    private void Start()
+    {
+        if(_boardController == null)
+        {
+            _boardController = FindAnyObjectByType<BoardController>();
+        }
+    }
     public void OverchargeIncrease(int amount)
     {
         if (amount <= 0) return;
@@ -55,5 +63,10 @@ public class SkillManager : Singleton<SkillManager>
     public void TurnEnd()
     {
 
+    }
+
+    public void SetBoardController(BoardController controller)
+    {
+        _boardController = controller;
     }
 }

@@ -67,15 +67,18 @@ public class Player : MonoBehaviour
         if (isImmortality)
         {
             isImmortality = false;
-            isImmortalityityFinished =true;
+            isImmortalityityFinished = true;
         }
     }
 
     public void PlayerTurnend()
     {
-       isImmortalityityFinished = true;
-        TakeDamage(5);
-        Debug.Log("불사 종료 피해");
+        if (isImmortalityityFinished)
+        {
+            TakeDamage(5);
+            Debug.Log("불사 종료 피해");
+            isImmortalityityFinished = false;
+        }
 
     }
 
