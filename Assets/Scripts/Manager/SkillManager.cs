@@ -12,6 +12,8 @@ public class SkillManager : Singleton<SkillManager>
     public TileEventBus TileEventBus => _eventBus;
     public BoardController BoardController => _boardController;
 
+    public bool notSelfDamagedFrenzy { get; set; } = false;
+
     public int GetStack(int Tile_ID)
     {
         if (_TileSkillStack.ContainsKey(Tile_ID))
@@ -27,8 +29,13 @@ public class SkillManager : Singleton<SkillManager>
         _TileSkillStack[skill_ID]++;
     }
 
-    public void TurnEnd()
+    public void TurnStartInit()
     {
         _TileSkillStack.Clear();
+        notSelfDamagedFrenzy = false;
+    }
+    public void TurnEnd()
+    {
+
     }
 }

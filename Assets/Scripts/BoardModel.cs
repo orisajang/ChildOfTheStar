@@ -590,7 +590,10 @@ public class BoardModel
             Debug.LogWarning("과충전 상태 진입!");
         }
     }
-
+    public int GetChargeOverflow()
+    {
+        return _overChargeValue - _limitOverChargeValue;
+    }
     /// <summary>
     ///  중력 적용 함수
     /// 각 열을 탐색하여 빈공간을 위에서 당겨서 채움, 

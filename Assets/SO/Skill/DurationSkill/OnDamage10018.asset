@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfacae2e6ddbbc438f63c933b62da1b, type: 3}
   m_Name: OnDamage10018
   m_EditorClassIdentifier: Assembly-CSharp::RegisterSkillEvent
-  descriptionText: 
+  descriptionText: "\uD53C\uD574\uB97C \uC785\uC744\uB54C\uB9C8\uB2E4 \uB300\uC0C1\uC5D0\uAC8C
+    \uD53C\uD574\uB97C 3. \uC774\uD6C4 \uBB34\uC791\uC704 \uD0C0\uC77C\uC5D0 \uAD11\uBD84\uC744
+    \uBD80\uC5EC"
   _skillCondition: {fileID: 0}
   _eventType: 0
   _skill: {fileID: 11400000, guid: 1068a7d8088e978469551859d9fbd15d, type: 2}
