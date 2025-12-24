@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 public enum TileKeyword
 {
     Rampage,    // 폭주 (4매치 이상)
@@ -431,9 +432,10 @@ public class BoardModel
     /// <param name="matched"></param>
     private void ExplodeMatched(HashSet<Pos> matched)
     {
+        matchedTiles.Clear();
         if (matched == null) return;
         if (matched.Count == 0) return;
-
+        
         foreach (Pos position in matched)
         {
             Tile tile = _tiles[position.row, position.col];
@@ -468,9 +470,9 @@ public class BoardModel
         foreach (Tile tile in matchedTiles)
         {
             tile.ExecuteTile(Tiles);
-
-            ReturnTile(tile);
+            _brokenTileIndex.Add(new Pos(tile.Row, tile.Col));
             _tiles[tile.Row, tile.Col] = null;
+            ReturnTile(tile);
 
             //자원 주머니에 터진 타일들 색상을 하나씩 넣어주기 위해서 추가
             ColorResourceManager.Instance.AddColorResource(tile.Color, 1);
@@ -482,6 +484,7 @@ public class BoardModel
             //과충전 증감 연산 체크
             CalcOverChargeValue();
         }
+       
     }
     /// <summary>
     /// 과충전 체크할때 색상별 타일이 얼마만큼 터졌는지 확인 필요
