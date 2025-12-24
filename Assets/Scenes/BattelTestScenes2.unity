@@ -939,7 +939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 1
+  m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -1496,15 +1496,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8f0ebfe23a5a7d5408ce926f9bf3f3f7, type: 2}
   - {fileID: 11400000, guid: e73df9b7bb7b02345b50e82215102795, type: 2}
   - {fileID: 11400000, guid: cba5997d08e2c9445b45c31450c39592, type: 2}
-  - {fileID: 11400000, guid: c3a5ea2d041290341b4181ad03585402, type: 2}
-  - {fileID: 11400000, guid: 01ad7602f0bf17d4ab4a439b0f7841f4, type: 2}
-  - {fileID: 11400000, guid: d5c4952654ce361459db6696b4c50216, type: 2}
-  - {fileID: 11400000, guid: 7f42fb25a541a9d4880e2ae0ae3282d7, type: 2}
-  - {fileID: 11400000, guid: 26f6457f1028179429168bd19ddbc3d0, type: 2}
-  - {fileID: 11400000, guid: 7f81def8489d7674db6024160fdffd04, type: 2}
-  - {fileID: 11400000, guid: eb76cd7439878ae4bb0c3f26292570d5, type: 2}
-  - {fileID: 11400000, guid: 449daeb6dacf4a74584ecc4bf936d1a6, type: 2}
-  - {fileID: 11400000, guid: 7164b0f54a753c542be6a8a8a9e34da8, type: 2}
   _drawDeck: []
 --- !u!4 &1703700821
 Transform:
@@ -2028,7 +2019,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0109110fd0fd81744b0dd3e4406048d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoardViewer
-  _tileDropSpeed: 0.1
 --- !u!114 &1916766940
 MonoBehaviour:
   m_ObjectHideFlags: 0
