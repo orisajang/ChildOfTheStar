@@ -7,7 +7,8 @@ public static class SceneName
     public const string Tile = "TestSampleLobbyScene";
     public const string Battle = "MVPScene_BattleTest";
     public const string Shop = "Shop";
-    public const string Stage = "Stage";
+    public const string Stage = "StageSelectScene";
+    public const string Lobby = "LobbyTest";
     //이후 추가되는 씬들을 똑같이 string으로 추가
 
 }
@@ -26,7 +27,7 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         //테스트용. 바로 배틀씬으로 이동
-        GoToBattleScene();
+        //GoToBattleScene();
     }
 
     public void GoToBattleScene()
@@ -46,5 +47,10 @@ public class GameManager : Singleton<GameManager>
         //게임시작, 게임종료될 경우 이 메서드 사용
         Debug.Log("스테이지씬으로 이동");
         SceneManager.LoadScene(SceneName.Stage);
+    }
+    public void GoToLobbyScene()
+    {
+        Debug.Log("로비씬으로 이동");
+        SceneManager.LoadScene(SceneName.Lobby);
     }
 }

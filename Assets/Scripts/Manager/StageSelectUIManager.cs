@@ -79,7 +79,7 @@ public class StageSelectUIManager : Singleton<StageSelectUIManager>
         //한번이라도 스테이지 인스턴스 버튼을 클릭했었으면 해당 버튼 위치로 이동
         _playerImage.rectTransform.anchoredPosition = _clickPositionTransform;
         //클릭한 스테이지 진입, 전투시작
-        DengeonManager.Instance.SetAndStartNextStage();
+        DungeonManager.Instance.SetAndStartNextStage();
     }
 
 }

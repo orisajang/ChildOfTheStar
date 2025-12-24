@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class DengeonManager : Singleton<DengeonManager>
+public class DungeonManager : Singleton<DungeonManager>
 {
     //각 던전이 어떤 스테이지를 가지고있는지와 현재 스테이지가 몇스테이지인지,  스테이지별로 랜덤확률로 스테이지 선택
     //현재 던전번호
-    int currentDengeonNumber;
+    int currentDungeonNumber;
     //현재 스테이지 번호
     int currentStageNumber;
     //현재 스테이지에서 몇단계 진행중인지
@@ -14,7 +15,7 @@ public class DengeonManager : Singleton<DengeonManager>
     //현재 선택중인 스테이지
     StageCSVData currentSelectStage;
 
-    Dictionary<string, List<StageCSVData>> _dengeonDataDic = new Dictionary<string, List<StageCSVData>>();
+    Dictionary<string, List<StageCSVData>> _dungeonDataDic = new Dictionary<string, List<StageCSVData>>();
     Dictionary<int, List<StageCSVData>> _stageDataDic = new Dictionary<int, List<StageCSVData>>();
 
     //CSV읽어오기
@@ -41,10 +42,16 @@ public class DengeonManager : Singleton<DengeonManager>
         //스테이지에는 키값으로 그룹넘버 100001
         //예시) 던전4를 진행하겠다
         //던전 넘버 선택은 
-        currentDengeonNumber = 1;
+        //currentDengeonNumber = 1;
         //SetStageDataForStageManager();
         //초기시작시 1회 버튼을 활성화해주기위해
-        SetStageDataForStageManager();
+        //SetStageDataForStageManager();
+        Debug.Log($"DungeonManager Awake: {GetInstanceID()}");
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += StartStageScene;
     }
 
     private void Start()
@@ -54,6 +61,26 @@ public class DengeonManager : Singleton<DengeonManager>
         //스테이지 시작 명령
         //StageManager.Instance.StartStageTask();
 
+    }
+    /// <summary>
+    /// 현재 던전번호 설정
+    /// </summary>
+    /// <param name="dungeonNumber"></param>
+    public void SetDengeonNumber(int dungeonNumber)
+    {
+        //현재 던전번호
+        currentDungeonNumber = dungeonNumber;
+    }
+    /// <summary>
+    /// 씬이 시작될때마다 호출되는 메서드
+    /// </summary>
+    /// <param name="scene"></param>
+    /// <param name="mode"></param>
+    private void StartStageScene(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name != SceneName.Stage) return;
+        //스테이지 씬이면 아래 작업 진행
+        SetStageDataForStageManager();
     }
 
     //private void SetStageDataForStageManager(int dengeonSelect)
@@ -65,18 +92,18 @@ public class DengeonManager : Singleton<DengeonManager>
         currentStageNumber++;
 
         //던전 키값, 스테이지 키값 생성
-        string dengeonSelectKey = (currentDengeonNumber * 10).ToString(); //10
-        string stageSelectKeyString = dengeonSelectKey.ToString() + "000" + currentStageNumber.ToString(); //10 000 1
+        string dungeonSelectKey = (currentDungeonNumber * 10).ToString(); //10
+        string stageSelectKeyString = dungeonSelectKey.ToString() + "000" + currentStageNumber.ToString(); //10 000 1
         int stageSelectKey = int.Parse(stageSelectKeyString); //1000001
         //2. 스테이지 그룹id로 다시 묶어준다
         //foreach(string dengeonNumber in _dengeonDataDic.Keys)
         {
             //foreach로 던전1,던전2... 의 각각의 데이터를 가져온다
-            List<StageCSVData> dengeonList = _dengeonDataDic[dengeonSelectKey];
+            List<StageCSVData> dungeonList = _dungeonDataDic[dungeonSelectKey];
             //이거를 스테이지 그룹id로 묶자
-            for (int index = 0; index < dengeonList.Count; index++)
+            for (int index = 0; index < dungeonList.Count; index++)
             {
-                StageCSVData stageInfo = dengeonList[index];
+                StageCSVData stageInfo = dungeonList[index];
                 int groupId = stageInfo.stageGroupId;
 
                 if (!_stageDataDic.ContainsKey(groupId))
@@ -168,20 +195,20 @@ public class DengeonManager : Singleton<DengeonManager>
         {
             StageCSVData stageData = _stageCSVDataDic[stageId];
             //앞에서부터 2글자 잘라서 던전번호, 4글자 잘라서 스테이지번호, 2글자 잘라서 인스턴스 번호 얻어옴
-            string dengeonNumber = stageData.stageId.ToString().Substring(0, 2);
+            string dungeonNumber = stageData.stageId.ToString().Substring(0, 2);
             //string stageNumber = stageData.stageId.ToString().Substring(2, 4);
             //string stageInstnceNumber = stageData.stageId.ToString().Substring(6, 2);
 
             //던전 번호로 딕셔너리 나눔
-            if (!_dengeonDataDic.ContainsKey(dengeonNumber))
+            if (!_dungeonDataDic.ContainsKey(dungeonNumber))
             {
                 List<StageCSVData> stageCSVDataBuf = new List<StageCSVData>();
                 stageCSVDataBuf.Add(stageData);
-                _dengeonDataDic[dengeonNumber] = stageCSVDataBuf;
+                _dungeonDataDic[dungeonNumber] = stageCSVDataBuf;
             }
             else
             {
-                _dengeonDataDic[dengeonNumber].Add(stageData);
+                _dungeonDataDic[dungeonNumber].Add(stageData);
             }
         }
         

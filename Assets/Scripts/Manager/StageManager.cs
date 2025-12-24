@@ -44,7 +44,7 @@ public class StageManager : Singleton<StageManager>
             //실제 게임에서는 스테이지 클리어 했다면 스테이지 선택창으로 다시 돌아감. (자동으로 다음 스테이지 실행하지 않는다)
             //테스트용 -> 스테이지1 끝나면 바로 스테이지 2 시작되도록
             //DengeonManager.Instance.SetAndStartNextStage();
-            DengeonManager.Instance.ReturnToStageSelect();
+            DungeonManager.Instance.ReturnToStageSelect();
         }
         else
         {
