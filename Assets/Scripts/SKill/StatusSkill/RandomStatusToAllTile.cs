@@ -2,17 +2,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-[CreateAssetMenu(fileName = "AddStatusToRandomTile", menuName = "Scriptable Objects/StatusSkill/AddStatusToRandomTile")]
-public class AddStatusToRandomTile : TileSkillBase
+[CreateAssetMenu(fileName = "RandomStatusToAllTile", menuName = "Scriptable Objects/StatusSkill/RandomStatusToAllTile")]
+public class RandomStatusToAllTile : TileSkillBase
 {
-    [SerializeField] TileStatus _status;
+    
+    [Tooltip("None이면 모든 색 대상")]
     [SerializeField] TileColor _color = TileColor.None;
-    [SerializeField] TileStatusBase _tileStatus;
+    [SerializeField] List<RandStatus> _StatusList;
+   
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
-        if (_tileStatus == null) return;
+        if (_StatusList == null) return;
 
-        List<Tile> targetTiles = ListPool<Tile>.Get();
+        List<Tile> _tileList = ListPool<Tile>.Get();
 
         int row = board.GetLength(0);
         int col = board.GetLength(1);
@@ -31,16 +33,11 @@ public class AddStatusToRandomTile : TileSkillBase
 
                 if (isColorMatch)
                 {
-                    targetTiles.Add(target);
+                    int randomIndex = Random.Range(0, _tileList.Count);
+                    int randomStatusIndex = Random.Range(0, _StatusList.Count);
+                    _tileList[randomIndex].AddStatus(_StatusList[randomStatusIndex].Status, _StatusList[randomStatusIndex].TileStatus);
                 }
             }
         }
-
-        if (targetTiles.Count > 0)
-        {
-            int randomIndex = Random.Range(0, targetTiles.Count);
-            targetTiles[randomIndex].AddStatus(_status, _tileStatus);
-        }
-        ListPool<Tile>.Release(targetTiles);
     }
 }
