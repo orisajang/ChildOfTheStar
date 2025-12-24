@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class DisplayEffectInfoUI : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] GameObject _effectUIPrefeb;
+    [SerializeField] int _displayMaxEffect = 20;
 
-    // Update is called once per frame
-    void Update()
+    private GameObject[] _effectUIs;
+
+    private void Awake()
     {
-        
+        _effectUIs = new GameObject[_displayMaxEffect];
     }
 }
