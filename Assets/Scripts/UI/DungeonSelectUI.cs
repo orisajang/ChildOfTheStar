@@ -17,6 +17,10 @@ public class DungeonSelectUI : MonoBehaviour
         currentDungeon = currentDengeonNum;
     }
 
+    private void Start()
+    {
+        DengeonSelect();
+    }
     public void DengeonSelect()
     {
         for(int i = 0; i < dungeonButtons.Length; i++)
