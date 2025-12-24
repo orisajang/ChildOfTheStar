@@ -49,25 +49,6 @@ public class CreateTilePoint : MonoBehaviour
                 //TileBoardController에서 사용하기위해 좌표, 디버그용 라인추가
                 //좌표 추가
                 tempPointPosition[j - 1, i - 1] = tempPoint.transform.position;
-                //디버그용 라인 표시 (주석 해제하면 런타임중에 타일 영역 보임
-                float x1 = tempPoint.transform.position.x - (_tileGapX / 2);
-                float x2 = tempPoint.transform.position.x + (_tileGapX / 2);
-                float y1 = tempPoint.transform.position.y - (_tileGapY / 2);
-                float y2 = tempPoint.transform.position.y + (_tileGapY / 2);
-                LineRenderer lr = tempPoint.AddComponent<LineRenderer>();
-                lr.positionCount = 5;
-                lr.loop = false;
-                lr.useWorldSpace = true;
-                lr.widthMultiplier = 0.05f;
-                lr.material = new Material(Shader.Find("Sprites/Default"));
-                lr.startColor = Color.red;
-                lr.endColor = Color.red;
-                tempPoint.transform.localScale = Vector3.one;
-                lr.SetPosition(0, new Vector2(x1, y1));
-                lr.SetPosition(1, new Vector2(x2, y1));
-                lr.SetPosition(2, new Vector2(x2, y2));
-                lr.SetPosition(3, new Vector2(x1, y2));
-                lr.SetPosition(4, new Vector2(x1, y1));
             }
         }
         //계산 끝난뒤에 처음시작하는 타일의 위치점과 끝점을 계산
