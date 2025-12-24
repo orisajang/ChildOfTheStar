@@ -16,7 +16,7 @@ MonoBehaviour:
     \uC81C\uAC70\uD569\uB2C8\uB2E4."
   _preSkillSOList: []
   _skillSOList:
-  - {fileID: 11400000, guid: 9b52cf99d0351de41844af2556434ce2, type: 2}
+  - {fileID: 11400000, guid: bbbd87c634b6d1c4db5b2ae5c32f1e5e, type: 2}
   _id: 10079
   _name: "\uBB34\uB108\uC9C0\uB294 \uD558\uB298"
   _icon: 1

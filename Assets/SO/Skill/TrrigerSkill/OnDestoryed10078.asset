@@ -16,4 +16,4 @@ MonoBehaviour:
     \uB54C\uB9C8\uB2E4, 1 \uD558\uB77D\uD569\uB2C8\uB2E4."
   _skillCondition: {fileID: 0}
   _eventType: 6
-  _skill: {fileID: 11400000, guid: 7216e4ba62e88f54dbf11420502d48fd, type: 2}
+  _skill: {fileID: 11400000, guid: e9f8d284a369bb34596aa04ae47ec1b7, type: 2}
