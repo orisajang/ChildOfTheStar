@@ -5,7 +5,7 @@ public static class SceneName
 {
     //씬의 이름을 저장하는 static 클래스
     public const string Tile = "TestSampleLobbyScene";
-    public const string Battle = "MVPScene_BattleTest";
+    public const string Battle = "InGameMainTest";
     public const string Shop = "Shop";
     public const string Stage = "StageSelectScene";
     public const string Lobby = "LobbyTest";
@@ -17,7 +17,6 @@ public class GameManager : Singleton<GameManager>
 {
     //씬 관리 (로비, 전투, 상점)
     //게임시작, 게임종료 판정시 어떤 씬으로 이동하라 라는 명령을 내려준다
-
 
     protected override void Awake()
     {
@@ -53,4 +52,6 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("로비씬으로 이동");
         SceneManager.LoadScene(SceneName.Lobby);
     }
+
+    
 }

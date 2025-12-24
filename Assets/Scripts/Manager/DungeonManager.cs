@@ -46,13 +46,9 @@ public class DungeonManager : Singleton<DungeonManager>
         //SetStageDataForStageManager();
         //초기시작시 1회 버튼을 활성화해주기위해
         //SetStageDataForStageManager();
-        Debug.Log($"DungeonManager Awake: {GetInstanceID()}");
+        
     }
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += StartStageScene;
-    }
 
     private void Start()
     {
@@ -70,17 +66,6 @@ public class DungeonManager : Singleton<DungeonManager>
     {
         //현재 던전번호
         currentDungeonNumber = dungeonNumber;
-    }
-    /// <summary>
-    /// 씬이 시작될때마다 호출되는 메서드
-    /// </summary>
-    /// <param name="scene"></param>
-    /// <param name="mode"></param>
-    private void StartStageScene(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name != SceneName.Stage) return;
-        //스테이지 씬이면 아래 작업 진행
-        SetStageDataForStageManager();
     }
 
     //private void SetStageDataForStageManager(int dengeonSelect)
@@ -184,8 +169,12 @@ public class DungeonManager : Singleton<DungeonManager>
         //SetStageDataForStageManager();
         //스테이지매니저에 정보 설정
         StageManager.Instance.SetStageInstanceData(currentSelectStage);
-        //스테이지 시작 명령
-        StageManager.Instance.StartStageTask();
+        //전투 씬으로 이동
+        GameManager.Instance.GoToBattleScene();
+
+
+        //스테이지 시작 명령(//이제 씬이 시작될때 Initializer에서 실행됨)
+        //StageManager.Instance.StartStageTask(); 
     }
 
     private void SetStageInstanceData()
