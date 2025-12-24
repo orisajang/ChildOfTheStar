@@ -9,6 +9,6 @@ public class SelfOverChargeSkill : TileSkillBase
     {
         int growthValue = casterTile.GetApplyGrowth(_overCharge);
         Debug.Log($"플레이어 과부하{growthValue} 증가");
-        PlayerManager.Instance._player.TakeHeal(growthValue);
+        SkillManager.Instance.BoardController.BoardModel.SetOverChargeValue(growthValue);
     }
 }

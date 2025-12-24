@@ -576,7 +576,7 @@ public class BoardModel
         _currentColorOverChargeDic.Clear();
     }
 
-    private void SetOverChargeValue(int amount)
+    public void SetOverChargeValue(int amount)
     {
         _overChargeValue += amount;
         if(_overChargeValue < 0)
