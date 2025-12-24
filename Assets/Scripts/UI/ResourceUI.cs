@@ -15,40 +15,40 @@ public class ResourceUI : MonoBehaviour
         switch (color)
         {
             case TileColor.Red:
-                red.text = $"Red: {value}";
+                red.text = $"x{value}";
                 break;
             case TileColor.Blue:
-                blue.text = $"Blue: {value}";
+                blue.text = $"x{value}";
                 break;
             case TileColor.Green:
-                green.text = $"Green: {value}";
+                green.text = $"x{value}";
                 break;
             case TileColor.White:
-                white.text = $"White: {value}";
+                white.text = $"x{value}";
                 break;
             case TileColor.Black:
-                black.text = $"Black: {value}";
+                black.text = $"x{value}";
                 break;
         }
     }
     public void UpdateRed(int a)
     {
-        red.text = $"Red: {a}";
+        red.text = $"x{a}";
     }
     public void UpdateBlue(int a)
     {
-        blue.text = $"Blue: {a}";
+        blue.text = $"x{a}";
     }
     public void UpdateGreen(int a)
     {
-        green.text = $"Green: {a}";
+        green.text = $"x{a}";
     }
     public void UpdateWhite(int a)
     {
-        white.text = $"White: {a}";
+        white.text = $"x{a}";
     }
     public void UpdateBlack(int a)
     {
-        black.text = $"Black: {a}";
+        black.text = $"x{a}";
     }
 }
