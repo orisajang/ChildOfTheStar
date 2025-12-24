@@ -14,7 +14,7 @@ public class PlayerStatusUI : MonoBehaviour
     {
         float ratio = (float)currentHp / maxHp;
         hpImage.fillAmount = ratio;
-        hpText.text = $"HP: {currentHp} / {maxHp}";
+        hpText.text = $"{currentHp} / {maxHp}";
     }
     public void UpdateMovePoint(int movePoint, int maxMovePoint)
     {

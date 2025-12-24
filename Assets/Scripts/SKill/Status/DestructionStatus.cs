@@ -26,9 +26,11 @@ public class DestructionStatus : TileStatusBase
                     if (targetRow < 0 || targetRow >= rows || targetCol < 0 || targetCol >= cols)
                         continue;
                     Tile target = board[targetRow, targetCol];
+                    if (target == null)
+                        continue;
                     if (target.Color == casterTile.Color)
                         continue;
-                    if (target == null)
+                    if (target.Matched)
                         continue;
                     if (target.WillDestroy)
                         continue;

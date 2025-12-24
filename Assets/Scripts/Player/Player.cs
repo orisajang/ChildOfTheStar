@@ -57,6 +57,22 @@ public class Player : MonoBehaviour
         UIManager.Instance.PlayerStatusUI.UpdateMovePoint(MovementPointCurrent, MovementPointMax);
     }
 
+    public int TakeHeal(int heal)
+    {
+        int overHeal = 0;
+        CharacterHpCurrent += heal;
+        if (CharacterHpCurrent > CharacterHpMax)
+        {
+            overHeal = CharacterHpCurrent - CharacterHpMax;
+            CharacterHpCurrent = CharacterHpMax;
+        }
+
+        Debug.Log($"현재 플레이어 체력:{CharacterHpCurrent}");
+
+        UIManager.Instance.PlayerStatusUI.UpdateHP(CharacterHpCurrent, CharacterHpMax);
+
+        return overHeal;
+    }
     public void TakeDamage(int damage)
     {
         //플레이어의 쉴드가 있다면 쉴드부터 차감

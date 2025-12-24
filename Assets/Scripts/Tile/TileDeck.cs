@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 public class TileDeck : MonoBehaviour
 {
@@ -8,8 +7,8 @@ public class TileDeck : MonoBehaviour
     private int Width = 6;
     [SerializeField] private int _poolSize = 50;
     public int PoolSize => _poolSize;
-    [SerializeField] private GameObject _tilePrefeb;
-    [SerializeField] private BoardController _controller;
+    [SerializeField]private GameObject _tilePrefeb;
+    [SerializeField]private BoardController _controller;
     [SerializeField]private List<TileSO> BaseDeckSO;
 
     [SerializeField]private List<TileSO> _drawDeck = new List<TileSO>();

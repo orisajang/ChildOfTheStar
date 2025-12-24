@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68ce5d21b1bf1254cb547c3915c00783, type: 3}
+  m_Name: IsSameColor
+  m_EditorClassIdentifier: Assembly-CSharp::IsSameColor
+  descriptionText: "\uC9C0\uC815\uD55C \uC0C9\uACFC \uC2A4\uD0AC \uC2DC\uC804\uD0C0\uC77C\uC758
+    \uC0C9\uC744 \uBE44\uAD50\uD558\uC5EC \uAC19\uC740\uC9C0 \uC544\uB2CC\uC9C0 \uCCB4"
+  _color: 0
+  _compareType: 0

@@ -2,7 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UIElements;
+public enum TileKeyword
+{
+    Rampage,    // 폭주 (4매치 이상)
+    Wave,       // 파도 (이번 턴 같은색 연속 매치)
+    Link,       // 연동 (2콤보 이상)
+    Harmony,    // 조화 (해당 색 첫 매치)
+    Crack        // 균열 (가장자리 매치)
+}
 public enum TileMoveDirection
 {
     Horizontal, // 가로 라인 이동 (row 한 줄을 좌 / 우로 이동)
@@ -12,7 +20,6 @@ public enum TileMoveDirection
 
 public class BoardModel
 {
-
 
     private struct Pos
     {
@@ -26,6 +33,7 @@ public class BoardModel
         }
     }
 
+    private List<Tile> matchedTiles = new List<Tile>(30);
     private int _rows = 5;
     public int Rows => _rows;
 
@@ -41,7 +49,8 @@ public class BoardModel
     public Action OnBoardChanged;
     public Action OnResolveFinished;
     public Action OnResolveStart;
-
+    //매치중 한번이라도 터진 색들
+    HashSet<TileColor> _MatchedColorHash = new HashSet<TileColor>();
 
     //과충전 관련 필드들
     //현재 터질 타일의 색상과 갯수들
@@ -170,6 +179,7 @@ public class BoardModel
             }
         }
 
+        _MatchedColorHash.Clear();
         //과충전 관련 체크 항목 초기화
         InitOverCharge(false);
 
@@ -331,11 +341,24 @@ public class BoardModel
 
                     if (count >= 3 && prevTile != null)
                     {
+                        bool isCrack = false;
+                        if (lineIndex == 0 || lineIndex == _rows - 1|| (col - 1) == _columns - 1|| (col - count) == 0)
+                        {
+                            isCrack = true;
+                        }
                         for (int i = 1; i <= count; i++)
                         {
                             int targetCol = col - i;
 
                             matched.Add(new Pos(lineIndex, targetCol));
+                            if (count >= 4)
+                            {
+                                _tiles[lineIndex, targetCol].AddKeyword(TileKeyword.Rampage);
+                            }
+                            if (isCrack)
+                            {
+                                _tiles[lineIndex, targetCol].AddKeyword(TileKeyword.Crack);
+                            }
                         }
                     }
 
@@ -376,10 +399,24 @@ public class BoardModel
                 {
                     if (count >= 3 && prevTile != null)
                     {
+                        bool isCrack = false;
+
+                        if (lineIndex == 0 || lineIndex == _columns - 1 || (row - 1) == _rows - 1 || (row - count) == 0)
+                        {
+                            isCrack = true;
+                        }
                         for (int i = 1; i <= count; i++)
                         {
                             int targetRow = row - i;
                             matched.Add(new Pos(targetRow, lineIndex));
+                            if (count >=4)
+                            {
+                                _tiles[targetRow, lineIndex].AddKeyword(TileKeyword.Rampage);
+                            }
+                            if (isCrack)
+                            {
+                                _tiles[targetRow, lineIndex].AddKeyword(TileKeyword.Crack);
+                            }
                         }
                     }
 
@@ -395,39 +432,59 @@ public class BoardModel
     /// <param name="matched"></param>
     private void ExplodeMatched(HashSet<Pos> matched)
     {
+        matchedTiles.Clear();
         if (matched == null) return;
         if (matched.Count == 0) return;
-
-		foreach (Pos position in matched)
-        {
-            Tile tile = _tiles[position.row, position.col];
-            if (tile == null)
-                continue;
-
-            tile.ExecutePreSkill(Tiles);
-
-        }
+        
         foreach (Pos position in matched)
         {
             Tile tile = _tiles[position.row, position.col];
-            if (tile == null) 
-                continue;
+            if (tile != null)
+                matchedTiles.Add(tile);
+            tile.Matched = true;
 
+        }
+
+        foreach (Tile tile in matchedTiles)
+        {
+            if (_beforeColorOverChargeHash.Contains(tile.Color))
+                tile.AddKeyword(TileKeyword.Wave);
+            if (_loopMatchCount > 0)
+                tile.AddKeyword(TileKeyword.Link);
+            if (!_MatchedColorHash.Contains(tile.Color))
+                tile.AddKeyword(TileKeyword.Harmony);
+        }
+
+        matchedTiles.Sort(CompareTilePriority);
+
+
+        foreach (Tile tile in matchedTiles)
+        {
+            tile.ExecutePreSkill(Tiles);
+        }
+        foreach (Tile tile in matchedTiles)
+        {
+            tile.ExecuteStatus(Tiles);
+        }
+
+        foreach (Tile tile in matchedTiles)
+        {
             tile.ExecuteTile(Tiles);
+            _brokenTileIndex.Add(new Pos(tile.Row, tile.Col));
+            _tiles[tile.Row, tile.Col] = null;
             ReturnTile(tile);
-            _tiles[position.row, position.col] = null;
-            _brokenTileIndex.Add(position);
 
             //자원 주머니에 터진 타일들 색상을 하나씩 넣어주기 위해서 추가
             ColorResourceManager.Instance.AddColorResource(tile.Color, 1);
             //과충전 체크할때 색상별 타일이 얼마만큼 터졌는지 확인 필요
             //foreach문에서는 타일이 하나씩 터지기때문에 딕셔너리로 터진 타일들 몇개인지 묶음
             SetColorOverChargeInfo(tile.Color);
-        
-        //과충전 증감 연산 체크
-        CalcOverChargeValue();
+            _MatchedColorHash.Add(tile.Color);
 
+            //과충전 증감 연산 체크
+            CalcOverChargeValue();
         }
+       
     }
     /// <summary>
     /// 과충전 체크할때 색상별 타일이 얼마만큼 터졌는지 확인 필요
@@ -519,7 +576,7 @@ public class BoardModel
         _currentColorOverChargeDic.Clear();
     }
 
-    private void SetOverChargeValue(int amount)
+    public void SetOverChargeValue(int amount)
     {
         _overChargeValue += amount;
         if(_overChargeValue < 0)
@@ -582,4 +639,39 @@ public class BoardModel
         }
         return _boardViewer.StartCheckDropComplate();
     }
+
+    private int GetColorPriority(TileColor color)
+    {
+        switch (color)
+        {
+            case TileColor.Red: return 0;
+            case TileColor.Blue: return 1;
+            case TileColor.Green: return 2;
+            case TileColor.White: return 3;
+            case TileColor.Black: return 4;
+            default: return 99;
+        }
+    }
+
+    private int CompareTilePriority(Tile a, Tile b)
+    {
+        int speedA = a.GetSpeed();
+        int speedB = b.GetSpeed();
+
+        if (speedA != speedB)
+        {
+            return speedA.CompareTo(speedB);
+        }
+
+        int colorPriorityA = GetColorPriority(a.Color);
+        int colorPriorityB = GetColorPriority(b.Color);
+
+        if (colorPriorityA != colorPriorityB)
+        {
+            return colorPriorityA.CompareTo(colorPriorityB);
+        }
+
+        return a.TileData.Id.CompareTo(a.TileData.Id);
+    }
+
 }

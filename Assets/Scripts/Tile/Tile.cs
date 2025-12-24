@@ -10,6 +10,7 @@ public enum TileColor
     Red,
     Green,
     Blue,
+    None,
 }
 
 public class Tile : MonoBehaviour
@@ -19,9 +20,9 @@ public class Tile : MonoBehaviour
     [SerializeField] private int _col, _row;
     [SerializeField] private TileSO _tileDataSO;
     [SerializeField] private int _frenzyNum, _recoveryNum, _growthNum, _destructionNum, _rebirthNum;
+    private HashSet<TileKeyword> _activeKeywords = new HashSet<TileKeyword>();
 
-
-
+    private TileEventBus _eventBus;
     private TileColor _curColor;
     private Dictionary<TileStatus, List<TileStatusBase>> _statusDictionary;
     private TileSO _nextTileSO = null;
@@ -35,6 +36,7 @@ public class Tile : MonoBehaviour
     public TileColor Color => _curColor;
     public TileSO TileData => _tileDataSO;
     public Dictionary<TileStatus, List<TileStatusBase>> StatusDictionarty => _statusDictionary;
+    public TileEventBus EventBus => _eventBus;
     public bool WillDestroy => _willDestroy;
     public bool WillRebirth => _willRebirth;
     public int FrenzyNum => _frenzyNum;
@@ -42,6 +44,7 @@ public class Tile : MonoBehaviour
     public int GrowthNum => _growthNum;
     public int DestructionNum => _destructionNum;
     public int RebirthNum => _rebirthNum;
+    public bool Matched { get; set; }
 
 
 
@@ -65,20 +68,21 @@ public class Tile : MonoBehaviour
         _curColor = _tileDataSO.Color;
         _renderer.color = _tileDataSO.SpriteColor;
         _renderer.sprite = _tileDataSO.Sprite;
-
         _nextTileSO = null;
         _willDestroy = false;
 
+        _activeKeywords.Clear();
         if (_statusDictionary != null)
         {
             foreach (var list in _statusDictionary.Values) list.Clear();
         }
-        _frenzyNum = 0;
-        _recoveryNum = 0;
-        _growthNum = 0;
-        _destructionNum = 0;
-        _rebirthNum = 0;
+
+        ClearStatus();
+
+
         _returnTile = returnTile;
+
+
     }
 
     public void SetTIlePos(int row, int col)
@@ -101,11 +105,7 @@ public class Tile : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 타일의 스킬과 상태이상을 순서, 조건에 따라 실행.
-    /// </summary>
-    /// <param name="board"></param>
-    public void ExecuteTile(Tile[,] board)
+    public void ExecuteStatus(Tile[,] board)
     {
         //스테이터스 딕셔너리 순서대로 쭉죽 스테이터스가 가지고있는 함수 실행
         foreach (var seq in _statusSequence)
@@ -116,15 +116,32 @@ public class Tile : MonoBehaviour
                 {
                     status.Execute(board, this);
                 }
-
-                statusList.Clear();
             }
         }
+    }
+    public void ClearStatus()
+    {
         _frenzyNum = 0;
         _recoveryNum = 0;
         _growthNum = 0;
         _destructionNum = 0;
         _rebirthNum = 0;
+        foreach (var seq in _statusSequence)
+        {
+            if (_statusDictionary.TryGetValue(seq, out var statusList))
+            {
+                statusList.Clear();
+            }
+        }
+    }
+
+    /// <summary>
+    /// 타일의 스킬을 순서, 조건에 따라 실행.
+    /// </summary>
+    /// <param name="board"></param>
+    public void ExecuteTile(Tile[,] board)
+    {
+
 
         if (_tileDataSO.SkillSOList == null)
             return;
@@ -142,6 +159,8 @@ public class Tile : MonoBehaviour
     public void AddStatus(TileStatus statusType, TileStatusBase StautsData)
     {
         _statusDictionary[statusType].Add(StautsData);
+
+        SkillManager.Instance.TileEventBus.TriggerEvent(statusType);
         switch (statusType)
         {
             case TileStatus.Frenzy:
@@ -164,7 +183,6 @@ public class Tile : MonoBehaviour
                 _rebirthNum++;
                 Debug.Log($"{_row},{_col}에 윤회 부여됨");
                 break;
-
         }
     }
     public int GetStatusCount(TileStatus status)
@@ -207,7 +225,11 @@ public class Tile : MonoBehaviour
             _renderer.sprite = _tileDataSO.Sprite;
 
         }
-
+    }
+    public void ChangeTileColor(TileColor color)
+    {
+        _curColor = color;
+        SkillManager.Instance.TileEventBus.TriggerEvent(SkillEventType.OnColorChanged);
     }
     /// <summary>
     /// 윤회 예약
@@ -224,5 +246,29 @@ public class Tile : MonoBehaviour
     public void ReserveDestroy()
     {
         _willDestroy = true;
+    }
+
+    /// <summary>
+    /// 키워드 활성화
+    /// </summary>
+    /// <param name="keyword"></param>
+    public void AddKeyword(TileKeyword keyword)
+    {
+        _activeKeywords.Add(keyword);
+    }
+
+    /// <summary>
+    /// 키워드 확인
+    /// </summary>
+    /// <param name="keyword"></param>
+    /// <returns></returns>
+    public bool HasKeyword(TileKeyword keyword)
+    {
+        return _activeKeywords.Contains(keyword);
+    }
+
+    public int GetSpeed()
+    {
+        return _tileDataSO.Speed;
     }
 }

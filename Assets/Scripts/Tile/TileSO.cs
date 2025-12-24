@@ -6,6 +6,7 @@ public class TileSO : ScriptableObject
 {
     [TextArea(3, 10)]
     public string descriptionText;
+
     [SerializeField] private List<TileSkillBase> _preSkillSOList;
     [SerializeField] private List<TileSkillBase> _skillSOList;
     [SerializeField] private int _id;
