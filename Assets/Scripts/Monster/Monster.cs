@@ -38,6 +38,8 @@ public class Monster : MonoBehaviour
     public string _monsterAnimation { get; private set; }
     string _monsterSound;
 
+    // HPBar 만들려고 추가
+    [SerializeField] private MonsterHPBarUI monsterHPBarUi;
 
     //현재 HP
     private int _monsterCurrentHp;
@@ -99,6 +101,12 @@ public class Monster : MonoBehaviour
         //현재HP를 초기에 설정
         _monsterCurrentHp = _monsterHp;
         _actPlayCount = 0;
+
+        // 몬스터 HPBar
+        if (monsterHPBarUi != null)
+        {
+            monsterHPBarUi.Init(transform, _monsterHp);
+        }
     }
     /// <summary>
     /// 몬스터 사망처리 (몬스터 매니저에서 받음)
@@ -217,6 +225,11 @@ public class Monster : MonoBehaviour
     public void TakeDamage(int dmg)
     {
         _monsterCurrentHp -= dmg;
+        // 몬스터 HPBar 갱신
+        if (monsterHPBarUi != null)
+        {
+            monsterHPBarUi.UpdateHP(_monsterCurrentHp);
+        }
         Debug.Log($"몬스터 현재 체력은{_monsterCurrentHp}");
         if (_monsterCurrentHp <= 0)
         {
@@ -229,6 +242,12 @@ public class Monster : MonoBehaviour
         _monsterCurrentHp += healAmount;
         //최대체력 넘어갔으면 최대체력으로 설정
         if (_monsterCurrentHp > _monsterHp) _monsterCurrentHp = _monsterHp;
+
+        // 몬스터 HPBar 갱신
+        if (monsterHPBarUi != null)
+        {
+            monsterHPBarUi.UpdateHP(_monsterCurrentHp);
+        }
         Debug.Log($"몬스터 회복 현재 체력은{_monsterCurrentHp}");
     }
 }
