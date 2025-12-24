@@ -102,7 +102,7 @@ public class PlayerInputControll : MonoBehaviour
            _mousePos.y < _boardArea.maxY)
         {
             //이동량이 적다면 넘김
-            if (Vector2.Distance(_mousePos, _oldMousePos) < 0.2f) return;
+            //if (Vector2.Distance(_mousePos, _oldMousePos) < 0.2f) return;
 
             _hoveringHit = Physics2D.Raycast(_mousePos, Vector2.zero);
 
