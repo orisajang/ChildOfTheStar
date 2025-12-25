@@ -56,6 +56,15 @@ public class Player : MonoBehaviour
         UIManager.Instance.PlayerStatusUI.UpdateShield(Shield);
         UIManager.Instance.PlayerStatusUI.UpdateMovePoint(MovementPointCurrent, MovementPointMax);
     }
+    /// <summary>
+    /// 사망후 플레이어 상태 초기화
+    /// </summary>
+    public void PlayerStateInit()
+    {
+        CharacterHpCurrent = CharacterHpMax;
+        MovementPointCurrent = MovementPointMax;
+        Shield = 0;
+    }
 
     public int TakeHeal(int heal)
     {

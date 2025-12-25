@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class DungeonManager : Singleton<DungeonManager>
 {
@@ -30,7 +28,6 @@ public class DungeonManager : Singleton<DungeonManager>
     //마지막으로 추가된 딕셔너리 키
     public int LastSelectStageIndexKey { get; private set; }
     private int currentSelectStageIndex = 0;
-    
 
     protected override void Awake()
     {
@@ -41,30 +38,17 @@ public class DungeonManager : Singleton<DungeonManager>
         SetStageDataByCSV();
         //딕셔너리에 스테이지별 어떤 스테이지 인스턴스를 가지고있는지 설정하기
         SetStageInstanceData();
-
-        //사용한다고 가정  (아직 UI에서 입력하고 그런 작업이 없기때문에 했다고 가정하면?)
-        //3. 사용
-        //던전1의 스테이지 1번을 쓰겠다.
-        //지금 던전에는 키값으로 10, 20, 30, 40 -> int형으로 변환 int.Parse 하고 /10
-        //스테이지에는 키값으로 그룹넘버 100001
-        //예시) 던전4를 진행하겠다
-        //던전 넘버 선택은 
-        //currentDengeonNumber = 1;
-        //SetStageDataForStageManager();
-        //초기시작시 1회 버튼을 활성화해주기위해
-        //SetStageDataForStageManager();
-        
     }
 
-
-    private void Start()
+    /// <summary>
+    /// 플레이어 죽었으므로 스테이지 정보 초기화
+    /// </summary>
+    public void OnStageInfoInit()
     {
-        //스테이지매니저에 정보 설정
-        //StageManager.Instance.SetStageInstanceData(currentSelectStage);
-        //스테이지 시작 명령
-        //StageManager.Instance.StartStageTask();
-
+        currentStageNumber = 0;
+        _clearedStageIndexDic.Clear();
     }
+
     /// <summary>
     /// 현재 던전번호 설정
     /// </summary>
@@ -75,14 +59,7 @@ public class DungeonManager : Singleton<DungeonManager>
         currentDungeonNumber = dungeonNumber;
         currentStageNumber = 0;
         _clearedStageIndexDic.Clear();
-        //던전이 새로 선택되었으므로 스테이지 관련된 정보 삭제
-        InitStageSetting();
-    }
-    /// <summary>
-    /// //던전이 새로 선택되었으므로 스테이지 관련된 정보 삭제
-    /// </summary>
-    public void InitStageSetting()
-    {
+        //던전이 새로 선택되었으므로 스테이지 관련된 정보 다시 불러온다
         InitCurrentDengeonStageData();
     }
 
