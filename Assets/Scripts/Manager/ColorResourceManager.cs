@@ -27,6 +27,7 @@ public class ColorResourceManager : Singleton<ColorResourceManager>
         {TileColor.Black, 0}
     };
     //읽기전용 딕셔너리
+    public IReadOnlyDictionary<TileColor, int> ColorResourceDic => _colorResourceDic;
     public IReadOnlyDictionary<TileColor, int> CurrentColorResourceDic => _currentColorResourceDic;
 
     protected void Awake()

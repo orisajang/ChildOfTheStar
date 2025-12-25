@@ -4,10 +4,13 @@ using UnityEngine;
 public class DungeonManager : Singleton<DungeonManager>
 {
     //각 던전이 어떤 스테이지를 가지고있는지와 현재 스테이지가 몇스테이지인지,  스테이지별로 랜덤확률로 스테이지 선택
+    //최대 던전번호 (클리어한 던전중에 가장 높은 던전)
+    public int maxClearedDungeonNumber { get; private set; } = 1;
+    public int CurrentStageNumber => _currentStageNumber;
     //현재 던전번호
-    int currentDungeonNumber;
+    int _currentDungeonNumber;
     //현재 스테이지 번호
-    int currentStageNumber;
+    int _currentStageNumber;
     //현재 스테이지에서 몇단계 진행중인지
     //int stageInstanceNumber;
     //현재 선택중인 스테이지
@@ -45,7 +48,7 @@ public class DungeonManager : Singleton<DungeonManager>
     /// </summary>
     public void OnStageInfoInit()
     {
-        currentStageNumber = 0;
+        _currentStageNumber = 0;
         _clearedStageIndexDic.Clear();
     }
 
@@ -56,8 +59,8 @@ public class DungeonManager : Singleton<DungeonManager>
     public void SetDengeonNumber(int dungeonNumber)
     {
         //현재 던전번호
-        currentDungeonNumber = dungeonNumber;
-        currentStageNumber = 0;
+        _currentDungeonNumber = dungeonNumber;
+        _currentStageNumber = 0;
         _clearedStageIndexDic.Clear();
         //던전이 새로 선택되었으므로 스테이지 관련된 정보 다시 불러온다
         InitCurrentDengeonStageData();
@@ -69,10 +72,10 @@ public class DungeonManager : Singleton<DungeonManager>
         //예시) 던전 1을 선택, 스테이지는 무조건 1부터 시작
         //int dengeonSelect = 4;
         //currentDengeonNumber = dengeonSelect;
-        currentStageNumber++;
+        _currentStageNumber++;
 
-        string dungeonSelectKey = (currentDungeonNumber * 10).ToString(); //10
-        string stageSelectKeyString = dungeonSelectKey.ToString() + "000" + currentStageNumber.ToString(); //10 000 1
+        string dungeonSelectKey = (_currentDungeonNumber * 10).ToString(); //10
+        string stageSelectKeyString = dungeonSelectKey.ToString() + "000" + _currentStageNumber.ToString(); //10 000 1
         int stageSelectKey = int.Parse(stageSelectKeyString); //1000001
         List<StageCSVData> currentStageInstanceList = _stageDataDic[stageSelectKey];
 
@@ -98,7 +101,7 @@ public class DungeonManager : Singleton<DungeonManager>
         }
 
         //UI에도 정보 설정
-        StageSelectUIManager.Instance.SetStageInfo(currentStageNumber-1, selectInstanceIndex, _clearedStageIndexDic);
+        StageSelectUIManager.Instance.SetStageInfo(_currentStageNumber-1, selectInstanceIndex, _clearedStageIndexDic);
 
     }
     /// <summary>
@@ -108,7 +111,7 @@ public class DungeonManager : Singleton<DungeonManager>
     {
         _stageDataDic.Clear();
         //던전 키값, 스테이지 키값 생성
-        string dungeonSelectKey = (currentDungeonNumber * 10).ToString(); //10
+        string dungeonSelectKey = (_currentDungeonNumber * 10).ToString(); //10
         //2. 스테이지 그룹id로 다시 묶어준다
         List<StageCSVData> dungeonList = _dungeonDataDic[dungeonSelectKey];
         //이거를 스테이지 그룹id로 묶자
@@ -138,12 +141,18 @@ public class DungeonManager : Singleton<DungeonManager>
         //SetStageDataForStageManager();
         //스테이지가 전부 끝났다면 던전 선택화면으로 돌아가면 됨.
         //GameManager.Instance.GoToTitleScene();
+        //클리어한 던전 번호를 큰값으로 갱신
+        if(maxClearedDungeonNumber < _currentDungeonNumber)
+        {
+            maxClearedDungeonNumber = _currentDungeonNumber;
+        }
+        //로비로 이동
         GameManager.Instance.GoToLobbyScene(); 
     }
     public void ReturnToStageSelect()
     {
         //현재 스테이지 번호가 총 스테이지 갯수보다 많다면
-        if (currentStageNumber >= _stageDataDic.Count)
+        if (_currentStageNumber >= _stageDataDic.Count)
         {
             //스테이지를 전부 클리어했으니 해당 작업 진행
             Debug.Log("해당 던전의 모든 스테이지 클리어");
@@ -153,10 +162,10 @@ public class DungeonManager : Singleton<DungeonManager>
         {
             //아니라면 계속 다음 스테이지 진행할 수 있게 다음 스테이지 랜덤으로 버튼 활성화
             //클리어한 스테이지 번호 추가
-            if(currentStageNumber > 0)
+            if(_currentStageNumber > 0)
             {
                 //둘다 0부터 시작하게 하자
-                int stageNum = currentStageNumber - 1;
+                int stageNum = _currentStageNumber - 1;
                 _clearedStageIndexDic.Add(stageNum, currentSelectStageIndex);
                 LastSelectStageIndexKey = stageNum;
             }

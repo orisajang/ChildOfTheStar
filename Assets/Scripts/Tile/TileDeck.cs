@@ -30,7 +30,7 @@ public class TileDeck : MonoBehaviour
     {
         //플레이어 타일덱 비어있으면 기본덱 넣기
         PlayerManager.Instance._player.CheckAndSetPlayerDeck(BaseDeckSO);
-        TileDeckTestClass.Instance.SetTileDeckInfoForJson();
+        //TileDeckTestManager.Instance.SetTileDeckInfoForJson();
     }
 
 
