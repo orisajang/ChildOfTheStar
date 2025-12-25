@@ -17,6 +17,13 @@ public class TurnManager : Singleton<TurnManager>
 
     //보드에 플레이어 턴이 시작되었다는 것을 알림 (추가이유: 플레이어 턴이 시작될때 과충전상태면 과충전 해제해야함)
     public event Action OnPlayerTurnStart;
+    private void Awake()
+    {
+        isDestroyOnLoad = false;
+        base.Awake();
+        if (Instance != this) return; //이거도 추가
+    }
+
     private void OnEnable()
     {
         //초기 몬스터 타겟을 지정해서 공격할 몬스터를 선택하기 위해
@@ -26,8 +33,8 @@ public class TurnManager : Singleton<TurnManager>
     }
     private void OnDisable()
     {
-        MonsterManager.Instance.OnTargetMonsterSelected -= StartPlayerBoardEnable;
-        PlayerManager.Instance.SendPlayerMovePoint -= CheckPlayerTurnEnd;
+        if(MonsterManager.isHaveInstance) MonsterManager.Instance.OnTargetMonsterSelected -= StartPlayerBoardEnable;
+        if(PlayerManager.isHaveInstance) PlayerManager.Instance.SendPlayerMovePoint -= CheckPlayerTurnEnd;
     }
     
     /// <summary>

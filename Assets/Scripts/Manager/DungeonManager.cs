@@ -25,10 +25,17 @@ public class DungeonManager : Singleton<DungeonManager>
     private Dictionary<string, StageCSVData> _stageCSVDataDic = new Dictionary<string, StageCSVData>();
     private Dictionary<string, MonsterWaveCSVData> _monsterWaveCSVDataDic = new Dictionary<string, MonsterWaveCSVData>();
 
+    //클리어했었던 스테이지 인스턴스 번호를 기억하기 위해서 딕셔너리 추가
+    private Dictionary<int, int> _clearedStageIndexDic = new Dictionary<int, int>();
+    //마지막으로 추가된 딕셔너리 키
+    public int LastSelectStageIndexKey { get; private set; }
+    private int currentSelectStageIndex = 0;
+    
+
     protected override void Awake()
     {
         base.Awake();
-
+        if (Instance != this) return; //이거도 추가
         //CSV파일 읽어서 monsterWave, Stage정보를 가지고있기
         SetMonsterWaveDataByCSV();
         SetStageDataByCSV();
@@ -66,6 +73,17 @@ public class DungeonManager : Singleton<DungeonManager>
     {
         //현재 던전번호
         currentDungeonNumber = dungeonNumber;
+        currentStageNumber = 0;
+        _clearedStageIndexDic.Clear();
+        //던전이 새로 선택되었으므로 스테이지 관련된 정보 삭제
+        InitStageSetting();
+    }
+    /// <summary>
+    /// //던전이 새로 선택되었으므로 스테이지 관련된 정보 삭제
+    /// </summary>
+    public void InitStageSetting()
+    {
+        InitCurrentDengeonStageData();
     }
 
     //private void SetStageDataForStageManager(int dengeonSelect)
@@ -76,41 +94,9 @@ public class DungeonManager : Singleton<DungeonManager>
         //currentDengeonNumber = dengeonSelect;
         currentStageNumber++;
 
-        //던전 키값, 스테이지 키값 생성
         string dungeonSelectKey = (currentDungeonNumber * 10).ToString(); //10
         string stageSelectKeyString = dungeonSelectKey.ToString() + "000" + currentStageNumber.ToString(); //10 000 1
         int stageSelectKey = int.Parse(stageSelectKeyString); //1000001
-        //2. 스테이지 그룹id로 다시 묶어준다
-        //foreach(string dengeonNumber in _dengeonDataDic.Keys)
-        {
-            //foreach로 던전1,던전2... 의 각각의 데이터를 가져온다
-            List<StageCSVData> dungeonList = _dungeonDataDic[dungeonSelectKey];
-            //이거를 스테이지 그룹id로 묶자
-            for (int index = 0; index < dungeonList.Count; index++)
-            {
-                StageCSVData stageInfo = dungeonList[index];
-                int groupId = stageInfo.stageGroupId;
-
-                if (!_stageDataDic.ContainsKey(groupId))
-                {
-                    List<StageCSVData> stageInfoList = new List<StageCSVData>();
-                    stageInfoList.Add(stageInfo);
-                    _stageDataDic[groupId] = stageInfoList;
-                }
-                else
-                {
-                    _stageDataDic[groupId].Add(stageInfo);
-                }
-            }
-        }
-        //현재 선택된 던전의 스테이지 리스트를 가져옴
-        if(!_stageDataDic.ContainsKey(stageSelectKey))
-        {
-            //키가 존재하지않는다면 return; -> (보스까지 끝났을떄 체크 해야함)
-            //return 하지말고 뭔가 스테이지가 보스까지 끝났다면 바로 던전메뉴로 나가게 해야할듯
-            Debug.Log("여기 뜨면 안됨. 뭔가 확인해보기");
-            return;
-        }
         List<StageCSVData> currentStageInstanceList = _stageDataDic[stageSelectKey];
 
 
@@ -128,14 +114,43 @@ public class DungeonManager : Singleton<DungeonManager>
                 //현재 선택된 스테이지를 저장
                 selectInstanceIndex = index;
                 currentSelectStage = currentStageInstanceList[index];
+                currentSelectStageIndex = selectInstanceIndex;
                 Debug.Log($"랜덤으로 선택된 스테이지: {currentSelectStage.stageId}");
                 break;
             }
         }
 
         //UI에도 정보 설정
-        StageSelectUIManager.Instance.SetStageInfo(currentStageNumber-1, selectInstanceIndex);
+        StageSelectUIManager.Instance.SetStageInfo(currentStageNumber-1, selectInstanceIndex, _clearedStageIndexDic);
 
+    }
+    /// <summary>
+    /// 현재 선택한 던전의 모든 스테이지 정보를 가져온다
+    /// </summary>
+    public void InitCurrentDengeonStageData()
+    {
+        _stageDataDic.Clear();
+        //던전 키값, 스테이지 키값 생성
+        string dungeonSelectKey = (currentDungeonNumber * 10).ToString(); //10
+        //2. 스테이지 그룹id로 다시 묶어준다
+        List<StageCSVData> dungeonList = _dungeonDataDic[dungeonSelectKey];
+        //이거를 스테이지 그룹id로 묶자
+        for (int index = 0; index < dungeonList.Count; index++)
+        {
+            StageCSVData stageInfo = dungeonList[index];
+            int groupId = stageInfo.stageGroupId;
+
+            if (!_stageDataDic.ContainsKey(groupId))
+            {
+                List<StageCSVData> stageInfoList = new List<StageCSVData>();
+                stageInfoList.Add(stageInfo);
+                _stageDataDic[groupId] = stageInfoList;
+            }
+            else
+            {
+                _stageDataDic[groupId].Add(stageInfo);
+            }
+        }
     }
 
     /// <summary>
@@ -145,11 +160,11 @@ public class DungeonManager : Singleton<DungeonManager>
     {
         //SetStageDataForStageManager();
         //스테이지가 전부 끝났다면 던전 선택화면으로 돌아가면 됨.
-        GameManager.Instance.GoToTitleScene();
+        //GameManager.Instance.GoToTitleScene();
+        GameManager.Instance.GoToLobbyScene(); 
     }
     public void ReturnToStageSelect()
     {
-        //GameManager.Instance.GoToStageScene(); //추후 구현예정
         //현재 스테이지 번호가 총 스테이지 갯수보다 많다면
         if (currentStageNumber >= _stageDataDic.Count)
         {
@@ -160,6 +175,15 @@ public class DungeonManager : Singleton<DungeonManager>
         else
         {
             //아니라면 계속 다음 스테이지 진행할 수 있게 다음 스테이지 랜덤으로 버튼 활성화
+            //클리어한 스테이지 번호 추가
+            if(currentStageNumber > 0)
+            {
+                //둘다 0부터 시작하게 하자
+                int stageNum = currentStageNumber - 1;
+                _clearedStageIndexDic.Add(stageNum, currentSelectStageIndex);
+                LastSelectStageIndexKey = stageNum;
+            }
+            //다음 스테이지를 위해 준비
             SetStageDataForStageManager();
         }
     }

@@ -5,6 +5,7 @@ public class BattleManager : Singleton<BattleManager>
     protected override void Awake()
     {
         base.Awake();
+        if (Instance != this) return; //이거도 추가
     }
 
     /// <summary>

@@ -13,23 +13,18 @@ public class PlayerManager : Singleton<PlayerManager>
     protected override void Awake()
     {
         base.Awake();
+        if (Instance != this) return; //이거도 추가
         _player = GetComponent<Player>();
-    }
-    private void Start()
-    {
         //데이터를 받아옴
         SetPlayerData();
-    }
-
-    private void OnEnable()
-    {
+        //이벤트 구독 (싱글톤이라서 Enable말고 Awake
         _player.OnPlayerDead += PlayerDeadMethod;
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
+        if (Instance != this) return;
         _player.OnPlayerDead -= PlayerDeadMethod;
     }
-
     private void SetPlayerData()
     {
         //정보를 불러옴
