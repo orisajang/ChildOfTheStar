@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -22,6 +24,9 @@ public class Player : MonoBehaviour
     public int Shield { get; private set; }
     //플레이어 사망 이벤트
     public event Action OnPlayerDead;
+
+    private List<TileSO> _playerDeckSO;
+    public IReadOnlyList<TileSO> PlayerDeckSO => _playerDeckSO;
 
     /// <summary>
     /// CSV데이터로 읽어온 데이터를 현재 Player에 적용
@@ -129,5 +134,27 @@ public class Player : MonoBehaviour
         UIManager.Instance.PlayerStatusUI.UpdateMovePoint(MovementPointCurrent, MovementPointMax);
 
         return MovementPointCurrent;
+    }
+
+
+    public void PlayerDeckSet()
+    {
+        if(_playerDeckSO == null)
+        {
+            //기본 베이스 덱을 쓴다
+        }
+        else
+        {
+
+        }
+    }
+    public void CheckAndSetPlayerDeck(List<TileSO> initDeckData)
+    {
+        //플레이어 초기 덱이 비어있으면 기본 덱을 넣는다
+        if(_playerDeckSO == null)
+        {
+            //깊은복사로 넣음
+            _playerDeckSO = new List<TileSO>(initDeckData);
+        }
     }
 }
