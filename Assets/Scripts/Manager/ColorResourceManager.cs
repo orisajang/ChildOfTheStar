@@ -43,4 +43,30 @@ public class ColorResourceManager : Singleton<ColorResourceManager>
         }
         UIManager.Instance.ResourceUI.UpdateResource(color,_colorResourceDic[color]);
     }
+
+    public bool TryPurchase(Dictionary<TileColor, int> priceTable)
+    {
+        foreach (var pair in priceTable)
+        {
+            TileColor color = pair.Key;
+            int cost = pair.Value;
+
+            if (!_colorResourceDic.ContainsKey(color) || _colorResourceDic[color] < cost)
+            {
+               
+                return false;
+            }
+        }
+
+        foreach (var pair in priceTable)
+        {
+            TileColor color = pair.Key;
+            int cost = pair.Value;
+
+            _colorResourceDic[color] -= cost;
+
+        }
+
+        return true;
+    }
 }

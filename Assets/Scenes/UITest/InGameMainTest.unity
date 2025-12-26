@@ -540,17 +540,18 @@ MonoBehaviour:
   _poolSize: 50
   _tilePrefeb: {fileID: 3487534395764373765, guid: db8dae0412ad2a3418e5dcb7947d7052, type: 3}
   _controller: {fileID: 6735765962196127389}
-  BaseDeckSO:
-  - {fileID: 11400000, guid: 521c13ccb3b81b74793808008f2bd78b, type: 2}
-  - {fileID: 11400000, guid: aef6684c5ee81f74fa64f95026125cac, type: 2}
-  - {fileID: 11400000, guid: 8f0ebfe23a5a7d5408ce926f9bf3f3f7, type: 2}
-  - {fileID: 11400000, guid: e73df9b7bb7b02345b50e82215102795, type: 2}
-  - {fileID: 11400000, guid: cba5997d08e2c9445b45c31450c39592, type: 2}
+  _baseDeckSO:
   - {fileID: 11400000, guid: d5c4952654ce361459db6696b4c50216, type: 2}
+  - {fileID: 11400000, guid: 521c13ccb3b81b74793808008f2bd78b, type: 2}
+  - {fileID: 11400000, guid: cba5997d08e2c9445b45c31450c39592, type: 2}
   - {fileID: 11400000, guid: 26f6457f1028179429168bd19ddbc3d0, type: 2}
-  - {fileID: 11400000, guid: c77d155b6c4c6d346902b1b2200cebec, type: 2}
+  - {fileID: 11400000, guid: 8f0ebfe23a5a7d5408ce926f9bf3f3f7, type: 2}
+  - {fileID: 11400000, guid: 01ad7602f0bf17d4ab4a439b0f7841f4, type: 2}
+  - {fileID: 11400000, guid: aef6684c5ee81f74fa64f95026125cac, type: 2}
   - {fileID: 11400000, guid: c3a5ea2d041290341b4181ad03585402, type: 2}
   - {fileID: 11400000, guid: 7f42fb25a541a9d4880e2ae0ae3282d7, type: 2}
+  - {fileID: 11400000, guid: e73df9b7bb7b02345b50e82215102795, type: 2}
+  _copyDeck: []
   _drawDeck: []
 --- !u!4 &860075242
 Transform:
