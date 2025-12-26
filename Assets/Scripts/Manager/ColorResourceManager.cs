@@ -30,7 +30,7 @@ public class ColorResourceManager : Singleton<ColorResourceManager>
     public IReadOnlyDictionary<TileColor, int> ColorResourceDic => _colorResourceDic;
     public IReadOnlyDictionary<TileColor, int> CurrentColorResourceDic => _currentColorResourceDic;
 
-    protected void Awake()
+    protected override void Awake()
     {
         base.Awake();
         if (Instance != this) return; //이거도 추가
@@ -43,7 +43,14 @@ public class ColorResourceManager : Singleton<ColorResourceManager>
 
         return 0;
     }
-
+    public void SetResource(List<ColorResourceDataJson> colorData)
+    {
+        //색상 정보 넣기
+        foreach(var tileResourceData in colorData)
+        {
+            _colorResourceDic[tileResourceData.color] = tileResourceData.amount;
+        }
+    }
 
     /// <summary>
     /// 타일 매치 발생하면 발생한 타일 갯수만큼 자원 증가

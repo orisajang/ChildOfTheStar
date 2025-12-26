@@ -1,11 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class LoadedDungeonData
+{
+    public int _loadedDungeonNumber;
+    public int _loadedStageNumber;
+}
+
 public class DungeonManager : Singleton<DungeonManager>
 {
     //각 던전이 어떤 스테이지를 가지고있는지와 현재 스테이지가 몇스테이지인지,  스테이지별로 랜덤확률로 스테이지 선택
     //최대 던전번호 (클리어한 던전중에 가장 높은 던전)
-    public int maxClearedDungeonNumber { get; private set; } = 1;
+    public int CurrentDungeonNumber => _currentDungeonNumber;
     public int CurrentStageNumber => _currentStageNumber;
     //현재 던전번호
     int _currentDungeonNumber;
@@ -15,6 +21,9 @@ public class DungeonManager : Singleton<DungeonManager>
     //int stageInstanceNumber;
     //현재 선택중인 스테이지
     StageCSVData currentSelectStage;
+
+    //불러온 던전과 스테이지 정보가 담겨있는 클래스
+    LoadedDungeonData _loadedDungeonData;
 
     Dictionary<string, List<StageCSVData>> _dungeonDataDic = new Dictionary<string, List<StageCSVData>>();
     Dictionary<int, List<StageCSVData>> _stageDataDic = new Dictionary<int, List<StageCSVData>>();
@@ -41,6 +50,23 @@ public class DungeonManager : Singleton<DungeonManager>
         SetStageDataByCSV();
         //딕셔너리에 스테이지별 어떤 스테이지 인스턴스를 가지고있는지 설정하기
         SetStageInstanceData();
+
+        //JSON파일을 읽어서 자원, 던전정보, 스테이지 정보를 설정해준다
+        
+    }
+    private void Start()
+    {
+        LoadDungeonData();
+    }
+    public void LoadDungeonData()
+    {
+        PlayerDataJson dunGeonData = TileDeckTestManager.Instance.LoadData();
+        _currentDungeonNumber = dunGeonData.currentDengeonNumber;
+        _currentStageNumber = dunGeonData.currentStageNumber;
+        ColorResourceManager.Instance.SetResource(dunGeonData.colorResourceDataList);
+        _loadedDungeonData = new LoadedDungeonData();
+        _loadedDungeonData._loadedDungeonNumber = dunGeonData.currentDengeonNumber;
+        _loadedDungeonData._loadedStageNumber = dunGeonData.currentStageNumber;
     }
 
     /// <summary>
@@ -58,9 +84,19 @@ public class DungeonManager : Singleton<DungeonManager>
     /// <param name="dungeonNumber"></param>
     public void SetDengeonNumber(int dungeonNumber)
     {
+        if(_loadedDungeonData != null && _loadedDungeonData._loadedDungeonNumber == dungeonNumber)
+        {
+            //불러온 던전 정보가 있다면
+            _currentStageNumber = _loadedDungeonData._loadedStageNumber;
+        }
+        else
+        {
+            //스테이지 번호 0으로 초기화
+            _currentStageNumber = 0;
+        }
+
         //현재 던전번호
         _currentDungeonNumber = dungeonNumber;
-        _currentStageNumber = 0;
         _clearedStageIndexDic.Clear();
         //던전이 새로 선택되었으므로 스테이지 관련된 정보 다시 불러온다
         InitCurrentDengeonStageData();
@@ -132,6 +168,21 @@ public class DungeonManager : Singleton<DungeonManager>
             }
         }
     }
+    /// <summary>
+    /// 다음 던전으로 이동하기 위해 초기화
+    /// </summary>
+    public void InitForNextDungeon()
+    {
+        if(_currentDungeonNumber < 4)
+        {
+            _currentDungeonNumber++;
+            _currentStageNumber = 0;
+            _loadedDungeonData = null;
+        }
+
+        
+
+    }
 
     /// <summary>
     /// 스테이지가 전부 끝나면 처리할 행동 메서드
@@ -141,11 +192,11 @@ public class DungeonManager : Singleton<DungeonManager>
         //SetStageDataForStageManager();
         //스테이지가 전부 끝났다면 던전 선택화면으로 돌아가면 됨.
         //GameManager.Instance.GoToTitleScene();
-        //클리어한 던전 번호를 큰값으로 갱신
-        if(maxClearedDungeonNumber < _currentDungeonNumber)
-        {
-            maxClearedDungeonNumber = _currentDungeonNumber;
-        }
+        
+        //다음 던전을 위한 초기화
+        InitForNextDungeon();
+        //정보 저장
+        TileDeckTestManager.Instance.SaveMethod();
         //로비로 이동
         GameManager.Instance.GoToLobbyScene(); 
     }
@@ -176,7 +227,10 @@ public class DungeonManager : Singleton<DungeonManager>
 
     public void SetAndStartNextStage()
     {
-        //SetStageDataForStageManager();
+        //디버깅용 코드 (전투 안하고 바로 스테이지 다음으로 넘긴다
+        //GameManager.Instance.GoToStageScene();
+        //return;
+
         //스테이지매니저에 정보 설정
         StageManager.Instance.SetStageInstanceData(currentSelectStage);
         //전투 씬으로 이동
