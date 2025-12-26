@@ -8,7 +8,7 @@ public class PlayerInputControll : MonoBehaviour
     [SerializeField] string _tilesTagName = "Tile";
     [SerializeField] BoardController _bordController;
     [SerializeField] SpriteRenderer _boardSpriteRenderer;
-    [SerializeField] UITileSkileInfoDisplay _uiTileSkilInfoDisplay;
+    [SerializeField] UITileTileeInfoDisplay _uiTileSkilInfoDisplay;
     private InputAction _mouseMove;
     private InputAction _mouseClick;
 
@@ -38,7 +38,7 @@ public class PlayerInputControll : MonoBehaviour
         _boardArea.minX = _boardSpriteRenderer.transform.position.x - _boardSpriteRenderer.size.x / 2;
         _boardArea.maxX = _boardSpriteRenderer.transform.position.x + _boardSpriteRenderer.size.x / 2;
         _boardArea.minY = _boardSpriteRenderer.transform.position.y - _boardSpriteRenderer.size.y / 2;
-        _boardArea.maxY = _boardSpriteRenderer.transform.position.y + _boardSpriteRenderer.size.y / 2;
+
     }
 
     private void OnEnable()
@@ -103,7 +103,7 @@ public class PlayerInputControll : MonoBehaviour
         {
             //이동량이 적다면 넘김
             if (Vector2.Distance(_mousePos, _oldMousePos) < 0.2f) return;
-
+            _oldMousePos = _mousePos;
             _hoveringHit = Physics2D.Raycast(_mousePos, Vector2.zero);
 
             if (!_hoveringHit) return;
