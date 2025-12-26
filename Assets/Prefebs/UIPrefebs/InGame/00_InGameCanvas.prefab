@@ -769,7 +769,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2997601143378449178}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8602135092527154928}
+        m_TargetAssemblyTypeName: EndowmentEffectButton, Assembly-CSharp
+        m_MethodName: CloseWindow
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &185064270593390967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1487,16 +1499,65 @@ PrefabInstance:
       propertyPath: m_Name
       value: CheckEndowmentEffectButton
       objectReference: {fileID: 0}
+    - target: {fileID: 7705937352740671550, guid: 188693fda3216ca47999697f6d5a585c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7705937352740671550, guid: 188693fda3216ca47999697f6d5a585c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7705937352740671550, guid: 188693fda3216ca47999697f6d5a585c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8602135092527154928}
+    - target: {fileID: 7705937352740671550, guid: 188693fda3216ca47999697f6d5a585c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7705937352740671550, guid: 188693fda3216ca47999697f6d5a585c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenWindow
+      objectReference: {fileID: 0}
+    - target: {fileID: 7705937352740671550, guid: 188693fda3216ca47999697f6d5a585c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EndowmentEffectButton, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7705937352740671550, guid: 188693fda3216ca47999697f6d5a585c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6533318893415871131, guid: 188693fda3216ca47999697f6d5a585c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8602135092527154928}
   m_SourcePrefab: {fileID: 100100000, guid: 188693fda3216ca47999697f6d5a585c, type: 3}
 --- !u!224 &3446935218656233950 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 663542980206715634, guid: 188693fda3216ca47999697f6d5a585c, type: 3}
   m_PrefabInstance: {fileID: 2801407754997410604}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8956423161877076407 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6533318893415871131, guid: 188693fda3216ca47999697f6d5a585c, type: 3}
+  m_PrefabInstance: {fileID: 2801407754997410604}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8602135092527154928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8956423161877076407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2de8c46cacc8bac43b1c16f5bc5f3efb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EndowmentEffectButton
+  _EffectWindow: {fileID: 286086417507051255}
 --- !u!1001 &3769502522596727065
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2164,15 +2225,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 416005534746552688, guid: ff269cb0d9ad0084fbd1f440c4f8170d, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 416005534746552688, guid: ff269cb0d9ad0084fbd1f440c4f8170d, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 416005534746552688, guid: ff269cb0d9ad0084fbd1f440c4f8170d, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.27666664
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 440087322617152624, guid: ff269cb0d9ad0084fbd1f440c4f8170d, type: 3}
       propertyPath: m_Pivot.x
@@ -2254,6 +2315,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 524211912199690088, guid: ff269cb0d9ad0084fbd1f440c4f8170d, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1103109864942642906, guid: ff269cb0d9ad0084fbd1f440c4f8170d, type: 3}
       propertyPath: m_Value
       value: 1.0000007
@@ -2280,15 +2345,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7493774820142448145, guid: ff269cb0d9ad0084fbd1f440c4f8170d, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7493774820142448145, guid: ff269cb0d9ad0084fbd1f440c4f8170d, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7493774820142448145, guid: ff269cb0d9ad0084fbd1f440c4f8170d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: -5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8396432525499898031, guid: ff269cb0d9ad0084fbd1f440c4f8170d, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2305,6 +2370,11 @@ PrefabInstance:
       addedObject: {fileID: 7900595467216302491}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff269cb0d9ad0084fbd1f440c4f8170d, type: 3}
+--- !u!1 &286086417507051255 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7416044783269221283, guid: ff269cb0d9ad0084fbd1f440c4f8170d, type: 3}
+  m_PrefabInstance: {fileID: 7283296297991599444}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7136224580884721956 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 440087322617152624, guid: ff269cb0d9ad0084fbd1f440c4f8170d, type: 3}

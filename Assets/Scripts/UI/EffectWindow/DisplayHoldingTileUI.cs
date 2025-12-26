@@ -44,6 +44,7 @@ public class DisplayHoldingTileUI : MonoBehaviour
     private void UpdateTileInfo()
     {
         var keys = _holdingTileDict.Keys;
+        if (keys.Count == 0) return;
         int uiInfoCount = 0;
         foreach(var key in keys)
         {
