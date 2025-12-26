@@ -9,15 +9,15 @@ public class TileDeck : MonoBehaviour
     public int PoolSize => _poolSize;
     [SerializeField]private GameObject _tilePrefeb;
     [SerializeField]private BoardController _controller;
-    [SerializeField]private List<TileSO> _baseDeckSO;
-
-    [SerializeField]private List<TileSO> _copyDeck = new List<TileSO>();
+    // 덱매니저로 옮겼습니다.
+    // [SerializeField]private List<TileSO> _baseDeckSO; 
+    // 덱매니저로 옮겼습니다.
+    // [SerializeField]private List<TileSO> _copyDeck = new List<TileSO>(); 
 
     [SerializeField]private List<TileSO> _drawDeck = new List<TileSO>();
     private Queue<Tile> _tilePool = new Queue<Tile>();
     private void Awake()
     {
-        ResetDeck();
         InitPool();
         SetTileOnBoard();
     }
@@ -119,7 +119,7 @@ public class TileDeck : MonoBehaviour
     private void SuffleDeck()
     {
         _drawDeck.Clear();
-        _drawDeck.AddRange(_copyDeck);
+        _drawDeck.AddRange(DeckManager.Instance.GetUseDeck());
 
         for (int i = _drawDeck.Count - 1; i > 0; i--)
         {
@@ -147,17 +147,5 @@ public class TileDeck : MonoBehaviour
         return newTile;
     }
 
-    public void ResetDeck()
-    {
-        _copyDeck.AddRange(_baseDeckSO);
-    }
-
-    public void AddTile(TileSO tileSO)
-    {
-        _copyDeck.Add(tileSO);
-    }
-    public void RemoveTile(TileSO tileSO)
-    {
-        _copyDeck.Remove(tileSO);
-    }
+  
 }

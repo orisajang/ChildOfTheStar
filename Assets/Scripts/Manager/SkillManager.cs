@@ -20,7 +20,8 @@ public class SkillManager : Singleton<SkillManager>
 
     private void Start()
     {
-        if(_boardController == null)
+        isDestroyOnLoad = false;
+        if (_boardController == null)
         {
             _boardController = FindAnyObjectByType<BoardController>();
         }

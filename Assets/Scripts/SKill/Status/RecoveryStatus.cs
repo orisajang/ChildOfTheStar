@@ -4,7 +4,7 @@ using UnityEngine;
 public class RecoveryStatus : TileStatusBase
 {
     [SerializeField] private int _healAmout = 2;
-    public override void Execute(Tile[,] board, Tile casterTile)//player 인자 필요함. 추후 추가.
+    public override void Execute(Tile[,] board, Tile casterTile)
     {
 
         SkillManager.Instance.TileEventBus.TriggerEvent(TileStatus);
