@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7df28818be45fdf4d8ce3f1a56c73cd3, type: 3}
+  m_Name: RandomStatusToGreenile
+  m_EditorClassIdentifier: Assembly-CSharp::RandomStatusToRandomTile
+  descriptionText: 
+  _skillCondition: {fileID: 11400000, guid: 6642804cd0e1f794d81cf23f16b63abc, type: 2}
+  _color: 3
+  _statusList:
+  - _statustype: 0
+    _tileStatus: {fileID: 11400000, guid: b70c1ccfbcb2d29498004f3c0c022ab4, type: 2}
+  - _statustype: 1
+    _tileStatus: {fileID: 11400000, guid: 90f1d650fd4c81a44b81b8edf2e3e8fe, type: 2}
+  - _statustype: 2
+    _tileStatus: {fileID: 11400000, guid: b09eae41a7a6b8c48bdee7558871c570, type: 2}
+  - _statustype: 3
+    _tileStatus: {fileID: 11400000, guid: 927c03283f7cccb41a86315c3051e138, type: 2}
+  - _statustype: 4
+    _tileStatus: {fileID: 11400000, guid: b70c1ccfbcb2d29498004f3c0c022ab4, type: 2}

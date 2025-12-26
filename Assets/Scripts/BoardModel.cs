@@ -470,6 +470,12 @@ public class BoardModel
         foreach (Tile tile in matchedTiles)
         {
             tile.ExecuteTile(Tiles);
+
+        }
+        foreach (Tile tile in matchedTiles)
+        {
+
+            tile.ApplyReserve(Tiles);
             _brokenTileIndex.Add(new Pos(tile.Row, tile.Col));
             _tiles[tile.Row, tile.Col] = null;
             ReturnTile(tile);
@@ -484,7 +490,7 @@ public class BoardModel
             //과충전 증감 연산 체크
             CalcOverChargeValue();
         }
-       
+
     }
     /// <summary>
     /// 과충전 체크할때 색상별 타일이 얼마만큼 터졌는지 확인 필요
@@ -578,6 +584,11 @@ public class BoardModel
 
     public void SetOverChargeValue(int amount)
     {
+        if (amount > 0)
+        {
+            SkillManager.Instance.OverchargeIncrease(amount);
+        }
+
         _overChargeValue += amount;
         if(_overChargeValue < 0)
         {
@@ -590,7 +601,10 @@ public class BoardModel
             Debug.LogWarning("과충전 상태 진입!");
         }
     }
-
+    public int GetChargeOverflow()
+    {
+        return _overChargeValue - _limitOverChargeValue;
+    }
     /// <summary>
     ///  중력 적용 함수
     /// 각 열을 탐색하여 빈공간을 위에서 당겨서 채움, 
@@ -672,6 +686,15 @@ public class BoardModel
         }
 
         return a.TileData.Id.CompareTo(a.TileData.Id);
+    }
+    /// <summary>
+    /// 매칭전이나 중력적용전에만 적용해야함
+    /// </summary>
+    /// <param name="tile"></param>
+    public void RemoveTile(Tile tile)
+    {
+        if (_tiles[tile.Row, tile.Col] != null)
+            _tiles[tile.Row, tile.Col] = null;
     }
 
 }

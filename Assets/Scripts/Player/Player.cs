@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,9 +24,14 @@ public class Player : MonoBehaviour
     //플레이어 사망 이벤트
     public event Action OnPlayerDead;
 
+    //오버힐->쉴드전환 상태
+    public bool OverHealToshield { get; set; }
+    //불사상태
+    public bool isImmortality { get; set; }
+    //불사 종료후 턴종료시 데미지 받아야할상태
+    public bool isImmortalityityFinished { get; set; }
     private List<TileSO> _playerDeckSO;
     public IReadOnlyList<TileSO> PlayerDeckSO => _playerDeckSO;
-
     /// <summary>
     /// CSV데이터로 읽어온 데이터를 현재 Player에 적용
     /// </summary>
@@ -60,6 +64,22 @@ public class Player : MonoBehaviour
         Shield = 0;
         UIManager.Instance.PlayerStatusUI.UpdateShield(Shield);
         UIManager.Instance.PlayerStatusUI.UpdateMovePoint(MovementPointCurrent, MovementPointMax);
+        OverHealToshield = false;
+        if (isImmortality)
+        {
+            isImmortality = false;
+            isImmortalityityFinished = true;
+        }
+    }
+
+    public void PlayerTurnend()
+    {
+        if (isImmortalityityFinished)
+        {
+            TakeDamage(5);
+            Debug.Log("불사 종료 피해");
+            isImmortalityityFinished = false;
+        }
     }
     /// <summary>
     /// 사망후 플레이어 상태 초기화
@@ -84,7 +104,10 @@ public class Player : MonoBehaviour
         Debug.Log($"현재 플레이어 체력:{CharacterHpCurrent}");
 
         UIManager.Instance.PlayerStatusUI.UpdateHP(CharacterHpCurrent, CharacterHpMax);
-
+        if (OverHealToshield)
+        {
+            AddShieldValue(overHeal);
+        }
         return overHeal;
     }
     public void TakeDamage(int damage)
@@ -109,6 +132,11 @@ public class Player : MonoBehaviour
 
         if (CharacterHpCurrent < 0)
         {
+            if (isImmortality)
+            {
+                CharacterHpCurrent = 1;
+                return;
+            }
             OnPlayerDead?.Invoke();
         }
     }

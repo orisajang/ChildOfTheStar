@@ -8,6 +8,7 @@ public enum SkillEventType
     OnShield,
     OnTurnEnd,
     OnColorChanged,
+    OnTileDestroyed
 }
 
 public class TileEventBus
@@ -29,7 +30,7 @@ public class TileEventBus
     }
 
     /// <summary>
-    /// 특정 상태가 부여될 때 실행될 스킬을 등록
+    /// 특정 상태가 발동 될 때 실행될 스킬을 등록
     /// </summary>
     public void Register(TileStatus addedStatus, TileSkillBase skill)
     {
@@ -46,7 +47,7 @@ public class TileEventBus
     }
 
     /// <summary>
-    /// 특정 상태가 부여될 때 등록된 스킬 실행
+    /// 특정 상태가 발동 될 시 등록된 스킬 실행
     /// </summary>
     public void TriggerEvent(TileStatus addedStatus)
     {

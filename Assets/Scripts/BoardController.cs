@@ -33,6 +33,10 @@ public class BoardController : MonoBehaviour
     private TileMoveDirection _curTileMoveDir;
     private void Awake()
     {
+        if (SkillManager.Instance != null)
+        {
+            SkillManager.Instance.SetBoardController(this);
+        }
         _curTileMoveDir = TileMoveDirection._Null;
     }
     private void Start()

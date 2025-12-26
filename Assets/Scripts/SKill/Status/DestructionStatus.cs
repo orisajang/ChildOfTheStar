@@ -7,6 +7,7 @@ public class DestructionStatus : TileStatusBase
     private List<Tile> _targets = new List<Tile>(20);
     public override void Execute(Tile[,] board, Tile casterTile)
     {
+        SkillManager.Instance.TileEventBus.TriggerEvent(TileStatus);
         int startRow = casterTile.Row;
         int startCol = casterTile.Col;
         int rows = board.GetLength(0);
@@ -40,11 +41,16 @@ public class DestructionStatus : TileStatusBase
             }
             if (_targets.Count == 0)
                 continue;
-
             int rand = Random.Range(0, _targets.Count);
             _targets[rand].ReserveDestroy();
+
+            if (casterTile.replaceDestruction)
+            {
+                _targets[rand].replaceWillDestroy = true;
+            }
             return;
         }
+        casterTile.replaceDestruction = false;
         return;
     }
 }

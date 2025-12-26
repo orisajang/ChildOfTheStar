@@ -5,7 +5,6 @@ using UnityEngine;
 public class CompositeSkill: TileSkillBase
 {
     [SerializeField] List<TileSkillBase> _skills;
-    private const int MAX_DEPTH = 10;
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
         ExecuteWithDepth(board, casterTile, 0);
@@ -13,7 +12,7 @@ public class CompositeSkill: TileSkillBase
 
     private void ExecuteWithDepth(Tile[,] board, Tile casterTile, int currentDepth)
     {
-        if (currentDepth > MAX_DEPTH)
+        if (currentDepth > 10)
         {
             Debug.LogError($"재귀 : {currentDepth} 넘음. 스킬 잘못넣은듯 타일 Id :{casterTile.TileData.Id} ");
             return;

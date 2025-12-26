@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a8be61759a24b046a7b2e046ffcb273, type: 3}
+  m_Name: 10017
+  m_EditorClassIdentifier: Assembly-CSharp::TileSO
+  descriptionText: "\uC790\uC2E0\uC5D0\uAC8C \uD53C\uD574\uB97C 5 \uC90D\uB2C8\uB2E4.
+    \uD3ED\uC8FC: \uB9E4\uCE58\uB41C \uB2E4\uB978 \uD0C0\uC77C\uC758 \uD6A8\uACFC\uB4E4\uC744
+    \uBC18\uBCF5\uD569\uB2C8\uB2E4."
+  _preSkillSOList: []
+  _skillSOList:
+  - {fileID: 11400000, guid: 355280a7b7b639743af11d4fb21043ba, type: 2}
+  - {fileID: 11400000, guid: 416c5b87c2137a345a4004996b256309, type: 2}
+  _id: 10017
+  _name: "\uC6C0\uD2B8\uB294 \uBD88\uC528"
+  _icon: 2
+  _description: 
+  _color: 2
+  _spriteColor: {r: 0.9339623, g: 0.3815163, b: 0.24230155, a: 1}
+  _sprite: {fileID: 7482667652216324306, guid: 6b34972c1fa0c5145905179c7255f794, type: 3}
+  _rarity: 3
+  _price: 3
+  _speed: 2

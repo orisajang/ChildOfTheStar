@@ -8,10 +8,31 @@ public class SkillManager : Singleton<SkillManager>
     [SerializeField] private BoardController _boardController;
 
     private Dictionary<int, int> _TileSkillStack = new Dictionary<int, int>();
-
+    private int _destoryTileCount = 0;
     public TileEventBus TileEventBus => _eventBus;
     public BoardController BoardController => _boardController;
+    public int DestroyedTileCount => _destoryTileCount;
 
+    public bool notSelfDamagedFrenzy { get; set; } = false;
+    public bool IsExecuteNextDestory { get; set; } = true;
+    public int TotalOverchargeIncrease { get; private set; } = 0;
+    public int LastOverchargeIncrease { get; private set; } = 0;
+
+    private void Start()
+    {
+        if(_boardController == null)
+        {
+            _boardController = FindAnyObjectByType<BoardController>();
+        }
+    }
+    public void OverchargeIncrease(int amount)
+    {
+        if (amount <= 0) return;
+
+        LastOverchargeIncrease = amount;
+        TotalOverchargeIncrease += amount; 
+        TileEventBus.TriggerEvent(SkillEventType.OnOvercharge);
+    }
     public int GetStack(int Tile_ID)
     {
         if (_TileSkillStack.ContainsKey(Tile_ID))
@@ -26,9 +47,26 @@ public class SkillManager : Singleton<SkillManager>
 
         _TileSkillStack[skill_ID]++;
     }
-
-    public void TurnEnd()
+    public void IncreaseDestroyCount()
+    {
+        _destoryTileCount++;
+    }
+    public void TurnStartInit()
     {
         _TileSkillStack.Clear();
+        notSelfDamagedFrenzy = false;
+        IsExecuteNextDestory = false;
+        _destoryTileCount = 0; 
+        TotalOverchargeIncrease = 0;
+        LastOverchargeIncrease = 0;
+    }
+    public void TurnEnd()
+    {
+
+    }
+
+    public void SetBoardController(BoardController controller)
+    {
+        _boardController = controller;
     }
 }

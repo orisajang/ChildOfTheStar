@@ -112,6 +112,7 @@ public class TurnManager : Singleton<TurnManager>
         {
             //스테이지 종료 처리 필요
             StageManager.Instance.PlayNextStage();
+            SkillManager.Instance.TurnStartInit();
             return;
         }
 
@@ -125,6 +126,10 @@ public class TurnManager : Singleton<TurnManager>
         {
             //턴이 종료되었다면
             EndPlayerTurn();
+            PlayerManager.Instance._player.PlayerTurnend();
+            SkillManager.Instance.TurnEnd();
+            SkillManager.Instance.TileEventBus.TriggerEvent(SkillEventType.OnTurnEnd);
+            SkillManager.Instance.TileEventBus.ClearAll();
         }
     }
 

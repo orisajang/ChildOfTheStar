@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a233f0e7f1cd8c499f77942ef014e8a, type: 3}
+  m_Name: FrenzyEnemyDamange
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDamangeFrenzy
+  descriptionText: "\uAD11\uBD84\uC774 \uBB34\uC791\uC704 \uC801\uC5D0\uAC8C \uD53C\uD574
+    \uC785\uD788\uB294\uAC78\uB85C \uBCC0\uACBD"
+  _skillCondition: {fileID: 11400000, guid: 0459086dffc0b514c80051ddcaae9a13, type: 2}

@@ -18,6 +18,8 @@ public class RandomTargetDamageSkill : TileSkillBase
         Debug.Log($"랜덤 적에게 {growthValue} 피해");
 
         int randTarget = Random.Range(0, monsters.Count);
-        monsters[randTarget].TakeDamage(growthValue);
+
+        if (monsters[randTarget] != null)
+            monsters[randTarget].TakeDamage(_damage);
     }
 }

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-[CreateAssetMenu(fileName = "ColorChangeAllTile", menuName = "Scriptable Objects/ColorChangeAllTile/ColorChangeAllTile")]
+[CreateAssetMenu(fileName = "ColorChangeAllTile", menuName = "Scriptable Objects/ColorChange/ColorChangeAllTile")]
 public class ColorChangeAllTile : TileSkillBase
 {
     [Tooltip("탐색할 목표 타일의 색, None일 경우 모든 색")]

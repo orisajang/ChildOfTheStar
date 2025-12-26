@@ -5,6 +5,7 @@ public class GrowthStatus : TileStatusBase
 {
     public override void Execute(Tile[,] board, Tile casterTile)
     {
-       
+
+        SkillManager.Instance.TileEventBus.TriggerEvent(TileStatus);
     }
 }

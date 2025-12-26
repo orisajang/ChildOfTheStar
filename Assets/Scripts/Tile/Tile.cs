@@ -31,6 +31,7 @@ public class Tile : MonoBehaviour
     private SpriteRenderer _renderer;
     private Action<Tile> _returnTile;
 
+
     public int Col => _col;
     public int Row => _row;
     public TileColor Color => _curColor;
@@ -45,9 +46,8 @@ public class Tile : MonoBehaviour
     public int DestructionNum => _destructionNum;
     public int RebirthNum => _rebirthNum;
     public bool Matched { get; set; }
-
-
-
+    public bool replaceDestruction { get; set; }
+    public bool replaceWillDestroy { get; set; }
     public void Awake()
     {
         _statusDictionary = new Dictionary<TileStatus, List<TileStatusBase>>();
@@ -160,7 +160,6 @@ public class Tile : MonoBehaviour
     {
         _statusDictionary[statusType].Add(StautsData);
 
-        SkillManager.Instance.TileEventBus.TriggerEvent(statusType);
         switch (statusType)
         {
             case TileStatus.Frenzy:
@@ -206,13 +205,22 @@ public class Tile : MonoBehaviour
     /// <summary>
     /// 예약된 윤회,파괴 실행, 턴매니저? 같은곳에서 마지막에 호출해야함
     /// </summary>
-    public void ApplyReserve()
+    public void ApplyReserve(Tile[,] board)
     {
         if (_willDestroy)
         {
-            _willDestroy = false;
-            _returnTile?.Invoke(this);
-            return;
+            if(replaceWillDestroy || SkillManager.Instance.IsExecuteNextDestory)
+            {
+
+                SkillManager.Instance.IsExecuteNextDestory = false;
+                _willDestroy = false;
+                this.ExecuteTile(board);
+            }
+            else
+            {
+                Destroy();
+                return;
+            }
         }
 
         if (_nextTileSO != null)
@@ -225,6 +233,16 @@ public class Tile : MonoBehaviour
             _renderer.sprite = _tileDataSO.Sprite;
 
         }
+    }
+
+    public void Destroy()
+    {
+        SkillManager.Instance.IncreaseDestroyCount();
+        SkillManager.Instance.TileEventBus.TriggerEvent(SkillEventType.OnTileDestroyed);
+
+        _willDestroy = false;
+
+        _returnTile?.Invoke(this);
     }
     public void ChangeTileColor(TileColor color)
     {

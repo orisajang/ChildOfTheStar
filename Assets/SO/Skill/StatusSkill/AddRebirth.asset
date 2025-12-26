@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: AddRebirth
   m_EditorClassIdentifier: Assembly-CSharp::SetStatus
   descriptionText: "\uC870\uAC74\uC5C6\uC774 \uC790\uC2E0\uC744 \uC81C\uC678\uD55C
-    \uB79C\uB364 \uD0C0\uC77C \uB300\uC0C1\uC73C\uB85C \uAD11\uBD84\uBD80\uC5EC"
+    \uB79C\uB364 \uD0C0\uC77C \uB300\uC0C1\uC73C\uB85C \uC724\uD68C \uBD80\uC5EC"
   _skillCondition: {fileID: 0}
-  _status: 3
-  _color: 5
+  _targetColor: 5
+  _Status: 3
   _tileStatus: {fileID: 11400000, guid: 927c03283f7cccb41a86315c3051e138, type: 2}

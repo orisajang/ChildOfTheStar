@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a8be61759a24b046a7b2e046ffcb273, type: 3}
+  m_Name: RedShield5
+  m_EditorClassIdentifier: Assembly-CSharp::TileSO
+  descriptionText: "\uC790\uC2E0\uC758 \uBC29\uC5B4\uB9C9 5 \uD68D\uB4DD\uD569\uB2C8\uB2E4."
+  _preSkillSOList: []
+  _skillSOList:
+  - {fileID: 11400000, guid: ca82c299ddee45f4698185de8aa05d17, type: 2}
+  _id: 10002
+  _name: "\uBC29\uC5B4"
+  _icon: 1
+  _description: 1
+  _color: 2
+  _spriteColor: {r: 1, g: 0, b: 0, a: 1}
+  _sprite: {fileID: 7482667652216324306, guid: c4c800d3b6a6cdd4d9dad6712a9b1820, type: 3}
+  _rarity: 1
+  _price: 0
+  _speed: 2

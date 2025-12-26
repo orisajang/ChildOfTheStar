@@ -7,6 +7,7 @@ public class RebirthStatus : TileStatusBase
     private static List<Tile> _targets = new List<Tile>(30);
     public override void Execute(Tile[,] board, Tile casterTile)
     {
+        SkillManager.Instance.TileEventBus.TriggerEvent(TileStatus);
         _targets.Clear();
         int rows = board.GetLength(0);
         int cols = board.GetLength(1);

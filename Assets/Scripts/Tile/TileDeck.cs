@@ -3,37 +3,51 @@ using UnityEngine;
 
 public class TileDeck : MonoBehaviour
 {
-    private  int Height = 5;
+    private int Height = 5;
     private int Width = 6;
     [SerializeField] private int _poolSize = 50;
     public int PoolSize => _poolSize;
     [SerializeField]private GameObject _tilePrefeb;
     [SerializeField]private BoardController _controller;
-    [SerializeField]private List<TileSO> BaseDeckSO;
+    [SerializeField]private List<TileSO> _baseDeckSO;
+
+    [SerializeField]private List<TileSO> _copyDeck = new List<TileSO>();
 
     [SerializeField]private List<TileSO> _drawDeck = new List<TileSO>();
     private Queue<Tile> _tilePool = new Queue<Tile>();
+
+    public List<TileSO> DrawDeck => _drawDeck;
     private void Awake()
     {
+        ResetDeck();
         InitPool();
-        for (int i = 0; i < Height; i++)
+        SetTileOnBoard();
+    }
+
+    public void SetBoardController(BoardController controller)
+    {
+        _controller = controller;
+    }
+    public void SetTileOnBoard()
+    {
+        if (_controller != null)
         {
-            for (int j = 0; j < Width; j++)
+            for (int i = 0; i < Height; i++)
             {
-               
-                _controller.SetTile(i, j, CreatTile(i, j));
+                for (int j = 0; j < Width; j++)
+                {
+
+                    _controller.SetTile(i, j, CreatTile(i, j));
+                }
             }
         }
     }
-
     private void Start()
     {
         //플레이어 타일덱 비어있으면 기본덱 넣기
-        PlayerManager.Instance._player.CheckAndSetPlayerDeck(BaseDeckSO);
+        PlayerManager.Instance._player.CheckAndSetPlayerDeck(_baseDeckSO);
         //TileDeckTestManager.Instance.SetTileDeckInfoForJson();
     }
-
-
     private void OnEnable()
     {
         //Action 및 Func 연결
@@ -85,20 +99,26 @@ public class TileDeck : MonoBehaviour
     /// <param name="tile"></param>
     public void ReturnTilePool(Tile tile)
     {
+        if (_controller.BoardModel.Tiles[tile.Row, tile.Col] == tile)
+        {
+            //보드 이차원배열안에서 해당위치 null로 만들기
+            _controller.BoardModel.RemoveTile(tile);
+        }
         tile.gameObject.SetActive(false);
         _tilePool.Enqueue(tile);
+        
     }
 
     private TileSO DrawTileSO()
     {
-        if (_drawDeck.Count <= 0)
-        {
-            SuffleDeck();
-        }
         int lastIndex = _drawDeck.Count - 1;
         TileSO item = _drawDeck[lastIndex];
         _drawDeck.RemoveAt(lastIndex);
 
+        if (_drawDeck.Count <= 0)
+        {
+            SuffleDeck();
+        }
         return item;
     }
     /// <summary>
@@ -107,7 +127,7 @@ public class TileDeck : MonoBehaviour
     private void SuffleDeck()
     {
         _drawDeck.Clear();
-        _drawDeck.AddRange(BaseDeckSO);
+        _drawDeck.AddRange(_copyDeck);
 
         for (int i = _drawDeck.Count - 1; i > 0; i--)
         {
@@ -135,4 +155,17 @@ public class TileDeck : MonoBehaviour
         return newTile;
     }
 
+    public void ResetDeck()
+    {
+        _copyDeck.AddRange(_baseDeckSO);
+    }
+
+    public void AddTile(TileSO tileSO)
+    {
+        _copyDeck.Add(tileSO);
+    }
+    public void RemoveTile(TileSO tileSO)
+    {
+        _copyDeck.Remove(tileSO);
+    }
 }
