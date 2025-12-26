@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2053341231868608312
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6541262683786560491}
+  - component: {fileID: 1333060053306511174}
+  m_Layer: 0
+  m_Name: ShopMananger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6541262683786560491
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053341231868608312}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1333060053306511174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053341231868608312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05c6e896f9e12f34a9e69456404c4156, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopManager
+  _rarityGroup:
+  - rarity: 1
+    tiles:
+    - {fileID: 11400000, guid: 7f42fb25a541a9d4880e2ae0ae3282d7, type: 2}
+    - {fileID: 11400000, guid: e73df9b7bb7b02345b50e82215102795, type: 2}
+    - {fileID: 11400000, guid: c3a5ea2d041290341b4181ad03585402, type: 2}
+    - {fileID: 11400000, guid: aef6684c5ee81f74fa64f95026125cac, type: 2}
+    - {fileID: 11400000, guid: 01ad7602f0bf17d4ab4a439b0f7841f4, type: 2}
+    - {fileID: 11400000, guid: 8f0ebfe23a5a7d5408ce926f9bf3f3f7, type: 2}
+    - {fileID: 11400000, guid: 26f6457f1028179429168bd19ddbc3d0, type: 2}
+    - {fileID: 11400000, guid: cba5997d08e2c9445b45c31450c39592, type: 2}
+    - {fileID: 11400000, guid: 521c13ccb3b81b74793808008f2bd78b, type: 2}
+    - {fileID: 11400000, guid: d5c4952654ce361459db6696b4c50216, type: 2}
+  - rarity: 2
+    tiles:
+    - {fileID: 11400000, guid: 7164b0f54a753c542be6a8a8a9e34da8, type: 2}
+    - {fileID: 11400000, guid: 449daeb6dacf4a74584ecc4bf936d1a6, type: 2}
+    - {fileID: 11400000, guid: 8445ce439f044504a8924d9e85a90276, type: 2}
+    - {fileID: 11400000, guid: b8b231e6b3816784fb9c7163366c573d, type: 2}
+    - {fileID: 11400000, guid: 9176330f047b5824e866d71daa754df7, type: 2}
+    - {fileID: 11400000, guid: a160c35a98cf0aa4f878c80f5ec3cc8e, type: 2}
+    - {fileID: 11400000, guid: b2e8bb68c39eb38469fc63032f017c44, type: 2}
+    - {fileID: 11400000, guid: e1de14ad8df04f64e836b75e0998907e, type: 2}
+    - {fileID: 11400000, guid: a51ccbd9992c93f4ba975899d1ac9fda, type: 2}
+    - {fileID: 11400000, guid: 7077bf9e6ced4224dae01aa1363ed2be, type: 2}
+  - rarity: 3
+    tiles:
+    - {fileID: 11400000, guid: 6b320af633a2060438d765597d1d3037, type: 2}
+    - {fileID: 11400000, guid: 7f5841b19b97a9345ad25012129afacd, type: 2}
+    - {fileID: 11400000, guid: 7f81def8489d7674db6024160fdffd04, type: 2}
+    - {fileID: 11400000, guid: 8ac2f6cf07907bd4cbc238e11e3ed507, type: 2}
+    - {fileID: 11400000, guid: abc708b46107f87498c3bff93bfadb58, type: 2}
+    - {fileID: 11400000, guid: e9617e03c385d304cb59a3d83928b825, type: 2}
+    - {fileID: 11400000, guid: c8d9caf2513202f4fb76ffcb8a06e623, type: 2}
+    - {fileID: 11400000, guid: 792a71e58b7d9a844a7521b67dabf41b, type: 2}
+  - rarity: 4
+    tiles:
+    - {fileID: 11400000, guid: eb76cd7439878ae4bb0c3f26292570d5, type: 2}
+    - {fileID: 11400000, guid: d7b453097660f8144968f947c52ae72a, type: 2}
+    - {fileID: 11400000, guid: 336bc746d488f8349a3ff79a965b6feb, type: 2}
+    - {fileID: 11400000, guid: aba4189525e487e4ea7c2d0a831f62dd, type: 2}
+    - {fileID: 11400000, guid: 78addc26697964f42ab872f4340fcc5c, type: 2}
+    - {fileID: 11400000, guid: 190b7ecb2a4601848909eac26739315b, type: 2}
+    - {fileID: 11400000, guid: 5917a793aac72ed499b2c36c9fe23d32, type: 2}
+    - {fileID: 11400000, guid: 47f9766c851a5684a8e4a92f5dc30be0, type: 2}
+    - {fileID: 11400000, guid: 877fae8356bfb3e47a9dfaef589950dc, type: 2}
+    - {fileID: 11400000, guid: 07270df630b365547ab830bd9052e712, type: 2}
+  - rarity: 5
+    tiles:
+    - {fileID: 11400000, guid: 9893628b03ac2b84d8662601fd49ad01, type: 2}
+    - {fileID: 11400000, guid: d48e3da7eb7b56d4cbacdec3825ad65f, type: 2}
+    - {fileID: 11400000, guid: f85f9f63e848b6d46bcd5ae036268376, type: 2}
+    - {fileID: 11400000, guid: 360f9daf487f5f7418300e263a38b26c, type: 2}
+    - {fileID: 11400000, guid: 878d8ace2cd706b4199498a75b8e4f72, type: 2}
+    - {fileID: 11400000, guid: c77d155b6c4c6d346902b1b2200cebec, type: 2}
+    - {fileID: 11400000, guid: 0d9434ae82f17f644aa12a1b81cdec3d, type: 2}
+    - {fileID: 11400000, guid: b7a063802313b3e46b8d3a781f67b91b, type: 2}
+    - {fileID: 11400000, guid: e3476da296fdbb645883668749661fa0, type: 2}
+    - {fileID: 11400000, guid: dba0f46e9acb15e4aaf38958044944eb, type: 2}
+  _baseDeck:
+  - {fileID: 11400000, guid: 7f42fb25a541a9d4880e2ae0ae3282d7, type: 2}
+  - {fileID: 11400000, guid: e73df9b7bb7b02345b50e82215102795, type: 2}
+  - {fileID: 11400000, guid: c3a5ea2d041290341b4181ad03585402, type: 2}
+  - {fileID: 11400000, guid: aef6684c5ee81f74fa64f95026125cac, type: 2}
+  - {fileID: 11400000, guid: 01ad7602f0bf17d4ab4a439b0f7841f4, type: 2}
+  - {fileID: 11400000, guid: 8f0ebfe23a5a7d5408ce926f9bf3f3f7, type: 2}
+  - {fileID: 11400000, guid: 26f6457f1028179429168bd19ddbc3d0, type: 2}
+  - {fileID: 11400000, guid: cba5997d08e2c9445b45c31450c39592, type: 2}
+  - {fileID: 11400000, guid: 521c13ccb3b81b74793808008f2bd78b, type: 2}
+  - {fileID: 11400000, guid: d5c4952654ce361459db6696b4c50216, type: 2}
+  _useDeck: []
+  _shopTileSlots: []
