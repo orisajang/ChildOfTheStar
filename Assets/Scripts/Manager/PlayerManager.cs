@@ -13,23 +13,18 @@ public class PlayerManager : Singleton<PlayerManager>
     protected override void Awake()
     {
         base.Awake();
+        if (Instance != this) return; //이거도 추가
         _player = GetComponent<Player>();
-    }
-    private void Start()
-    {
         //데이터를 받아옴
         SetPlayerData();
-    }
-
-    private void OnEnable()
-    {
+        //이벤트 구독 (싱글톤이라서 Enable말고 Awake
         _player.OnPlayerDead += PlayerDeadMethod;
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
+        if (Instance != this) return;
         _player.OnPlayerDead -= PlayerDeadMethod;
     }
-
     private void SetPlayerData()
     {
         //정보를 불러옴
@@ -46,7 +41,12 @@ public class PlayerManager : Singleton<PlayerManager>
     public void PlayerDeadMethod()
     {
         //게임매니저에 보내거나.. 그런 처리 진행
+        _player.PlayerStateInit();
         Debug.Log("플레이어 사망");
+        //스테이지 0번부터로 초기화
+        DungeonManager.Instance.OnStageInfoInit();
+        //스테이지 씬으로 이동
+        GameManager.Instance.GoToStageScene();
     }
     /// <summary>
     /// 플레이어 행동력 1 감소하는 메서드
@@ -59,6 +59,6 @@ public class PlayerManager : Singleton<PlayerManager>
         SendPlayerMovePoint?.Invoke(currentMovePoint);
     }
 
-
+    
 
 }

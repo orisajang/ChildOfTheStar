@@ -47,7 +47,9 @@ public class MonsterManager : Singleton<MonsterManager>
     //MonsterManager 에 있는 테스트 생성용 코드를 여러 몬스터가 있을떄 어떻게 생성시키게 할건지 고민 필요
     protected override void Awake()
     {
+        isDestroyOnLoad = false;
         base.Awake();
+        if (Instance != this) return; //이거도 추가
 
         //몬스터가 생성될 좌표 설정
         SetMonsterSpawnPosition();

@@ -42,6 +42,12 @@ public class TileDeck : MonoBehaviour
             }
         }
     }
+    private void Start()
+    {
+        //플레이어 타일덱 비어있으면 기본덱 넣기
+        PlayerManager.Instance._player.CheckAndSetPlayerDeck(_baseDeckSO);
+        //TileDeckTestManager.Instance.SetTileDeckInfoForJson();
+    }
     private void OnEnable()
     {
         //Action 및 Func 연결

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class StageSelectUIManager : Singleton<StageSelectUIManager>
 {
@@ -21,16 +22,22 @@ public class StageSelectUIManager : Singleton<StageSelectUIManager>
 
     protected override void Awake()
     {
+        //씬마다 초기화되어야해서 isDestroyOnLoad = false처리
+        isDestroyOnLoad = false;
         base.Awake();
+        if (Instance != this) return; //이거도 추가
     }
-    public void SetBtnList()
+    public void SetBtnList(Dictionary<int, int> selStageInfo)
     {
         //1. 버튼 정보 설정
         //자식 컴포넌트를 순회
         //Hierachy에서 StageParent - Node_1 - 버튼들 구조로 되어있을때 버튼들을 리스트에 저장하기 위해 사용
         //StageParent들 자식을 순회한다
+        int rowIndex = 0;
+        int colIndex = 0;
         foreach (Transform stageNodes in _gridStageParentNode)
         {
+            colIndex = 0;
             List<Button> listBuf = new List<Button>();
             //Node들 자식 순회
             foreach (Transform stageBtns in stageNodes)
@@ -39,19 +46,40 @@ public class StageSelectUIManager : Singleton<StageSelectUIManager>
                 Button btn_capture = btn;
                 btn_capture.interactable = false;
                 btn_capture.onClick.AddListener(() => StageInstanceBtnClick(btn_capture));
+
+                //추가로 이미 이전에 클리어한 스테이지버튼들의 색상을 빨간색으로 지정해주자
+                if(selStageInfo.ContainsKey(rowIndex) &&
+                    selStageInfo[rowIndex] == colIndex)
+                {
+                    btn_capture.image.color = Color.gray;
+                    //마지막 플레이어 위치를 다시 표시하기위해
+                    int lastPos = DungeonManager.Instance.LastSelectStageIndexKey;
+                    if (lastPos == rowIndex)
+                    {
+                        RectTransform btnTransform = btn_capture.GetComponent<RectTransform>();
+                        Vector2 pos = btnTransform.anchoredPosition;
+
+                        _playerImage.rectTransform.anchoredPosition = pos; //위치가 이상함
+                    }
+                }
+
                 listBuf.Add(btn);
+                colIndex++;
             }
             btnList.Add(listBuf);
+            rowIndex++;
         }
     }
 
-    public void SetStageInfo(int stageNo, int instanceNo)
+    public void SetStageInfo(int stageNo, int instanceNo, Dictionary<int, int> selStageInfo)
     {
-        if(btnList.Count == 0)
-        {
-            //초기1회 버튼 리스트 정보설정
-            SetBtnList();
-        }
+        //if (btnList.Count == 0)
+        //{
+        //    //초기1회 버튼 리스트 정보설정
+        //    SetBtnList();
+        //}
+        //씬마다 버튼이벤트 등록해야하므로 무조건 진행
+        SetBtnList(selStageInfo);
         btnList[stageNo][instanceNo].interactable = true;
         SetStageUIInit(btnList[stageNo][instanceNo]);
     }
@@ -63,12 +91,6 @@ public class StageSelectUIManager : Singleton<StageSelectUIManager>
         vec.y -= (btn.transform.position.y - _moveValue);
         //stageUIParent.position.y = btn.transform.position.y - moveValue;
         _stageButtonNodeParent.position = vec;
-
-        //다시 스테이지 선택 씬으로 돌아왔을때 캐릭터의 위치를 선택했었던 버튼의 위치로 이동
-        if(_clickPositionTransform != null)
-        {
-            _playerImage.rectTransform.anchoredPosition = _clickPositionTransform;
-        }
     }
 
     public void StageInstanceBtnClick(Button btn)
