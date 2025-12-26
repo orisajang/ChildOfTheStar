@@ -11,7 +11,7 @@ public class DungeonSelectUI : MonoBehaviour
     [SerializeField] private Sprite unlockSprite;
 
     // 테스트용 코드
-    int currentDungeon = 2;
+    int currentDungeon = 0;
 
     /// <summary>
     /// 세이브 파일로 현재 currentDengeon번호를 입력할때 사용하는 메서드 (기존 클리어한 던전은 해금시키기 위해)
@@ -31,9 +31,11 @@ public class DungeonSelectUI : MonoBehaviour
     /// </summary>
     public void DungeonSelect()
     {
-        for(int i = 0; i < dungeonButtons.Length; i++)
+        currentDungeon = DungeonManager.Instance.CurrentDungeonNumber;
+        for (int i = 0; i < dungeonButtons.Length; i++)
         {
-            bool isUnlocked = i < currentDungeon;
+            //bool isUnlocked = i < currentDungeon;
+            bool isUnlocked = i == currentDungeon-1;
 
             dungeonButtons[i].interactable = isUnlocked;
 

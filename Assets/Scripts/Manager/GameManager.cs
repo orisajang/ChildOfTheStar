@@ -9,6 +9,7 @@ public static class SceneName
     public const string Shop = "Shop";
     public const string Stage = "StageSelectScene";
     public const string Lobby = "LobbyTest";
+    public const string EarnedResource = "EarnedResourceScene";
     //이후 추가되는 씬들을 똑같이 string으로 추가
 
 }
@@ -21,6 +22,7 @@ public class GameManager : Singleton<GameManager>
     protected override void Awake()
     {
         base.Awake();
+        if (Instance != this) return; //이거도 추가
     }
 
     private void Start()
@@ -51,6 +53,11 @@ public class GameManager : Singleton<GameManager>
     {
         Debug.Log("로비씬으로 이동");
         SceneManager.LoadScene(SceneName.Lobby);
+    }
+    public void GoToResourceEarnedScene()
+    {
+        Debug.Log("인게임클리어후 자원획득량창으로 이동");
+        SceneManager.LoadScene(SceneName.EarnedResource);
     }
 
     

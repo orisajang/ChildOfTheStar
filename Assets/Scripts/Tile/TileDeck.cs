@@ -42,6 +42,12 @@ public class TileDeck : MonoBehaviour
             }
         }
     }
+    private void Start()
+    {
+        //플레이어 타일덱 비어있으면 기본덱 넣기
+        PlayerManager.Instance._player.CheckAndSetPlayerDeck(_baseDeckSO);
+        //TileDeckTestManager.Instance.SetTileDeckInfoForJson();
+    }
     private void OnEnable()
     {
         //Action 및 Func 연결
@@ -105,15 +111,19 @@ public class TileDeck : MonoBehaviour
 
     private TileSO DrawTileSO()
     {
+        if (_drawDeck.Count <= 0)
+        {
+            SuffleDeck();
+        }
         int lastIndex = _drawDeck.Count - 1;
-        TileSO item = _drawDeck[lastIndex];
+        TileSO tile = _drawDeck[lastIndex];
         _drawDeck.RemoveAt(lastIndex);
 
         if (_drawDeck.Count <= 0)
         {
             SuffleDeck();
         }
-        return item;
+        return tile;
     }
     /// <summary>
     /// 실제로 사용할 덱 원본에서 복사하여, 피셔에이츠 셔플(중복 방지)
@@ -151,7 +161,9 @@ public class TileDeck : MonoBehaviour
 
     public void ResetDeck()
     {
+        _copyDeck.Clear();
         _copyDeck.AddRange(_baseDeckSO);
+        SuffleDeck();
     }
 
     public void AddTile(TileSO tileSO)
