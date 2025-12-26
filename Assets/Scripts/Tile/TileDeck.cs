@@ -3,29 +3,43 @@ using UnityEngine;
 
 public class TileDeck : MonoBehaviour
 {
-    private  int Height = 5;
+    private int Height = 5;
     private int Width = 6;
     [SerializeField] private int _poolSize = 50;
     public int PoolSize => _poolSize;
     [SerializeField]private GameObject _tilePrefeb;
     [SerializeField]private BoardController _controller;
-    [SerializeField]private List<TileSO> BaseDeckSO;
+    [SerializeField]private List<TileSO> _baseDeckSO;
+
+    [SerializeField]private List<TileSO> _copyDeck = new List<TileSO>();
 
     [SerializeField]private List<TileSO> _drawDeck = new List<TileSO>();
     private Queue<Tile> _tilePool = new Queue<Tile>();
     private void Awake()
     {
+        ResetDeck();
         InitPool();
-        for (int i = 0; i < Height; i++)
+        SetTileOnBoard();
+    }
+
+    public void SetBoardController(BoardController controller)
+    {
+        _controller = controller;
+    }
+    public void SetTileOnBoard()
+    {
+        if (_controller != null)
         {
-            for (int j = 0; j < Width; j++)
+            for (int i = 0; i < Height; i++)
             {
-               
-                _controller.SetTile(i, j, CreatTile(i, j));
+                for (int j = 0; j < Width; j++)
+                {
+
+                    _controller.SetTile(i, j, CreatTile(i, j));
+                }
             }
         }
     }
-
     private void OnEnable()
     {
         //Action 및 Func 연결
@@ -89,14 +103,14 @@ public class TileDeck : MonoBehaviour
 
     private TileSO DrawTileSO()
     {
-        if (_drawDeck.Count <= 0)
-        {
-            SuffleDeck();
-        }
         int lastIndex = _drawDeck.Count - 1;
         TileSO item = _drawDeck[lastIndex];
         _drawDeck.RemoveAt(lastIndex);
 
+        if (_drawDeck.Count <= 0)
+        {
+            SuffleDeck();
+        }
         return item;
     }
     /// <summary>
@@ -105,7 +119,7 @@ public class TileDeck : MonoBehaviour
     private void SuffleDeck()
     {
         _drawDeck.Clear();
-        _drawDeck.AddRange(BaseDeckSO);
+        _drawDeck.AddRange(_copyDeck);
 
         for (int i = _drawDeck.Count - 1; i > 0; i--)
         {
@@ -133,4 +147,17 @@ public class TileDeck : MonoBehaviour
         return newTile;
     }
 
+    public void ResetDeck()
+    {
+        _copyDeck.AddRange(_baseDeckSO);
+    }
+
+    public void AddTile(TileSO tileSO)
+    {
+        _copyDeck.Add(tileSO);
+    }
+    public void RemoveTile(TileSO tileSO)
+    {
+        _copyDeck.Remove(tileSO);
+    }
 }
