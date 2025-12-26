@@ -421,6 +421,7 @@ GameObject:
   - component: {fileID: 3473110974144784682}
   - component: {fileID: 4394864935700607845}
   - component: {fileID: 7427589906495065115}
+  - component: {fileID: 8591914636259117550}
   m_Layer: 5
   m_Name: EffectInfo
   m_TagString: Untagged
@@ -489,6 +490,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8591914636259117550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6705514797727997539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ffeae5e330519d40a9b25414f82c4d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TileInfoUI
+  _tileName: {fileID: 5178378502617076399}
+  _tileDescription: {fileID: 2303527489514961067}
+  _tileNum: {fileID: 2084407236901248805}
 --- !u!1 &7517772438202462791
 GameObject:
   m_ObjectHideFlags: 0

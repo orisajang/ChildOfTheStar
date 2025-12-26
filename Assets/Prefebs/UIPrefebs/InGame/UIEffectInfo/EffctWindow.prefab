@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8396432525499898031}
   - component: {fileID: 7913427018632169725}
+  - component: {fileID: 3588838913896462795}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -60,6 +61,20 @@ MonoBehaviour:
   m_Spacing: {x: 8, y: 8}
   m_Constraint: 1
   m_ConstraintCount: 2
+--- !u!114 &3588838913896462795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 825599319717825777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385833202c66a344887a019e3beddd74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DisplayHoldingTileUI
+  _effectUIPrefeb: {fileID: 6705514797727997539, guid: aae6afd91711e6f46bba6d2fa6797a49, type: 3}
+  _tileDeck: {fileID: 0}
 --- !u!1 &1313416556961242502
 GameObject:
   m_ObjectHideFlags: 0
