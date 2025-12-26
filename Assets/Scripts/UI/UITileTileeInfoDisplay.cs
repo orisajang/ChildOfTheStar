@@ -6,15 +6,21 @@ public class UITileTileeInfoDisplay : MonoBehaviour
     [SerializeField] TextMeshProUGUI _tileNameText;
     [SerializeField] TextMeshProUGUI _tileDescriptionText;
     [SerializeField] TextMeshProUGUI _tileRareRankText;
-    [SerializeField] TextMeshProUGUI _tileHoldingSkilText;
+    [SerializeField] TextMeshProUGUI _tileStatusFrenzyText;
+    [SerializeField] TextMeshProUGUI _tileStatusRebirthText;
+    [SerializeField] TextMeshProUGUI _tileStatusGrowthText;
+    [SerializeField] TextMeshProUGUI _tileStatusDestructText;
+    [SerializeField] TextMeshProUGUI _tileStatusRecoveryText;
 
     public void UpdateTile(Tile tile)
     {
-        tile.GetStatusCount(TileStatus.Frenzy);//광분
-        tile.GetStatusCount(TileStatus.Rebirth);//윤회
-        tile.GetStatusCount(TileStatus.Growth);//성장
-        tile.GetStatusCount(TileStatus.Destruction);//파괴
-        tile.GetStatusCount(TileStatus.Recovery);//회복
+        UpdateTileStatusText(
+            tile.GetStatusCount(TileStatus.Frenzy),
+            tile.GetStatusCount(TileStatus.Rebirth),
+            tile.GetStatusCount(TileStatus.Growth),
+            tile.GetStatusCount(TileStatus.Destruction),
+            tile.GetStatusCount(TileStatus.Recovery)
+            );
         UpdateSkilInfo(tile.TileData.name, 
                               tile.TileData.descriptionText, 
                               tile.TileData.Rarity.ToString());
@@ -24,5 +30,13 @@ public class UITileTileeInfoDisplay : MonoBehaviour
         _tileNameText.text = name;
         _tileDescriptionText.text = description;
         _tileRareRankText.text = $"레어도 {rareRank}";
+    }
+    private void UpdateTileStatusText(int fenz, int rebirth, int growth, int destruct,int recovery)
+    {
+        _tileStatusFrenzyText.text = $"x{fenz:D2}";
+        _tileStatusRebirthText.text = $"x{rebirth:D2}";
+        _tileStatusGrowthText.text = $"x{growth:D2}";
+        _tileStatusDestructText.text = $"x{destruct:D2}";
+        _tileStatusRecoveryText.text = $"x{recovery:D2}";
     }
 }
