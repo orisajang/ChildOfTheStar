@@ -15,7 +15,7 @@ public class MonsterAnimatorFactory
 
     public AnimatorOverrideController CreateOverrideController(Dictionary<eMonsterAction,string> actionNameDic)
     {
-        if (_baseController == null) _baseController = Resources.Load<AnimatorController>("Monster/MonsterAnimation_base");
+        if (_baseController == null) _baseController = Resources.Load<AnimatorController>("Monster/Base/MonsterAnimation_base");
         AnimatorOverrideController overrideController = new AnimatorOverrideController(_baseController);
 
         //기존 Clip리스트 가져오기

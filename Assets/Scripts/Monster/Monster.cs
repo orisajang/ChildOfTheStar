@@ -148,6 +148,14 @@ public class Monster : MonoBehaviour
             string animationName = monsterActionData.animation;
             monsterActionByNameDic[actionType] = animationName;
         }
+        //예외처리 Idle이 없을경우 무조건 만들어준다 (기본 애니메이션 재생이 있어야함)
+        if(!monsterActionByNameDic.ContainsKey(eMonsterAction.Idle))
+        {
+            string idleName = "mon_animation_" + _monsterId;
+            monsterActionByNameDic[eMonsterAction.Idle] = idleName;
+        }
+
+
         // AnimatorOverrideController 생성 후 적용
         _animator.runtimeAnimatorController = monsterAnimatorFactory.CreateOverrideController(monsterActionByNameDic);
         //_animator.applyRootMotion = false; // 2D라면 OFF
