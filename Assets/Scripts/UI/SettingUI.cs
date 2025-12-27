@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SettingUI : MonoBehaviour
 {
@@ -12,5 +13,10 @@ public class SettingUI : MonoBehaviour
     public void CloseSetting()
     {
         setting.SetActive(false);
+    }
+
+    public void SeceneChange()
+    {
+        SceneManager.LoadScene("LobbyTest");
     }
 }
