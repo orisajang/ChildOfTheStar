@@ -6,6 +6,13 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Threading;
 
+public static class MonsterAnimatorParameterName
+{
+    public const string Attack = "Attack";
+    public const string AttackReady = "AttackReady";
+
+}
+
 public enum eMonsterType
 {
     Normal = 1 ,Boss
@@ -67,11 +74,24 @@ public class Monster : MonoBehaviour
     private Dictionary<eMonsterAttackType, MonsterAttackBehaviorStrategy> _monsterAttackTypeDic = new Dictionary<eMonsterAttackType, MonsterAttackBehaviorStrategy>();
     public Dictionary<eMonsterAttackType, MonsterAttackBehaviorStrategy> MonsterAttacktypeDic { get { return _monsterAttackTypeDic; } }
 
+    //스케일별 어떤 값이 나와야하는지
+    private Dictionary<eMonsterSize, float> _sizeByResolutionDic = new Dictionary<eMonsterSize, float>()
+    {
+        {eMonsterSize.Small,64 },
+        { eMonsterSize.Medium, 96},
+        { eMonsterSize.Large,160}
+    };
+
+    //몬스터의 애니메이션을 갈아끼우기위해서
+    Animator _animator;
+    MonsterAnimatorFactory monsterAnimatorFactory = new MonsterAnimatorFactory();
+    AnimatorOverrideController animatorOverrideController;
     private void Awake()
     {
         _delay = new WaitForSeconds(1);
         MakeDictionaryForMonsterState();
         MakeDictionaryForAttackType();
+        _animator = GetComponent<Animator>();
     }
 
     /// <summary>
@@ -110,6 +130,28 @@ public class Monster : MonoBehaviour
         {
             monsterHPBarUi.Init(transform, _monsterHp);
         }
+        //몬스터의 스케일 설정 (소형, 중형, 대형값에 따라서 몬스터를 담고있는 부모오브젝트의 로컬스케일을 변경시켜준다)
+        //소형(64*64), 중형(96*96), 대형(160*160) -> 소형을 스케일 1 기준으로 보고 중형 -> 96/64 = 1.5배
+        MonsterRoot monsterRoot = transform.GetComponentInParent<MonsterRoot>();
+        float basicScale = 64.0f; //기본 스케일(64)
+        float currentSize = _sizeByResolutionDic[data.monsterSize];
+        float scaleValue = currentSize / basicScale;
+        monsterRoot.transform.localScale = new Vector3(scaleValue, scaleValue, scaleValue);
+
+        //몬스터의 행동을 설정
+        //중복안되는 타입별 딕셔너리를 만들자
+        Dictionary<eMonsterAction, string> monsterActionByNameDic = new Dictionary<eMonsterAction, string>();
+        for (int index = 0; index < monsterActionCycleList.Count; index++)
+        {
+            MonsterActionCSVData monsterActionData = monsterActionCycleList[index].monsterActionData;
+            eMonsterAction actionType = monsterActionData.actionType;
+            string animationName = monsterActionData.animation;
+            monsterActionByNameDic[actionType] = animationName;
+        }
+        // AnimatorOverrideController 생성 후 적용
+        _animator.runtimeAnimatorController = monsterAnimatorFactory.CreateOverrideController(monsterActionByNameDic);
+        //_animator.applyRootMotion = false; // 2D라면 OFF
+        //_animator.keepAnimatorStateOnDisable = true; // 추가
     }
     /// <summary>
     /// 몬스터 사망처리 (몬스터 매니저에서 받음)
@@ -167,6 +209,12 @@ public class Monster : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void MonsterAnimatorChange(string str)
+    {
+        //트리거 하나 작동시킴
+        _animator.SetTrigger(str);
     }
     
     /// <summary>

@@ -6,5 +6,6 @@ public class MonsterAttackStrategy : MonsterStrategy
     {
         Debug.Log("AttackDo");
         monster.MonsterAttacktypeDic[action.monsterActionData.attackType].DoAttack(monster, action);
+        monster.MonsterAnimatorChange(MonsterAnimatorParameterName.Attack);
     }
 }
