@@ -31,5 +31,6 @@ public class UIManager : Singleton<UIManager>
     {
         isDestroyOnLoad = false;
         base.Awake();
+        if (Instance != this) return; //이거도 추가
     }
 }

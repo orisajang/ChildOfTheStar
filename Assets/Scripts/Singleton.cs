@@ -37,6 +37,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
+            return; //이게 없으면 자식의 Awake가 끝까지 실행됨
         }
         else
         {

@@ -8,7 +8,7 @@ public class StageSceneInitializer : MonoBehaviour
     {
         yield return null;
         //던전 매니저의 스테이지 설정 시작
-        DungeonManager.Instance.SetStageDataForStageManager();
+        DungeonManager.Instance.ReturnToStageSelect();
 
     }
 }

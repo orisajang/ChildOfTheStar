@@ -95,7 +95,10 @@ public class Monster : MonoBehaviour
         //몬스터 이미지 설정
         SpriteRenderer sprite = GetComponent<SpriteRenderer>();
         Sprite monsterImage = Resources.Load<Sprite>($"MonsterImages/{_monsterAnimation}");
-        sprite.sprite = monsterImage;
+        if(monsterImage != null)
+        {
+            sprite.sprite = monsterImage;
+        }
 
 
         //현재HP를 초기에 설정

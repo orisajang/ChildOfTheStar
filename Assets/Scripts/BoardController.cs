@@ -99,7 +99,7 @@ public class BoardController : MonoBehaviour
     {
         _boardModel.OnBoardChanged -= UpdateBoardView;
         _boardModel.StartCoroutineCallback -= StartCoroutine;
-        TurnManager.Instance.OnPlayerTurnStart -= StartPlayerTurn;
+        if(TurnManager.isHaveInstance) TurnManager.Instance.OnPlayerTurnStart -= StartPlayerTurn;
         _boardModel.OnTileMoveEnd -= DecreasePlayerMovePoint;
         _boardModel.OnResolveStart -= OnBoardResolveStart;
         _boardModel.OnResolveFinished -= OnBoardResolveFinished;
