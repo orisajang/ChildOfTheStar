@@ -45,6 +45,14 @@ public class MonsterManager : Singleton<MonsterManager>
     private int _currentActMonsterIndex;
 
     //MonsterManager 에 있는 테스트 생성용 코드를 여러 몬스터가 있을떄 어떻게 생성시키게 할건지 고민 필요
+    Dictionary<int, string> monsterDeadSoundDic = new Dictionary<int, string>()
+    {
+        {1, "sfx_stage1monsterdown" },
+        {2, "sfx_stage2monsterdown" },
+        {3, "sfx_stage3monsterdown" },
+        {4, "sfx_stage4monsterdown" },
+    };
+
     protected override void Awake()
     {
         isDestroyOnLoad = false;
@@ -245,6 +253,10 @@ public class MonsterManager : Singleton<MonsterManager>
     /// </summary>
     private void MonsterRemove(Monster monster)
     {
+        //몬스터 스테이지 번호를 알기위해 2번째 숫자만 가져온다
+        int monsterId = (monster._monsterId / 100) % 10;
+        string deadEffectName = monsterDeadSoundDic[monsterId];
+        SoundManager.Instance.PlayEffect(deadEffectName);
         _spawnedMonster.Remove(monster);
         _targetMonster = null;
     }
