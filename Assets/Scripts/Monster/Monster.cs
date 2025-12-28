@@ -171,7 +171,7 @@ public class Monster : MonoBehaviour
                 effectNameList.Add(actionList.monsterActionData.effect);
             }
         }
-        EffectSpawner.Instance.SetEffectPoolData(effectNameList);
+        EffectSpawner.Instance.SetEffectPoolData(EffectOwner.Monster,effectNameList);
 
     }
     /// <summary>
@@ -244,7 +244,7 @@ public class Monster : MonoBehaviour
         {
             //꺼내기만 하면 알아서 실행되고 비활성화됨: 이유- 애니메이션은 한번 실행하고 끝나면 코루틴으로 체크중이고 파티클도 한번실행하고 끝나면 유니티 이벤트 동작,
             //ParticleSystem은 Inspector에서 PlayOnAwake = true, Looping = false로 해줘야한다
-            EffectSpawner.Instance.GetEffectScript(effectName, transform); 
+            EffectSpawner.Instance.GetEffectScript(effectName, transform.position); 
         }
     }
     

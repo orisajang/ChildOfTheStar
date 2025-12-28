@@ -3,6 +3,11 @@ using UnityEngine;
 using static TurnManager;
 using static UnityEngine.GraphicsBuffer;
 
+public enum EffectOwner
+{
+    Monster, Player
+}
+
 public class EffectSpawner : Singleton<EffectSpawner>
 {
     ObjPool<EffectScript> objPool;
@@ -17,20 +22,28 @@ public class EffectSpawner : Singleton<EffectSpawner>
         isDestroyOnLoad = false;
         base.Awake();
     }
-    private void SetPrefabDictionary(string effectName)
+    private void SetPrefabDictionary(EffectOwner owner, string effectName)
     {
-        EffectScript effectResource = Resources.Load<EffectScript>("Effect/Monster/" + effectName);
+        EffectScript effectResource = null;
+        if(owner == EffectOwner.Monster)
+        {
+            effectResource = Resources.Load<EffectScript>("Effect/Monster/" + effectName);
+        }
+        else if(owner == EffectOwner.Player)
+        {
+            effectResource = Resources.Load<EffectScript>("Effect/Player/" + effectName);
+        }
         effectPrefabDic[effectName] = effectResource;
     }
 
-    public void SetEffectPoolData(List<string> effectList)
+    public void SetEffectPoolData(EffectOwner owner, List<string> effectList)
     {
         foreach(string effectName in effectList)
         {
             //없으면 채워줌
             if(!effectPrefabDic.ContainsKey(effectName))
             {
-                SetPrefabDictionary(effectName);
+                SetPrefabDictionary(owner, effectName);
             }
             EffectScript prefab = effectPrefabDic[effectName];
             objPool = new ObjPool<EffectScript>(prefab, effectPoolSize, gameObject.transform);
@@ -38,11 +51,11 @@ public class EffectSpawner : Singleton<EffectSpawner>
         }
     }
     //생성 코드
-    public EffectScript GetEffectScript(string effectName, Transform trf)
+    public EffectScript GetEffectScript(string effectName, Vector3 pos)
     {
         EffectScript effectBuf = objPoolByEffectNameDic[effectName].GetObject();
         effectBuf.effectName = effectName;
-        effectBuf.transform.position = trf.position;
+        effectBuf.transform.position = pos;
         effectBuf.onEnd += ReturnEffectToPool;
         return effectBuf;
     }
