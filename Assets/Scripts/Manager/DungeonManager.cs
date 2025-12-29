@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LoadedDungeonData
 {
@@ -66,6 +67,8 @@ public class DungeonManager : Singleton<DungeonManager>
         {"44","stage_bg_403" },
         {"45","stage_bg_404" }
     };
+    //상점 버튼
+    ShopEnterButton _enterButton;
     protected override void Awake()
     {
         base.Awake();
@@ -244,8 +247,12 @@ public class DungeonManager : Singleton<DungeonManager>
             _loadedDungeonData = null;
         }
 
-        
 
+
+    }
+    public void SetShopButton(ShopEnterButton shopButton)
+    {
+        _enterButton = shopButton;
     }
 
     /// <summary>
@@ -281,6 +288,7 @@ public class DungeonManager : Singleton<DungeonManager>
             if (_currentStageNumber == 0) _currentStageNumber = 1;
             //아니라면 계속 다음 스테이지 진행할 수 있게 다음 스테이지 랜덤으로 버튼 활성화
             //클리어한 스테이지 번호 추가
+            Button shopButton = _enterButton.GetComponent<Button>();
             if (_currentStageNumber > 1)
             {
                 //둘다 0부터 시작하게 하자
@@ -290,6 +298,13 @@ public class DungeonManager : Singleton<DungeonManager>
                     _clearedStageIndexDic.Add(stageNum, currentSelectStageIndex);
                     LastSelectStageIndexKey = stageNum;
                 }
+                //상점 버튼 활성화
+                shopButton.interactable = true;
+            }
+            else
+            {
+                //상점 버튼 비활성화
+                shopButton.interactable = false;
             }
             //다음 스테이지를 위해 준비
             SetStageDataForStageManager();
@@ -306,7 +321,7 @@ public class DungeonManager : Singleton<DungeonManager>
         //던전번호랑 스테이지번호를 합친 스트링값
         string dungeonAddStringStage = $"{_currentDungeonNumber}{_currentStageNumber}";
         string backgroundName = stageBackgroundNameDic[dungeonAddStringStage]; //stage_bg_101
-        StageManager.Instance.SetStageInstanceData(currentSelectStage, backgroundName);
+        StageManager.Instance.SetStageInstanceData(currentSelectStage, backgroundName, _currentStageNumber);
         //전투 씬으로 이동
         GameManager.Instance.GoToBattleScene();
 

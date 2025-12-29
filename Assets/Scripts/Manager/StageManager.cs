@@ -18,15 +18,18 @@ public class StageManager : Singleton<StageManager>
     //인게임 레벨
     public InGameLevel _currentLevel { get; private set; }
     public string _backgroundName;
+    //현재 스테이지 번호 필요해져서 추가
+    public int CurrentStageNumber { get; private set; }
 
     protected override void Awake()
     {
         base.Awake();
         if (Instance != this) return; //이거도 추가
     }
-    public void SetStageInstanceData(StageCSVData stageInstancedata, string backGroundName)
+    public void SetStageInstanceData(StageCSVData stageInstancedata, string backGroundName, int stageNumber)
     {
         _backgroundName = backGroundName;
+        CurrentStageNumber = stageNumber;
         _currentStageData = stageInstancedata;
         _currentLevel = stageInstancedata.stageDifficulty;
     }
