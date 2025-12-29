@@ -58,6 +58,7 @@ public class GameManager : Singleton<GameManager>
     {
         Debug.Log("인게임클리어후 자원획득량창으로 이동");
         SceneManager.LoadScene(SceneName.EarnedResource);
+        ShopManager.Instance.SuffleShopSlots();
     }
 
     public void GoToShopScene()
