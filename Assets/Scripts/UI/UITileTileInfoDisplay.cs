@@ -12,6 +12,11 @@ public class UITileTileInfoDisplay : MonoBehaviour
     [SerializeField] TextMeshProUGUI _tileStatusDestructText;
     [SerializeField] TextMeshProUGUI _tileStatusRecoveryText;
 
+    private void Awake()
+    {
+        UpdateTileStatusText(0, 0, 0, 0, 0);
+        UpdateSkilInfo("", "", "");
+    }
     public void UpdateTile(Tile tile)
     {
         UpdateTileStatusText(
