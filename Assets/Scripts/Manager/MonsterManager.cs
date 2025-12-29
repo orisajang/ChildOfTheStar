@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class MonsterManager : Singleton<MonsterManager>
 {
@@ -52,6 +53,18 @@ public class MonsterManager : Singleton<MonsterManager>
         {3, "sfx_stage3monsterdown" },
         {4, "sfx_stage4monsterdown" },
     };
+
+
+    [SerializeField] List<Image> _monsterSmallList;
+    [SerializeField] List<Image> _monsterSmallBackgroundList;
+    int monsterSmallIndex;
+    [SerializeField] Image _monsterHPBarMidium;
+    [SerializeField] Image _monsterHPBarBig;
+    [SerializeField] Image _monsterHPBarMidiumBackground;
+    [SerializeField] Image _monsterHPBarBigBackground;
+    //딕셔너리 hp바
+    Dictionary<Monster, Image> monsterHpDic = new Dictionary<Monster, Image>();
+    Dictionary<Monster, GameObject> monsterHpBackgroundDic = new Dictionary<Monster, GameObject>();
 
     protected override void Awake()
     {
@@ -223,6 +236,7 @@ public class MonsterManager : Singleton<MonsterManager>
         //monsterInfo.monsterNumber;
         //소환위치 초기화
         _currentSpawnIndex = 0;
+        monsterSmallIndex = 0;
 
         for (int index = 0; index < monsterInfos.Length; index++)
         {
@@ -239,17 +253,24 @@ public class MonsterManager : Singleton<MonsterManager>
                     //몬스터 생성후 몬스터를 매니저에서 가지고있음
                     //오브젝트풀로 몬스터 하나 받아오도록 설정
                     Transform spawnPos = null;
-                    if (data.monsterType == eMonsterType.Boss)
+                    int monsterSummonIndex = 0;
+                    if (data.monsterSize == eMonsterSize.Medium ||
+                        data.monsterSize == eMonsterSize.Large)
                     {
                         //보스는 마지막 위치에
-                        spawnPos = _monsterCreatePosArray[_monsterCreatePosArray.Length - bossCount];
+                        monsterSummonIndex = _monsterCreatePosArray.Length - bossCount;
+                        spawnPos = _monsterCreatePosArray[monsterSummonIndex];
                         bossCount++;
                     }
                     else
                     {
                         //일반 몬스터는 하나하나씩
-                        spawnPos = _monsterCreatePosArray[_currentSpawnIndex];
+                        monsterSummonIndex = _currentSpawnIndex;
+                        spawnPos = _monsterCreatePosArray[monsterSummonIndex];
+                        _currentSpawnIndex++;
                     }
+                    
+
 
                     Monster monsterBuf = MonsterSpawner.Instance.GetMonsterByPool(spawnPos);
                     monsterBuf.SetMonsterInfo(data);
@@ -257,16 +278,59 @@ public class MonsterManager : Singleton<MonsterManager>
                     //몬스터 사망시 생존 몬스터 삭제
                     monsterBuf.OnMonsterDead += MonsterRemove;
                     monsterBuf.OnMonsterActEnd += MonsterActEnd;
-                    _currentSpawnIndex++;
+
+                    //SummonIndex 위치에 있는 hp바를 켜준다 
+                    //추가로 몬스터 타입별로 크기가 다른 hp바를 해야함
+
+                    GameObject obj = null;
+                    GameObject objBackground = null;
+                    if(data.monsterSize == eMonsterSize.Small)
+                    {
+                        obj = _monsterSmallList[monsterSmallIndex].transform.gameObject;
+                        objBackground = _monsterSmallBackgroundList[monsterSmallIndex].transform.gameObject;
+                        monsterSmallIndex++;
+                    }
+                    else if (data.monsterSize == eMonsterSize.Medium)
+                    {
+                        obj = _monsterHPBarMidium.transform.gameObject;
+                        objBackground = _monsterHPBarMidiumBackground.transform.gameObject;
+                    }
+                    else if (data.monsterSize == eMonsterSize.Large)
+                    {
+                        obj = _monsterHPBarBig.transform.gameObject;
+                        objBackground = _monsterHPBarBigBackground.transform.gameObject;
+                    }
+
+                    //_monsterHPBar[monsterSummonIndex].fillAmount = 1;
+                    //GameObject obj = _monsterHPBar[monsterSummonIndex].transform.gameObject;
+                    obj.SetActive(true);
+                    objBackground.SetActive(true);
+                    monsterBuf.OnMonsterHpChanged += MonsterHpBarChange;
+                    //monsterHpDic.Add(monsterBuf, monsterSummonIndex);
+                    Image hpImage = obj.GetComponent<Image>();
+                    monsterHpDic.Add(monsterBuf, hpImage);
+                    monsterHpBackgroundDic.Add(monsterBuf, objBackground);
                 }
             }
         }
     }
+    private void MonsterHpBarChange(float amount, Monster mon)
+    {
+
+        monsterHpDic[mon].fillAmount = amount;
+    }
+
     /// <summary>
     /// 몬스터가 사망하면 몬스터매니저의 몬스터생존여부도 삭제
     /// </summary>
     private void MonsterRemove(Monster monster)
     {
+        //hp바 반환
+        monsterHpDic[monster].fillAmount = 1;
+        //monsterHpDic.Remove(monster);
+        Destroy(monsterHpDic[monster].transform.gameObject);
+        Destroy(monsterHpBackgroundDic[monster]);
+
         //몬스터 스테이지 번호를 알기위해 2번째 숫자만 가져온다
         int monsterId = (monster._monsterId / 100) % 10;
         string deadEffectName = monsterDeadSoundDic[monsterId];
