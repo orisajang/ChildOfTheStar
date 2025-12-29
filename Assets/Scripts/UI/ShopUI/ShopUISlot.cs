@@ -19,7 +19,7 @@ public class ShopUISlot : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _countText;
     [SerializeField] private Button _Button;
     [SerializeField] private TextMeshProUGUI _ButtonText;
-
+    [SerializeField] private GameObject _Border;
 
     private TileSO _data;
     private ShopUIMain _main;
@@ -31,6 +31,7 @@ public class ShopUISlot : MonoBehaviour
 
     public void Init(TileSO data, SlotType type, ShopUIMain main, int count = 1)
     {
+       
         _data = data;
         _type = type;
         _main = main;
@@ -45,6 +46,8 @@ public class ShopUISlot : MonoBehaviour
             _rare.enabled = true;
         }
         _nameText.text = data.Name;
+
+        _Border.SetActive(false);
 
         if (_type == SlotType.ShopTile)
         {
@@ -128,10 +131,14 @@ public class ShopUISlot : MonoBehaviour
 
     public void SetExchangeButtonState(bool isTarget)
     {
-        if (_type != SlotType.ExchangeTarget) return;
+        if (_type != SlotType.ExchangeTarget) 
+            return;
 
-        _isSelected = isTarget; 
-        if(isTarget)
+        _isSelected = isTarget;
+
+        _Border.SetActive(isTarget);
+
+        if (isTarget)
         {
             _ButtonText.text = "교환";
         }
@@ -144,6 +151,7 @@ public class ShopUISlot : MonoBehaviour
     public void ToggleSelection()
     {
         _isSelected = !_isSelected;
+        _Border.SetActive(_isSelected);
         if (_isSelected)
         {
             _ButtonText.text = "해제";
@@ -160,6 +168,7 @@ public class ShopUISlot : MonoBehaviour
     {
         _isSelected = false;
 
+        _Border.SetActive(false);
         if (_type == SlotType.DeckTile)
             _ButtonText.text = "선택";
         else if (_type == SlotType.ExchangeTarget)
