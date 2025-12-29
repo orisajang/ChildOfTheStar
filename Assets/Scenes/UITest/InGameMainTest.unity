@@ -1055,82 +1055,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 845219235602153721, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Type
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 845219235602153721, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -7549937115508059490, guid: 7f22aa0f710d0b94ea4c9d374e71bdd2, type: 3}
-    - target: {fileID: 845219235602153721, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_FillAmount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 845219235602153721, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_FillMethod
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1432494488301470476, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Type
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1432494488301470476, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 1562660481584074276, guid: 09acfd36a5741614cbbc502366d9eab9, type: 3}
-    - target: {fileID: 1432494488301470476, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_FillMethod
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1519245546808264403, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -7322694670978176624, guid: c20d03426f44aa647bf3261dd1e60cb0, type: 3}
-    - target: {fileID: 2739867526545861058, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Type
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2739867526545861058, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 1562660481584074276, guid: 09acfd36a5741614cbbc502366d9eab9, type: 3}
-    - target: {fileID: 2739867526545861058, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_FillAmount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2739867526545861058, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_FillMethod
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2808434400584496647, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 2472937210937064525, guid: 5bcd1d7bdcb4c144a892e52172eabcad, type: 3}
-    - target: {fileID: 3716284311204093207, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Type
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3716284311204093207, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 1562660481584074276, guid: 09acfd36a5741614cbbc502366d9eab9, type: 3}
-    - target: {fileID: 3716284311204093207, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_FillMethod
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4138350579537046051, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -4615177101661277106, guid: 49300f6d0f289c146a879f649ad34be9, type: 3}
-    - target: {fileID: 5607536801707558882, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -7322694670978176624, guid: c20d03426f44aa647bf3261dd1e60cb0, type: 3}
-    - target: {fileID: 6004531836092636457, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -7322694670978176624, guid: c20d03426f44aa647bf3261dd1e60cb0, type: 3}
     - target: {fileID: 6115161098851273887, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
       propertyPath: _tileDeck
       value: 
@@ -1139,42 +1063,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 7912890883725648639, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Type
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7912890883725648639, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 1562660481584074276, guid: 09acfd36a5741614cbbc502366d9eab9, type: 3}
-    - target: {fileID: 7912890883725648639, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_FillAmount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7912890883725648639, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_FillMethod
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8304742072001291359, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Type
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8304742072001291359, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -4098095736115570671, guid: 81dbfe524850fca40ab932feb8d8ba12, type: 3}
-    - target: {fileID: 8304742072001291359, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_FillAmount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8304742072001291359, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_FillMethod
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9200876367395018415, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -7322694670978176624, guid: c20d03426f44aa647bf3261dd1e60cb0, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
