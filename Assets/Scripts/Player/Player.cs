@@ -130,6 +130,9 @@ public class Player : MonoBehaviour
         UIManager.Instance.PlayerStatusUI.UpdateHP(CharacterHpCurrent, CharacterHpMax);
         UIManager.Instance.PlayerStatusUI.UpdateShield(Shield);
 
+        string[] playerHitSound = { "플레이어 피격1", "플레이어 피격2", "플레이어 피격3" };
+        SoundManager.Instance.PlayEffect(playerHitSound[UnityEngine.Random.Range(0, playerHitSound.Length)]);
+
         if (CharacterHpCurrent < 0)
         {
             if (isImmortality)
@@ -137,6 +140,7 @@ public class Player : MonoBehaviour
                 CharacterHpCurrent = 1;
                 return;
             }
+            SoundManager.Instance.PlayEffect("스테이지 패배");
             OnPlayerDead?.Invoke();
         }
     }
