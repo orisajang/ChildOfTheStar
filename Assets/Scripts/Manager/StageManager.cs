@@ -36,6 +36,7 @@ public class StageManager : Singleton<StageManager>
         GameObject backgroundObject = new GameObject("backGround");
         SpriteRenderer backgroundComponent = backgroundObject.AddComponent<SpriteRenderer>();
         backgroundComponent.sprite = Resources.Load<Sprite>($"Image/{_backgroundName}");
+        backgroundComponent.sortingOrder = -1;
 
         //게임매니저에서 스테이지 몇을 시작하라는 명령이 오면 해당 정보를 가지고 스테이지를 실행을 한다.
         List<MonsterWaveCSVData> waveData = _currentStageData.monsterWaveList;
