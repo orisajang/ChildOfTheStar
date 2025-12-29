@@ -1308,6 +1308,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 117213365070384888, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 338935320413467609, guid: 62c77dec24a3aa24797b628b186c08ba, type: 3}
     - target: {fileID: 210625858676689733, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -1436,6 +1440,10 @@ PrefabInstance:
       propertyPath: m_PixelsPerUnitMultiplier
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 4205642878475030155, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -8767837544140584667, guid: 7acb9c0d3b8c2004ea435396b9b5198e, type: 3}
     - target: {fileID: 4406965316113613821, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
       propertyPath: m_Type
       value: 1
@@ -1568,10 +1576,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 5637071232356756330, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 8078610641323114602, guid: a2da496743a9a7c4fb6d51b5582bb1c9, type: 3}
     - target: {fileID: 5728952549558995497, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
       propertyPath: m_SortingOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6104047689495979495, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -6908462752098142862, guid: 80358013345d88542a85b84420f4e23a, type: 3}
     - target: {fileID: 6115161098851273887, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
       propertyPath: _tileDeck
       value: 
@@ -1604,6 +1620,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 2904915726697637486, guid: 948c6ad7eb71be047830f0130c53b63b, type: 3}
+    - target: {fileID: 7490812282246382827, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -8826805962741192054, guid: 75957bb3f3f48d2418287c6b64ef83a4, type: 3}
     - target: {fileID: 7755801340597172342, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
       propertyPath: m_Type
       value: 1
