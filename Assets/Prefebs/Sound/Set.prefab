@@ -2175,7 +2175,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3833509898687099294}
         m_TargetAssemblyTypeName: SettingUI, Assembly-CSharp
-        m_MethodName: SeceneChange
+        m_MethodName: GameExit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
