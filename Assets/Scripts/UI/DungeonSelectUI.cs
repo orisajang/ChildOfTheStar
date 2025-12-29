@@ -39,13 +39,14 @@ public class DungeonSelectUI : MonoBehaviour
 
             dungeonButtons[i].interactable = isUnlocked;
 
+            //sprite 변경은 여기서 안하고 Inspector에서 하도록 변경 (버튼)
             if (isUnlocked)
             {
-                dungeonImages[i].sprite = unlockSprite;
+                //dungeonImages[i].sprite = unlockSprite;
             }
             else
             {
-                dungeonImages[i].sprite = lockSprite;
+                //dungeonImages[i].sprite = lockSprite;
             }
             //버튼 클릭시 어떤 동작을 하는지 결정
             //버튼을 클릭하면 던전을 선택한것. 던전 번호를 던전 매니저에 넘겨주도록 한다
