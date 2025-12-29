@@ -3,6 +3,14 @@ using UnityEngine.UI;
 
 public class VolumeUI : MonoBehaviour
 {
+    [SerializeField] private Image bgmToggleIcon;
+    [SerializeField] private Image effectToggleIcon;
+
+    [SerializeField] private Sprite bgmSpriteOn;
+    [SerializeField] private Sprite bgmSpriteOff;
+    [SerializeField] private Sprite effectSpriteOn;
+    [SerializeField] private Sprite effectSpriteOff;
+
     [SerializeField] private Slider bgmSlider;
     [SerializeField] private Slider effectSlider;
 
@@ -66,12 +74,20 @@ public class VolumeUI : MonoBehaviour
             lastBGMSliderValue = bgmSlider.value;
             bgmSlider.interactable = false;
             SoundManager.Instance.SetBGMMute(true);
+            if (bgmSpriteOff != null)
+            {
+                bgmToggleIcon.sprite = bgmSpriteOff;
+            }
         }
         else
         {
             bgmSlider.value = lastBGMSliderValue;
             bgmSlider.interactable = true;
             SLIDER_ModifyBGMVolume();
+            if (bgmSpriteOn != null)
+            {
+                bgmToggleIcon.sprite = bgmSpriteOn;
+            }
         }
 
         PlayerPrefs.SetInt("BGM_MUTE", mute ? 1 : 0);
@@ -86,12 +102,20 @@ public class VolumeUI : MonoBehaviour
             lastEffectSliderValue = effectSlider.value;
             effectSlider.interactable = false;
             SoundManager.Instance.SetEffectMute(true);
+            if (effectSpriteOff != null)
+            {
+                effectToggleIcon.sprite = effectSpriteOff;
+            }
         }
         else
         {
             effectSlider.value = lastEffectSliderValue;
             effectSlider.interactable = true;
             SLIDER_ModifyEffectVolume();
+            if (effectSpriteOn != null)
+            {
+                effectToggleIcon.sprite = effectSpriteOn;
+            }
         }
 
         PlayerPrefs.SetInt("EFFECT_MUTE", mute ? 1 : 0);
