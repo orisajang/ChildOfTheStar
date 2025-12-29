@@ -963,7 +963,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06c09e1af1892b448f16431a854442d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  soundName: "\uCDE8\uC18C \uD074\uB9AD\uC74C"
+  soundName: sfx_cancel
 --- !u!1 &3435035633330873108
 GameObject:
   m_ObjectHideFlags: 0
@@ -1313,7 +1313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06c09e1af1892b448f16431a854442d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  soundName: "\uC120\uD0DD \uD074\uB9AD\uC74C"
+  soundName: sfx_choice
 --- !u!1 &4667571244259365063
 GameObject:
   m_ObjectHideFlags: 0
@@ -1781,7 +1781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06c09e1af1892b448f16431a854442d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  soundName: "\uC120\uD0DD \uD074\uB9AD\uC74C"
+  soundName: sfx_choice
 --- !u!1 &5964906544540708585
 GameObject:
   m_ObjectHideFlags: 0
@@ -2209,7 +2209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06c09e1af1892b448f16431a854442d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
-  soundName: "\uCDE8\uC18C \uD074\uB9AD\uC74C"
+  soundName: sfx_cancel
 --- !u!1 &6461996455680612139
 GameObject:
   m_ObjectHideFlags: 0
