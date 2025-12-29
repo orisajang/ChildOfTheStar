@@ -62,11 +62,11 @@ public class Player : MonoBehaviour
         { ePlayerEffectType.attackBlack, "effect_attack_white"},
     };
     private Vector3 _playerPos;
-    private void Start()
+    private void OnEnable()
     {
         //이펙트 풀 설정
         List<string> playerEffectName = new List<string>();
-        foreach(ePlayerEffectType key in _playerEffectTypeDic.Keys)
+        foreach (ePlayerEffectType key in _playerEffectTypeDic.Keys)
         {
             playerEffectName.Add(_playerEffectTypeDic[key]);
         }
