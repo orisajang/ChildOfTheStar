@@ -8,7 +8,7 @@ public class PlayerInputControll : MonoBehaviour
     [SerializeField] string _tilesTagName = "Tile";
     [SerializeField] BoardController _bordController;
     [SerializeField] SpriteRenderer _boardSpriteRenderer;
-    [SerializeField] UITileTileeInfoDisplay _uiTileSkilInfoDisplay;
+    [SerializeField] UITileTileInfoDisplay _uiTileSkilInfoDisplay;
     private InputAction _mouseMove;
     private InputAction _mouseClick;
 
