@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class LoadedDungeonData
@@ -40,7 +41,7 @@ public class DungeonManager : Singleton<DungeonManager>
     //마지막으로 추가된 딕셔너리 키
     public int LastSelectStageIndexKey { get; private set; }
     private int currentSelectStageIndex = 0;
-
+    private TextMeshProUGUI _dungeonInfoText;
     protected override void Awake()
     {
         base.Awake();
@@ -77,7 +78,11 @@ public class DungeonManager : Singleton<DungeonManager>
         _currentStageNumber = 0;
         _clearedStageIndexDic.Clear();
     }
-
+    public void SetDungeonText(TextMeshProUGUI textUI)
+    {
+        _dungeonInfoText = textUI;
+        textUI.text = $"Dungeon " + _currentDungeonNumber;
+    }
     /// <summary>
     /// 현재 던전번호 설정
     /// </summary>
