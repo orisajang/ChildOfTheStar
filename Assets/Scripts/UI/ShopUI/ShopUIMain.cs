@@ -190,10 +190,10 @@ public class ShopUIMain : MonoBehaviour
                 return;
             }
             if (_selectedExchangeTiles.Count > 0 &&
-                _selectedExchangeTiles[0].Color != slot.Data.Color)
+                _selectedExchangeTiles[0] != slot.Data)
             {
                 slot.Deselect();
-                DisplayErrorPopup("동일한 색상의 타일만 선택 가능합니다.");
+                DisplayErrorPopup("동일한 타일만 선택 가능합니다.");
                 return;
             }
             _selectedExchangeTiles.Add(slot.Data);
