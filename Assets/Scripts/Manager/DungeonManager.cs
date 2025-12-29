@@ -52,7 +52,7 @@ public class DungeonManager : Singleton<DungeonManager>
         SetStageInstanceData();
 
         //JSON파일을 읽어서 자원, 던전정보, 스테이지 정보를 설정해준다
-        
+
     }
     private void Start()
     {
@@ -84,7 +84,7 @@ public class DungeonManager : Singleton<DungeonManager>
     /// <param name="dungeonNumber"></param>
     public void SetDengeonNumber(int dungeonNumber)
     {
-        if(_loadedDungeonData != null && _loadedDungeonData._loadedDungeonNumber == dungeonNumber)
+        if (_loadedDungeonData != null && _loadedDungeonData._loadedDungeonNumber == dungeonNumber)
         {
             //불러온 던전 정보가 있다면
             _currentStageNumber = _loadedDungeonData._loadedStageNumber;
@@ -100,6 +100,38 @@ public class DungeonManager : Singleton<DungeonManager>
         _clearedStageIndexDic.Clear();
         //던전이 새로 선택되었으므로 스테이지 관련된 정보 다시 불러온다
         InitCurrentDengeonStageData();
+        PlayDungeonBGM(dungeonNumber);
+    }
+    private void PlayDungeonBGM(int dungeonNum)
+    {
+        switch (dungeonNum)
+        {
+            case 1:
+                SoundManager.Instance.PlayBGM("bgm_dungeon1");
+                {
+                    break;
+                }
+            case 2:
+                SoundManager.Instance.PlayBGM("bgm_dungeon2");
+                {
+                    break;
+                }
+            case 3:
+                SoundManager.Instance.PlayBGM("bgm_dungeon3");
+                {
+                    break;
+                }
+            case 4:
+                SoundManager.Instance.PlayBGM("bgm_dungeon4");
+                {
+                    break;
+                }
+            default:
+                SoundManager.Instance.PlayBGM("bgm_lobby");
+                {
+                    break;
+                }
+        }
     }
 
     //private void SetStageDataForStageManager(int dengeonSelect)
@@ -137,7 +169,7 @@ public class DungeonManager : Singleton<DungeonManager>
         }
 
         //UI에도 정보 설정
-        StageSelectUIManager.Instance.SetStageInfo(_currentStageNumber-1, selectInstanceIndex, _clearedStageIndexDic);
+        StageSelectUIManager.Instance.SetStageInfo(_currentStageNumber - 1, selectInstanceIndex, _clearedStageIndexDic);
 
     }
     /// <summary>
@@ -173,14 +205,14 @@ public class DungeonManager : Singleton<DungeonManager>
     /// </summary>
     public void InitForNextDungeon()
     {
-        if(_currentDungeonNumber < 4)
+        if (_currentDungeonNumber < 4)
         {
             _currentDungeonNumber++;
             _currentStageNumber = 0;
             _loadedDungeonData = null;
         }
 
-        
+
 
     }
 
@@ -189,16 +221,17 @@ public class DungeonManager : Singleton<DungeonManager>
     /// </summary>
     public void AllStageClear()
     {
+        SoundManager.Instance.PlayEffect("sfx_cancel");
         //SetStageDataForStageManager();
         //스테이지가 전부 끝났다면 던전 선택화면으로 돌아가면 됨.
         //GameManager.Instance.GoToTitleScene();
-        
+
         //다음 던전을 위한 초기화
         InitForNextDungeon();
         //정보 저장
         TileDeckTestManager.Instance.SaveMethod();
         //로비로 이동
-        GameManager.Instance.GoToLobbyScene(); 
+        GameManager.Instance.GoToLobbyScene();
     }
     public void ReturnToStageSelect()
     {
@@ -211,9 +244,10 @@ public class DungeonManager : Singleton<DungeonManager>
         }
         else
         {
+            SoundManager.Instance.PlayEffect("sfx_stagevictory");
             //아니라면 계속 다음 스테이지 진행할 수 있게 다음 스테이지 랜덤으로 버튼 활성화
             //클리어한 스테이지 번호 추가
-            if(_currentStageNumber > 0)
+            if (_currentStageNumber > 0)
             {
                 //둘다 0부터 시작하게 하자
                 int stageNum = _currentStageNumber - 1;
@@ -244,7 +278,7 @@ public class DungeonManager : Singleton<DungeonManager>
     private void SetStageInstanceData()
     {
         //_stageInfoDic에 뭔가를 넣어줘야함
-        foreach(string stageId in _stageCSVDataDic.Keys)
+        foreach (string stageId in _stageCSVDataDic.Keys)
         {
             StageCSVData stageData = _stageCSVDataDic[stageId];
             //앞에서부터 2글자 잘라서 던전번호, 4글자 잘라서 스테이지번호, 2글자 잘라서 인스턴스 번호 얻어옴
@@ -264,8 +298,8 @@ public class DungeonManager : Singleton<DungeonManager>
                 _dungeonDataDic[dungeonNumber].Add(stageData);
             }
         }
-        
-        
+
+
     }
 
     private void SetStageDataByCSV()
