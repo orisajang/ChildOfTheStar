@@ -105,7 +105,7 @@ public class DungeonManager : Singleton<DungeonManager>
     public void SetDungeonText(TextMeshProUGUI textUI)
     {
         _dungeonInfoText = textUI;
-        textUI.text = $"Dungeon " + _currentDungeonNumber;
+        textUI.text = $"던전 " + _currentDungeonNumber;
     }
     /// <summary>
     /// 현재 던전번호 설정
