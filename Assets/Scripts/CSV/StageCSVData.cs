@@ -16,6 +16,7 @@ public struct StageCSVData
     public float stageGroupChance;
     public int monsterWaveIdOne;
     public int monsterWaveIdTwo;
+    public InGameLevel stageDifficulty;
 
 
     public List<MonsterWaveCSVData> monsterWaveList;

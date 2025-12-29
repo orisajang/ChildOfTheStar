@@ -45,7 +45,7 @@ public class StageCSVLoader
             stageData.stageGroupChance = float.Parse(item[2]);
             stageData.monsterWaveIdOne = int.Parse(item[3]);
             stageData.monsterWaveIdTwo = item[4] == "" ? 0 : int.Parse(item[4]);
-
+            stageData.stageDifficulty = (InGameLevel)Enum.Parse(typeof(InGameLevel), item[5]);
 
             //monsterData.prefabKey = item[4];
             stageCSVDataDic.Add(item[0], stageData);
