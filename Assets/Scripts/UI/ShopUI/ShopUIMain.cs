@@ -258,9 +258,9 @@ public class ShopUIMain : MonoBehaviour
         {
             ShopManager.Instance.OnBuyTile(_currentSelectedTile);
             _popupBuy.SetActive(false);
-
             DisplayDeck();
-            UpdateResourceUI();  
+            UpdateResourceUI();
+            DisPlayShopList();
         }
         else
         {
@@ -288,6 +288,7 @@ public class ShopUIMain : MonoBehaviour
     public void CheckExchangeCondition()
     {
         _popupExchange.SetActive(true);
+        DisplayExchangeTargetList();
     }
 
     public void ConfirmExchange()
