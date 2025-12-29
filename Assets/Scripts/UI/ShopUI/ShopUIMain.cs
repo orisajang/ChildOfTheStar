@@ -11,14 +11,13 @@ public class ShopUIMain : MonoBehaviour
     [System.Serializable]
     public class DetailPanelSet
     {
-        public GameObject PanelRoot;  
+        public GameObject Panel;  
         public TextMeshProUGUI Name;   
         public TextMeshProUGUI Desc;
         public TextMeshProUGUI ColorInfo;
         public TextMeshProUGUI RarityInfo;
 
         public Button Button;       
-        public TextMeshProUGUI ButtonText;
     }
 
     [SerializeField] private Button _buttonnTabShop;
@@ -86,9 +85,9 @@ public class ShopUIMain : MonoBehaviour
         _currentSelectedTile = null;
 
         _shopTopResourcePanel.SetActive(false);
-        _shopBottomPanel.PanelRoot.SetActive(false);
-        _exchangeTopPanel.PanelRoot.SetActive(false);
-        _exchangeBottomPanel.PanelRoot.SetActive(false);
+        _shopBottomPanel.Panel.SetActive(false);
+        _exchangeTopPanel.Panel.SetActive(false);
+        _exchangeBottomPanel.Panel.SetActive(false);
 
         if (mode == UIMode.Shop)
         {
@@ -105,7 +104,7 @@ public class ShopUIMain : MonoBehaviour
         {
             _panelShopListArea.SetActive(false);
             _panelExchangeListArea.SetActive(true);
-            _exchangeTopPanel.PanelRoot.SetActive(true);
+            _exchangeTopPanel.Panel.SetActive(true);
 
             DisplayExchangeTargetList();
         }
@@ -145,7 +144,7 @@ public class ShopUIMain : MonoBehaviour
         if (type == ShopUISlot.SlotType.ShopTile)
         {
             _currentSelectedTile = slot.Data;
-            _shopBottomPanel.PanelRoot.SetActive(true);
+            _shopBottomPanel.Panel.SetActive(true);
             SetDescriptionlUI(_shopBottomPanel, slot.Data);
 
             var button = _shopBottomPanel.Button;
@@ -160,13 +159,13 @@ public class ShopUIMain : MonoBehaviour
         {
             if (CurrentMode == UIMode.Shop)
             {
-                _shopBottomPanel.PanelRoot.SetActive(true);
+                _shopBottomPanel.Panel.SetActive(true);
                 SetDescriptionlUI(_shopBottomPanel, slot.Data);
                _shopBottomPanel.Button.gameObject.SetActive(false);
             }
             else
             {
-                _exchangeBottomPanel.PanelRoot.SetActive(true);
+                _exchangeBottomPanel.Panel.SetActive(true);
                 SetDescriptionlUI(_exchangeBottomPanel, slot.Data);
             }
         }
@@ -204,7 +203,7 @@ public class ShopUIMain : MonoBehaviour
             _selectedExchangeTiles.Remove(slot.Data);
         }
 
-        _exchangeBottomPanel.PanelRoot.SetActive(true);
+        _exchangeBottomPanel.Panel.SetActive(true);
         SetDescriptionlUI(_exchangeBottomPanel, slot.Data);
 
     }

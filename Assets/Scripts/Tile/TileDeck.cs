@@ -161,8 +161,11 @@ public class TileDeck : MonoBehaviour
 
     public void ResetDeck()
     {
-        _baseDeckSO = ShopManager.Instance.BaseDeck;
-        _copyDeck = ShopManager.Instance.UseDeck;
+        if (ShopManager.Instance.BaseDeck != null)
+        {
+            _baseDeckSO = ShopManager.Instance.BaseDeck;
+            _copyDeck = ShopManager.Instance.UseDeck;
+        }
         _copyDeck.Clear();
         _copyDeck.AddRange(_baseDeckSO);
         SuffleDeck();
