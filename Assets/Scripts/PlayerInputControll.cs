@@ -35,9 +35,12 @@ public class PlayerInputControll : MonoBehaviour
     {
         _mouseMove = InputSystem.actions["ClickPos"];
         _mouseClick = InputSystem.actions["Click"];
-        _boardArea.minX = _boardSpriteRenderer.transform.position.x - _boardSpriteRenderer.size.x / 2;
-        _boardArea.maxX = _boardSpriteRenderer.transform.position.x + _boardSpriteRenderer.size.x / 2;
-        _boardArea.minY = _boardSpriteRenderer.transform.position.y - _boardSpriteRenderer.size.y / 2;
+        _boardArea.minX = _boardSpriteRenderer.transform.position.x - _boardSpriteRenderer.bounds.size.x / 2;
+        _boardArea.maxX = _boardSpriteRenderer.transform.position.x + _boardSpriteRenderer.bounds.size.x / 2;
+        _boardArea.minY = _boardSpriteRenderer.transform.position.y - _boardSpriteRenderer.bounds.size.y / 2;
+        _boardArea.maxY = _boardSpriteRenderer.transform.position.y + _boardSpriteRenderer.bounds.size.y / 2;
+
+
 
     }
 
@@ -105,7 +108,7 @@ public class PlayerInputControll : MonoBehaviour
             if (Vector2.Distance(_mousePos, _oldMousePos) < 0.2f) return;
             _oldMousePos = _mousePos;
             _hoveringHit = Physics2D.Raycast(_mousePos, Vector2.zero);
-
+            Debug.DrawRay(_mousePos, Vector2.up,Color.red);
             if (!_hoveringHit) return;
             if (_oldHoverHit == _hoveringHit.transform) return;
             _oldHoverHit = _hoveringHit.transform;
