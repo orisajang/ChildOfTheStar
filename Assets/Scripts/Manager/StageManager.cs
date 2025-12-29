@@ -15,6 +15,8 @@ public class StageManager : Singleton<StageManager>
     //현재 스테이지인스턴스ID와 웨이브 번호를 기억한다
     private int _currentStageInstanceId;
     private int _currentWaveIndex;
+    //인게임 레벨
+    public InGameLevel _currentLevel { get; private set; }
 
     protected override void Awake()
     {
@@ -24,6 +26,7 @@ public class StageManager : Singleton<StageManager>
     public void SetStageInstanceData(StageCSVData stageInstancedata)
     {
         _currentStageData = stageInstancedata;
+        _currentLevel = stageInstancedata.stageDifficulty;
     }
     public void StartStageTask()
     {

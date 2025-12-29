@@ -81,4 +81,29 @@ public class ColorResourceManager : Singleton<ColorResourceManager>
             _currentColorResourceDic[color] = 0;
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="priceTable"></param>
+    /// <returns></returns>
+    public bool TryPurchase(Dictionary<TileColor, int> priceTable)
+    {
+        foreach (var pair in priceTable)
+        {
+            TileColor color = pair.Key;
+            int cost = pair.Value;
+            if (!_colorResourceDic.ContainsKey(color) || _colorResourceDic[color] < cost)
+            {
+                return false;
+            }
+        }
+        foreach (var pair in priceTable)
+        {
+            TileColor color = pair.Key;
+            int cost = pair.Value;
+            _colorResourceDic[color] -= cost;
+        }
+        return true;
+    }
+
 }

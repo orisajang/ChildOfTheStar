@@ -45,4 +45,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
   mAudioMixer: {fileID: 24100000, guid: 23956fcc459e4e24e8d6f6049f6e8eb9, type: 2}
-  mPreloadClips: []
+  mPreloadClips:
+  - {fileID: 8300000, guid: 7740e450968065d4398d1f68c4f55341, type: 3}
+  - {fileID: 8300000, guid: 1f062080e51763042a6cd6c575ab6f88, type: 3}
+  - {fileID: 8300000, guid: fc03325c2bd22bc46b5af85890d7ee0e, type: 3}
+  - {fileID: 8300000, guid: 506161dab284f894ab7947a00f1091d2, type: 3}
+  - {fileID: 8300000, guid: 9e816bebbe6d8ef4b8269b367aa4fdc0, type: 3}
+  - {fileID: 8300000, guid: 6f26e9d5557218b4baefa994b3bb2420, type: 3}
+  - {fileID: 8300000, guid: 3df739d7c78a84e4a95c06ca9b827141, type: 3}
+  - {fileID: 8300000, guid: a94f6f8811eabc04da4bb5074ca7ef83, type: 3}
+  - {fileID: 8300000, guid: f28564430a62db84c87f40b06c6f1066, type: 3}
+  - {fileID: 8300000, guid: ea51ac8beb7adad4c8989b20b1e42f7d, type: 3}
+  - {fileID: 8300000, guid: a4605248325e81a4a8942983feae654b, type: 3}
+  - {fileID: 8300000, guid: 9193dfcc16e08da49b53ffd39de86b99, type: 3}
+  - {fileID: 8300000, guid: 7c8aedff743399c46af9c786f3e5f99d, type: 3}
+  - {fileID: 8300000, guid: 09a0fbfa6d713114a97a682afd17608d, type: 3}
+  - {fileID: 8300000, guid: 1594c86c4b9ff764993614e51bc1d6e5, type: 3}
+  - {fileID: 8300000, guid: d67a016db4451cf4fb6d542e420c1ccb, type: 3}
+  - {fileID: 8300000, guid: eadf6e50a68861e40927595a55f0b6da, type: 3}
+  - {fileID: 8300000, guid: 31966916ea5b84b33b424a8d2c759ea1, type: 3}
+  - {fileID: 8300000, guid: fa5722e0034ef484f8274812b70de169, type: 3}
+  - {fileID: 8300000, guid: cec54f15a1ac8324b954491ba83d9652, type: 3}
+  - {fileID: 8300000, guid: e3b02af6a1c32b84195b0d18ecfd176b, type: 3}
+  - {fileID: 8300000, guid: 1f1421359b28f9149972a4bf766644a0, type: 3}
+  - {fileID: 8300000, guid: bc00f80fc99de4b4c85b8934251580f5, type: 3}
+  - {fileID: 8300000, guid: 0fac729814e6b1646bc9e9e264e10abf, type: 3}

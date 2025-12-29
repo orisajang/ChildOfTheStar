@@ -315,7 +315,31 @@ public class Monster : MonoBehaviour
         Debug.Log($"몬스터 현재 체력은{_monsterCurrentHp}");
         if (_monsterCurrentHp <= 0)
         {
+            monsterDeathSoundEffect();
             MonsterDead();
+        }
+    }
+
+    /// <summary>
+    /// 몬스터 사망 사운드
+    /// </summary>
+    private void monsterDeathSoundEffect()
+    {
+        switch (_monsterSize)
+        {
+            case eMonsterSize.Small:
+                string[] smallSound = { "소형 사망1", "소형 사망2" };
+                SoundManager.Instance.PlayEffect(smallSound[UnityEngine.Random.Range(0, smallSound.Length)]);
+                break;
+
+            case eMonsterSize.Medium:
+                string[] mediumSound = { "중형 사망1", "중형 사망2" };
+                SoundManager.Instance.PlayEffect(mediumSound[UnityEngine.Random.Range(0, mediumSound.Length)]);
+                break;
+
+            case eMonsterSize.Large:
+                SoundManager.Instance.PlayEffect("대형 사망");
+                break;
         }
     }
     public void MonsterHealSelf(int healAmount)

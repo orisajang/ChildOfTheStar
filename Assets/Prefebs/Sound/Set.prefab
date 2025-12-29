@@ -817,6 +817,7 @@ GameObject:
   - component: {fileID: 1311098779458759985}
   - component: {fileID: 3661274054295563237}
   - component: {fileID: 4189315914075274544}
+  - component: {fileID: 3619612535761406262}
   m_Layer: 5
   m_Name: Exit
   m_TagString: Untagged
@@ -938,6 +939,31 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3619612535761406262}
+        m_TargetAssemblyTypeName: ButtonSound, Assembly-CSharp
+        m_MethodName: PlayClickSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3619612535761406262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2866729106689904795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f06c09e1af1892b448f16431a854442d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  soundName: sfx_cancel
 --- !u!1 &3435035633330873108
 GameObject:
   m_ObjectHideFlags: 0
@@ -1174,6 +1200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2830696269244401553}
   - component: {fileID: 3739248094317492556}
+  - component: {fileID: 6991276238832645156}
   m_Layer: 5
   m_Name: EffectMute
   m_TagString: Untagged
@@ -1261,7 +1288,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 6991276238832645156}
+        m_TargetAssemblyTypeName: ButtonSound, Assembly-CSharp
+        m_MethodName: PlayClickSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
+--- !u!114 &6991276238832645156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4430051111598262075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f06c09e1af1892b448f16431a854442d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  soundName: sfx_choice
 --- !u!1 &4667571244259365063
 GameObject:
   m_ObjectHideFlags: 0
@@ -1616,6 +1668,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9035158702283094149}
   - component: {fileID: 6340873428527632887}
+  - component: {fileID: 7599681964279430513}
   m_Layer: 5
   m_Name: BgmMute
   m_TagString: Untagged
@@ -1703,7 +1756,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7599681964279430513}
+        m_TargetAssemblyTypeName: ButtonSound, Assembly-CSharp
+        m_MethodName: PlayClickSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
+--- !u!114 &7599681964279430513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5779734032433659463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f06c09e1af1892b448f16431a854442d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  soundName: sfx_choice
 --- !u!1 &5964906544540708585
 GameObject:
   m_ObjectHideFlags: 0
@@ -1985,6 +2063,7 @@ GameObject:
   - component: {fileID: 7354461348241177691}
   - component: {fileID: 8238129684968999291}
   - component: {fileID: 7639378597921983715}
+  - component: {fileID: 5329612166363522073}
   m_Layer: 5
   m_Name: GameExit
   m_TagString: Untagged
@@ -2096,7 +2175,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3833509898687099294}
         m_TargetAssemblyTypeName: SettingUI, Assembly-CSharp
-        m_MethodName: SeceneChange
+        m_MethodName: GameExit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2106,6 +2185,31 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5329612166363522073}
+        m_TargetAssemblyTypeName: ButtonSound, Assembly-CSharp
+        m_MethodName: PlayClickSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5329612166363522073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6416563026956209364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f06c09e1af1892b448f16431a854442d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSound
+  soundName: sfx_cancel
 --- !u!1 &6461996455680612139
 GameObject:
   m_ObjectHideFlags: 0

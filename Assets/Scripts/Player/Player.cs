@@ -176,6 +176,9 @@ public class Player : MonoBehaviour
         UIManager.Instance.PlayerStatusUI.UpdateHP(CharacterHpCurrent, CharacterHpMax);
         UIManager.Instance.PlayerStatusUI.UpdateShield(Shield);
 
+
+        SoundManager.Instance.PlayEffect("sfx_playerhit");
+
         if (CharacterHpCurrent < 0)
         {
             if (isImmortality)
@@ -183,6 +186,7 @@ public class Player : MonoBehaviour
                 CharacterHpCurrent = 1;
                 return;
             }
+            SoundManager.Instance.PlayEffect("sfx_stagedefeat");
             OnPlayerDead?.Invoke();
         }
     }

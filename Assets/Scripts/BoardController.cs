@@ -23,6 +23,9 @@ public class BoardController : MonoBehaviour
     //타일간 갭
     private float _tileGapX;
     private float _tileGapY;
+    //거리 이동량
+    private float tileSoundEffectMove = 0.25f;
+    private float tileSoundEffectMovement = 0f;
 
     private Vector2 _startPos;
     private Vector2 _oldMousePosition;
@@ -141,6 +144,8 @@ public class BoardController : MonoBehaviour
     {
         if (isClicked)
         {
+            SoundManager.Instance.PlayEffect("sfx_tilepick");
+
             var indexs = GetAdjacentIndex(clickPos);
             startIndexRow = indexs[0];
             startIndexCol = indexs[1];
@@ -196,6 +201,15 @@ public class BoardController : MonoBehaviour
 
             //이동 거리 누적
             _totalMoveMousePosition += _deltaMousePosition;
+
+            //이동 거리 누적 후 설정 거리 보다 더 갔으면 사운드 재생, 그리고 이동 거리 누적 초기화
+            tileSoundEffectMove += _deltaMousePosition.magnitude;
+
+            if (tileSoundEffectMove >= tileSoundEffectMovement)
+            {
+                SoundManager.Instance.PlayEffect("sfx_tilepick");
+                tileSoundEffectMove = 0f;
+            }
         }
 
 

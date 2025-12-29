@@ -26,6 +26,6 @@ MonoBehaviour:
   _color: 2
   _spriteColor: {r: 1, g: 0.23113209, b: 0.38314095, a: 1}
   _sprite: {fileID: 7482667652216324306, guid: 6b34972c1fa0c5145905179c7255f794, type: 3}
-  _rarity: 0
+  _rarity: 2
   _price: 0
   _speed: 2

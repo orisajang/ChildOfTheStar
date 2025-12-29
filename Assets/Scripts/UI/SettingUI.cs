@@ -19,4 +19,13 @@ public class SettingUI : MonoBehaviour
     {
         SceneManager.LoadScene("LobbyTest");
     }
+
+    public void GameExit()
+    {
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #else
+        Application.Quit();
+    #endif
+    }
 }
