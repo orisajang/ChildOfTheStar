@@ -122,6 +122,8 @@ public class BoardModel
     {
         if (moveAmount == 0) return;
         //보드 비활성화 명령. moveAmount가 0이 아닐때만 비활성화 해야함
+        if (direction == TileMoveDirection.Horizontal && moveAmount % 6 == 0) return;
+        if (direction == TileMoveDirection.Vertical && moveAmount % 5 == 0) return;
         OnResolveStart?.Invoke();
         if (direction == TileMoveDirection.Horizontal)
         {

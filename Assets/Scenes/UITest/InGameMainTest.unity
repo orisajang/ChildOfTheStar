@@ -1274,6 +1274,10 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4278190080
       objectReference: {fileID: 0}
+    - target: {fileID: 3807440017688653084, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
+      propertyPath: m_Horizontal
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4040649528134114024, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
       propertyPath: m_Type
       value: 1
@@ -1342,6 +1346,10 @@ PrefabInstance:
       propertyPath: m_SpriteState.m_HighlightedSprite
       value: 
       objectReference: {fileID: 21300000, guid: ef12395bdb682d74984a757c8e1aae16, type: 3}
+    - target: {fileID: 5728952549558995497, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6115161098851273887, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
       propertyPath: _tileDeck
       value: 
@@ -1491,6 +1499,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 389187905695741617, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 657783822522452863, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 130.6695
+      objectReference: {fileID: 0}
+    - target: {fileID: 657783822522452863, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 129.9255
+      objectReference: {fileID: 0}
+    - target: {fileID: 657783822522452863, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 317.89252
+      objectReference: {fileID: 0}
+    - target: {fileID: 657783822522452863, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -287.924
+      objectReference: {fileID: 0}
+    - target: {fileID: 1670566865122598172, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5003799772773051787, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.05
@@ -1534,6 +1566,10 @@ PrefabInstance:
     - target: {fileID: 7010574128780154533, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
       propertyPath: m_Name
       value: TileBoard
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662707038922529452, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
+      propertyPath: m_Color.a
+      value: 0.62352943
       objectReference: {fileID: 0}
     - target: {fileID: 8840036962167354889, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
       propertyPath: m_Size.x
@@ -1638,10 +1674,10 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 254629955}
+  - {fileID: 6735765962196127386}
   - {fileID: 5055774598779230277}
   - {fileID: 913187419}
   - {fileID: 771682471}
-  - {fileID: 6735765962196127386}
   - {fileID: 7761050503285413946}
   - {fileID: 860075242}
   - {fileID: 723535432}

@@ -13,16 +13,8 @@ public class DisplayHoldingTileUI : MonoBehaviour
     private void Awake()
     {
         _holdingTilesUIs = new List<TileInfoUI>();
-        _holdingTileDict = new Dictionary<int, HoldingTileInfo>();
     }
-    private void Start()
-    {
-        for (int i = 0; i< _tileDeck.DrawDeck.Count; i++)
-        {
-            _holdingTilesUIs.Add( Instantiate(_effectUIPrefeb, transform).GetComponent<TileInfoUI>());
-            _holdingTilesUIs[i].gameObject.SetActive(false);
-        }
-    }
+
     private void GetTileInfo()
     {
         foreach(var tile in _tileDeck.DrawDeck)
@@ -32,12 +24,14 @@ public class DisplayHoldingTileUI : MonoBehaviour
                 _holdingTileDict[tile.Id]._tileNum++;
             }
 
-            _holdingTileDict.Add(tile.Id,new HoldingTileInfo(1,tile.name,tile.descriptionText));
+            _holdingTileDict.Add(tile.Id,new HoldingTileInfo(1,tile.Name,tile.descriptionText, tile.IconSprite));
+            
 
         }
     }
     private void OnEnable()
     {
+        _holdingTileDict = new Dictionary<int, HoldingTileInfo>();
         GetTileInfo();
         UpdateTileInfo();
     }
@@ -52,7 +46,7 @@ public class DisplayHoldingTileUI : MonoBehaviour
             {
                 _holdingTilesUIs.Add(Instantiate(_effectUIPrefeb, transform).GetComponent<TileInfoUI>());
             }
-            _holdingTilesUIs[uiInfoCount].UpdateTileInfo(_holdingTileDict[key]._tileNum, _holdingTileDict[key]._tileName, _holdingTileDict[key]._tileDescription);
+            _holdingTilesUIs[uiInfoCount].UpdateTileInfo(_holdingTileDict[key]._tileNum, _holdingTileDict[key]._tileName, _holdingTileDict[key]._tileDescription, _holdingTileDict[key]._tileIcon);
             _holdingTilesUIs[uiInfoCount].gameObject.SetActive(true);
             uiInfoCount++;
         }
@@ -71,11 +65,13 @@ class HoldingTileInfo
     public int _tileNum;
     public string _tileName;
     public string _tileDescription;
+    public Sprite _tileIcon;
 
-    public HoldingTileInfo(int num, string name, string description)
+    public HoldingTileInfo(int num, string name, string description,Sprite icon)
     {
         _tileDescription = description;
         _tileNum = num;
         _tileName = name;
+        _tileIcon = icon;
     }
 }
