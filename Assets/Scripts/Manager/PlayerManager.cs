@@ -10,6 +10,7 @@ public class PlayerManager : Singleton<PlayerManager>
     private Dictionary<int, PlayerCSVData > _playerCSVDataDic = new Dictionary<int, PlayerCSVData>();
     //플레이어의 현재 행동력을 TurnManager에 보내서 TurnManager에서 턴종료를 판단하도록
     public event Action<int> SendPlayerMovePoint;
+    public Vector3 playerPosition { get; set; }
     protected override void Awake()
     {
         base.Awake();
@@ -24,6 +25,14 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         if (Instance != this) return;
         _player.OnPlayerDead -= PlayerDeadMethod;
+    }
+    /// <summary>
+    /// 인게임 전투에서 플레이어의 위치 설정(이펙트 위치를 플레이어 주변으로 해야해서 추가함)
+    /// </summary>
+    public void SetPlayerPosition(Vector3 pos)
+    {
+        playerPosition = pos;
+        _player.SetPlayerPosition(playerPosition);
     }
     private void SetPlayerData()
     {

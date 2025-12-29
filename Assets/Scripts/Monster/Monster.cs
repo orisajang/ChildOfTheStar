@@ -6,6 +6,13 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Threading;
 
+public static class MonsterAnimatorParameterName
+{
+    public const string Attack = "Attack";
+    public const string AttackReady = "AttackReady";
+
+}
+
 public enum eMonsterType
 {
     Normal = 1 ,Boss
@@ -67,11 +74,24 @@ public class Monster : MonoBehaviour
     private Dictionary<eMonsterAttackType, MonsterAttackBehaviorStrategy> _monsterAttackTypeDic = new Dictionary<eMonsterAttackType, MonsterAttackBehaviorStrategy>();
     public Dictionary<eMonsterAttackType, MonsterAttackBehaviorStrategy> MonsterAttacktypeDic { get { return _monsterAttackTypeDic; } }
 
+    //스케일별 어떤 값이 나와야하는지
+    private Dictionary<eMonsterSize, float> _sizeByResolutionDic = new Dictionary<eMonsterSize, float>()
+    {
+        {eMonsterSize.Small,64 },
+        { eMonsterSize.Medium, 96},
+        { eMonsterSize.Large,160}
+    };
+
+    //몬스터의 애니메이션을 갈아끼우기위해서
+    Animator _animator;
+    MonsterAnimatorFactory monsterAnimatorFactory = new MonsterAnimatorFactory();
+    AnimatorOverrideController animatorOverrideController;
     private void Awake()
     {
         _delay = new WaitForSeconds(1);
         MakeDictionaryForMonsterState();
         MakeDictionaryForAttackType();
+        _animator = GetComponent<Animator>();
     }
 
     /// <summary>
@@ -110,6 +130,49 @@ public class Monster : MonoBehaviour
         {
             monsterHPBarUi.Init(transform, _monsterHp);
         }
+        //몬스터의 스케일 설정 (소형, 중형, 대형값에 따라서 몬스터를 담고있는 부모오브젝트의 로컬스케일을 변경시켜준다)
+        //소형(64*64), 중형(96*96), 대형(160*160) -> 소형을 스케일 1 기준으로 보고 중형 -> 96/64 = 1.5배
+        MonsterRoot monsterRoot = transform.GetComponentInParent<MonsterRoot>();
+        float basicScale = 64.0f; //기본 스케일(64)
+        float currentSize = _sizeByResolutionDic[data.monsterSize];
+        float scaleValue = currentSize / basicScale;
+        monsterRoot.transform.localScale = new Vector3(scaleValue, scaleValue, scaleValue);
+
+        //몬스터의 행동을 설정
+        //중복안되는 타입별 딕셔너리를 만들자
+        Dictionary<eMonsterAction, string> monsterActionByNameDic = new Dictionary<eMonsterAction, string>();
+        for (int index = 0; index < monsterActionCycleList.Count; index++)
+        {
+            MonsterActionCSVData monsterActionData = monsterActionCycleList[index].monsterActionData;
+            eMonsterAction actionType = monsterActionData.actionType;
+            string animationName = monsterActionData.animation;
+            monsterActionByNameDic[actionType] = animationName;
+        }
+        //예외처리 Idle이 없을경우 무조건 만들어준다 (기본 애니메이션 재생이 있어야함)
+        if(!monsterActionByNameDic.ContainsKey(eMonsterAction.Idle))
+        {
+            string idleName = "mon_animation_" + _monsterId;
+            monsterActionByNameDic[eMonsterAction.Idle] = idleName;
+        }
+
+        // AnimatorOverrideController 생성 후 적용
+        _animator.runtimeAnimatorController = monsterAnimatorFactory.CreateOverrideController(monsterActionByNameDic);
+        //_animator.applyRootMotion = false; // 2D라면 OFF
+        //_animator.keepAnimatorStateOnDisable = true; // 추가
+
+        //이펙트를 위해 이펙트 풀을 미리 지정
+        //리스트를 하나 만들자
+        List<string> effectNameList = new List<string>();
+        foreach (MonsterActionCycleValue actionList in data.monsterActionCycleList)
+        {
+            //몬스터 이펙트를 하나씩 넣어줌
+            if (actionList.monsterActionData.effect != "null")
+            {
+                effectNameList.Add(actionList.monsterActionData.effect);
+            }
+        }
+        EffectSpawner.Instance.SetEffectPoolData(EffectOwner.Monster,effectNameList);
+
     }
     /// <summary>
     /// 몬스터 사망처리 (몬스터 매니저에서 받음)
@@ -166,6 +229,22 @@ public class Monster : MonoBehaviour
                     monsterStateDic[type] = new MonsterAttackStrategy();
                     break;
             }
+        }
+    }
+
+    public void MonsterAnimatorChange(string str)
+    {
+        //트리거 하나 작동시킴
+        _animator.SetTrigger(str);
+    }
+    public void MonsterEffectPlay(string effectName)
+    {
+        //이펙트이름 하나 주면 풀에서 하나 꺼내도록
+        if(effectName != "null")
+        {
+            //꺼내기만 하면 알아서 실행되고 비활성화됨: 이유- 애니메이션은 한번 실행하고 끝나면 코루틴으로 체크중이고 파티클도 한번실행하고 끝나면 유니티 이벤트 동작,
+            //ParticleSystem은 Inspector에서 PlayOnAwake = true, Looping = false로 해줘야한다
+            EffectSpawner.Instance.GetEffectScript(effectName, transform.position); 
         }
     }
     

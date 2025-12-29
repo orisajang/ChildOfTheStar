@@ -2,6 +2,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ePlayerSoundType
+{
+    hit, Attack
+}
+public enum ePlayerEffectType
+{
+    hit, selfHarm, heal, shield, attackR,attackB,attackG,attackW,attackBlack
+}
+
 public class Player : MonoBehaviour
 {
     public int CharacterId { get; private set; }
@@ -32,6 +41,38 @@ public class Player : MonoBehaviour
     public bool isImmortalityityFinished { get; set; }
     private List<TileSO> _playerDeckSO;
     public IReadOnlyList<TileSO> PlayerDeckSO => _playerDeckSO;
+
+    //플레이어 사운드 
+    Dictionary<ePlayerSoundType, string> _playerSoundTypeDic = new Dictionary<ePlayerSoundType, string>()
+    {
+        {ePlayerSoundType.hit, "sfx_playerhit" },
+        {ePlayerSoundType.Attack, "sfx_playerattack" }
+    };
+    //플레이어 이펙트
+    Dictionary<ePlayerEffectType, string> _playerEffectTypeDic = new Dictionary<ePlayerEffectType, string>()
+    {
+        { ePlayerEffectType.hit, "effect_hit"},
+        { ePlayerEffectType.selfHarm, "effect_selfharm"},
+        { ePlayerEffectType.heal, "effect_heal"},
+        { ePlayerEffectType.shield, "effect_shield"},
+        { ePlayerEffectType.attackR, "effect_attack_red"},
+        { ePlayerEffectType.attackB, "effect_attack_blue"},
+        { ePlayerEffectType.attackG, "effect_attack_green"},
+        { ePlayerEffectType.attackW, "effect_attack_white"},
+        { ePlayerEffectType.attackBlack, "effect_attack_white"},
+    };
+    private Vector3 _playerPos;
+    private void Start()
+    {
+        //이펙트 풀 설정
+        List<string> playerEffectName = new List<string>();
+        foreach(ePlayerEffectType key in _playerEffectTypeDic.Keys)
+        {
+            playerEffectName.Add(_playerEffectTypeDic[key]);
+        }
+        EffectSpawner.Instance.SetEffectPoolData(EffectOwner.Player, playerEffectName);
+    }
+
     /// <summary>
     /// CSV데이터로 읽어온 데이터를 현재 Player에 적용
     /// </summary>
@@ -126,6 +167,11 @@ public class Player : MonoBehaviour
         //실제 데미지 기반으로 HP차감
         CharacterHpCurrent -= damage;
         Debug.Log($"현재 플레이어 체력:{CharacterHpCurrent}");
+        //소리 설정
+        SoundManager.Instance.PlayEffect(_playerSoundTypeDic[ePlayerSoundType.hit]);
+        //피격 이펙트 재생 (반환 받기만 하면 이펙트가 스스로 재생하고 끝남
+        string effectName = _playerEffectTypeDic[ePlayerEffectType.hit];
+        EffectSpawner.Instance.GetEffectScript(effectName, _playerPos);
 
         UIManager.Instance.PlayerStatusUI.UpdateHP(CharacterHpCurrent, CharacterHpMax);
         UIManager.Instance.PlayerStatusUI.UpdateShield(Shield);
@@ -188,5 +234,10 @@ public class Player : MonoBehaviour
             //깊은복사로 넣음
             _playerDeckSO = new List<TileSO>(initDeckData);
         }
+    }
+    public void SetPlayerPosition(Vector3 pos)
+    {
+        _playerPos = pos;
+
     }
 }

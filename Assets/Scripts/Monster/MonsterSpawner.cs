@@ -4,28 +4,33 @@ using UnityEngine;
 public class MonsterSpawner : Singleton<MonsterSpawner>
 {
     //오브젝트풀 프리팹,사이즈 , 선언
-    [SerializeField] Monster _monsterPrefab;
+    [SerializeField] MonsterRoot _monsterPrefab;
     [SerializeField] int poolSize = 10;
-    ObjPool<Monster> _monsterPool;
+    ObjPool<MonsterRoot> _monsterRootPool; //기존 오브젝트풀과 다르게 부모를 하나 추가하기위해 MonsterRoot를 넣어서 사용
 
     protected override void Awake()
     {
         isDestroyOnLoad = false;
         base.Awake();
-        _monsterPool = new ObjPool<Monster>(_monsterPrefab, poolSize, gameObject.transform);
+        _monsterRootPool = new ObjPool<MonsterRoot>(_monsterPrefab, poolSize, gameObject.transform);
     }
     //생성 코드
     public Monster GetMonsterByPool(Transform trf)
     {
-        Monster monsterBuf = _monsterPool.GetObject();
-        monsterBuf.transform.position = trf.position;
+        MonsterRoot monParent = _monsterRootPool.GetObject();
+        monParent.transform.position = trf.position;
+        Monster monsterBuf = monParent.Monster;
+        //monsterBuf.transform.position = trf.position;
         monsterBuf.OnMonsterDead += ReturnMonsterToPool;
         return monsterBuf;
     }
     //오브젝트 반환
-    private void ReturnMonsterToPool(Monster expPoint)
+    private void ReturnMonsterToPool(Monster monster)
     {
-        expPoint.OnMonsterDead -= ReturnMonsterToPool;
-        _monsterPool.ReturnObject(expPoint);
+        monster.OnMonsterDead -= ReturnMonsterToPool;
+        //부모를 가져온다
+        MonsterRoot monParent = monster.GetComponentInParent<MonsterRoot>();
+        _monsterRootPool.ReturnObject(monParent);
     }
 }
+

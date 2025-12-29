@@ -6,5 +6,9 @@ public class MonsterAttackStrategy : MonsterStrategy
     {
         Debug.Log("AttackDo");
         monster.MonsterAttacktypeDic[action.monsterActionData.attackType].DoAttack(monster, action);
+        //애니메이션 재생
+        monster.MonsterAnimatorChange(MonsterAnimatorParameterName.Attack);
+        //소리 재생
+        SoundManager.Instance.PlayEffect(action.monsterActionData.sound);
     }
 }

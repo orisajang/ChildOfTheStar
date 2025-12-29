@@ -45,6 +45,14 @@ public class MonsterManager : Singleton<MonsterManager>
     private int _currentActMonsterIndex;
 
     //MonsterManager 에 있는 테스트 생성용 코드를 여러 몬스터가 있을떄 어떻게 생성시키게 할건지 고민 필요
+    Dictionary<int, string> monsterDeadSoundDic = new Dictionary<int, string>()
+    {
+        {1, "sfx_stage1monsterdown" },
+        {2, "sfx_stage2monsterdown" },
+        {3, "sfx_stage3monsterdown" },
+        {4, "sfx_stage4monsterdown" },
+    };
+
     protected override void Awake()
     {
         isDestroyOnLoad = false;
@@ -173,30 +181,6 @@ public class MonsterManager : Singleton<MonsterManager>
     {
         //리스트로 전부 데이터들을 불러온다
         _monsterActionCycleDataDic = _monsterActionCycleCSVLoader.LoadData("MonsterActionCycleCSVData");
-
-        //몬스터 액션
-
-
-        ////딕셔너리를 같은 group ID로 묶을 수 있도록 리스트를 따로 만들어준다
-        //List<MonsterActionCycleCSVData> dataList = new List<MonsterActionCycleCSVData>();
-        ////private Dictionary<int, List<MonsterActionCycleCSVData>> _monsterActionCycleDataDic = new Dictionary<int, List<MonsterActionCycleCSVData>>();
-        //foreach(var item in _monsterActionCycleCSVDataList)
-        //{
-        //    int currentGroupid = item.groupId;
-        //    //딕셔너리에 그룹id가 포함되어있다면
-        //    if (_monsterActionCycleDataDic.ContainsKey(currentGroupid))
-        //    {
-        //        _monsterActionCycleDataDic[currentGroupid].Add(item);
-        //    }
-        //    else
-        //    {
-        //        //딕셔너리에 그룹id가 없는상태 (처음 시작)
-        //        List<MonsterActionCycleCSVData> list = new List<MonsterActionCycleCSVData>();
-        //        list.Add(item);
-        //        _monsterActionCycleDataDic[currentGroupid] = list;
-        //    }
-        //}
-       
     }
     /// <summary>
     /// 몬스터 행동 정보를 CSV파일에서 가져옴
@@ -264,25 +248,15 @@ public class MonsterManager : Singleton<MonsterManager>
             }
         }
     }
-
-
-    //몬스터의 상태는 3개가 있다 (대기, 공격준비, Idle) 
-    //대기와 공격준비는 비슷한듯? 
-    /// <summary>
-    /// 몬스터의 상태 Test -Idle 상태
-    /// </summary>
-    private void MonsterIdleState(string animation, string effect, string sound)
-    {
-        //해당 애니메이션, 이펙트, 소리 동작시킨다.
-        //몬스터 스스로 턴1개를 감소시킴
-        //만약 턴이 종료되었다면? 턴매니저에 자신의 턴종료를 알림
-        
-    }
     /// <summary>
     /// 몬스터가 사망하면 몬스터매니저의 몬스터생존여부도 삭제
     /// </summary>
     private void MonsterRemove(Monster monster)
     {
+        //몬스터 스테이지 번호를 알기위해 2번째 숫자만 가져온다
+        int monsterId = (monster._monsterId / 100) % 10;
+        string deadEffectName = monsterDeadSoundDic[monsterId];
+        SoundManager.Instance.PlayEffect(deadEffectName);
         _spawnedMonster.Remove(monster);
         _targetMonster = null;
     }

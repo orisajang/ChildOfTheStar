@@ -1,4 +1,4 @@
-스테이지 인스턴스 id,스테이지 그룹 id,스테이지 그룹 확률,첫 번째 몬스터 웨이브 id 정보,두 번째 몬스터 웨이브 id 정보,스테이지 인스턴스 난이도-0:쉬움1:보통2:어려움
+스테이지 인스턴스 id,스테이지 그룹 id,스테이지 그룹 확률,첫 번째 몬스터 웨이브 id 정보,두 번째 몬스터 웨이브 id 정보,스테이지 인스턴스 난이도0쉬움1보통2어려움
 stageinstance_id,stagegroup_id,stagegroup_chance,monwave_id,monwave_id,stageinstance_difficulty
 int,int,float,int,int,enum
 10000101,100001,0.4,100001001,,0
