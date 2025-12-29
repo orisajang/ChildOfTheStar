@@ -1047,10 +1047,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 576381707}
     m_Modifications:
+    - target: {fileID: 14268475674183307, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
+      propertyPath: m_text
+      value: "\uC2A4\uD14C\uC774\uC9C0 \uC885\uB8CC\n"
+      objectReference: {fileID: 0}
     - target: {fileID: 25314984542112792, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1322450655306327280, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 1429359163443218723, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
       propertyPath: m_CullTransparentMesh
       value: 1
@@ -1147,9 +1155,25 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6416563026956209364, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
+      propertyPath: m_Name
+      value: StageExit
+      objectReference: {fileID: 0}
     - target: {fileID: 7334888637247663037, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7639378597921983715, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GoToStageSelectScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 8238129684968999291, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1dfc5b1f4dae55745b1d4a130be28f82, type: 3}
+    - target: {fileID: 8238129684968999291, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8541272203566805023, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
       propertyPath: m_AnchorMax.y

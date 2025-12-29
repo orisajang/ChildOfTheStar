@@ -20,6 +20,10 @@ public class SettingUI : MonoBehaviour
         SceneManager.LoadScene("LobbyTest");
     }
 
+    public void GoToStageSelectScene()
+    {
+        GameManager.Instance.GoToStageScene();
+    }
     public void GameExit()
     {
     #if UNITY_EDITOR
