@@ -228,6 +228,7 @@ public class MonsterManager : Singleton<MonsterManager>
         {
             //몬스터 데이터를 꺼내서 몬스터 정보 지정
             int spawnCount = monsterInfos[index].monsterNumber;
+            int bossCount = 1;
             for (int spawnIndex = 0; spawnIndex < spawnCount; spawnIndex++)
             {
                 MonsterCSVData data = _monsterDataDic[monsterInfos[index].monsterId];
@@ -237,7 +238,20 @@ public class MonsterManager : Singleton<MonsterManager>
                 {
                     //몬스터 생성후 몬스터를 매니저에서 가지고있음
                     //오브젝트풀로 몬스터 하나 받아오도록 설정
-                    Monster monsterBuf = MonsterSpawner.Instance.GetMonsterByPool(_monsterCreatePosArray[_currentSpawnIndex]);
+                    Transform spawnPos = null;
+                    if (data.monsterType == eMonsterType.Boss)
+                    {
+                        //보스는 마지막 위치에
+                        spawnPos = _monsterCreatePosArray[_monsterCreatePosArray.Length - bossCount];
+                        bossCount++;
+                    }
+                    else
+                    {
+                        //일반 몬스터는 하나하나씩
+                        spawnPos = _monsterCreatePosArray[_currentSpawnIndex];
+                    }
+
+                    Monster monsterBuf = MonsterSpawner.Instance.GetMonsterByPool(spawnPos);
                     monsterBuf.SetMonsterInfo(data);
                     _spawnedMonster.Add(monsterBuf);
                     //몬스터 사망시 생존 몬스터 삭제
