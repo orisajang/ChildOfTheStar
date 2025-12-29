@@ -59,11 +59,8 @@ public class ShopManager : Singleton<ShopManager>
     {
         var priceTag = GetPrice(tileToBuy);
 
-        if (ColorResourceManager.Instance.TryPurchase(priceTag))
-        {
-            _useDeck.Add(tileToBuy);
-            Debug.Log($" 구매 성공: {tileToBuy.Name}");
-        }
+        _useDeck.Add(tileToBuy);
+        Debug.Log($" 구매 성공: {tileToBuy.Name}");
     }
 
     public void OnSellTile(TileSO tileToSell)

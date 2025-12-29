@@ -6,7 +6,7 @@ public static class SceneName
     //씬의 이름을 저장하는 static 클래스
     public const string Tile = "TestSampleLobbyScene";
     public const string Battle = "InGameMainTest";
-    public const string Shop = "Shop";
+    public const string Shop = "ShopScene";
     public const string Stage = "StageSelectScene";
     public const string Lobby = "LobbyTest";
     public const string EarnedResource = "EarnedResourceScene";
@@ -73,7 +73,7 @@ public class GameManager : Singleton<GameManager>
     public void GoToShopScene()
     {
         Debug.Log("상점씬으로 이동");
-        SceneManager.LoadScene(SceneName.EarnedResource);
+        SceneManager.LoadScene(SceneName.Shop);
     }
 
 

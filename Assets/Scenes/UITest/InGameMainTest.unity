@@ -3716,6 +3716,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 6.3
       objectReference: {fileID: 0}
+    - target: {fileID: 6115161098851273887, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
+      propertyPath: _tileDeck
+      value: 
+      objectReference: {fileID: 860075241}
     - target: {fileID: 7169205689268764540, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
       propertyPath: m_SizeDelta.y
       value: 12

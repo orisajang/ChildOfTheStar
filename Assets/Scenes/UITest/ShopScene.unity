@@ -565,63 +565,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1001 &1419254204
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2053341231868608312, guid: 168b0136c5aa23945b9b0a573f310f2d, type: 3}
-      propertyPath: m_Name
-      value: ShopMananger
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541262683786560491, guid: 168b0136c5aa23945b9b0a573f310f2d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541262683786560491, guid: 168b0136c5aa23945b9b0a573f310f2d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541262683786560491, guid: 168b0136c5aa23945b9b0a573f310f2d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541262683786560491, guid: 168b0136c5aa23945b9b0a573f310f2d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541262683786560491, guid: 168b0136c5aa23945b9b0a573f310f2d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541262683786560491, guid: 168b0136c5aa23945b9b0a573f310f2d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541262683786560491, guid: 168b0136c5aa23945b9b0a573f310f2d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541262683786560491, guid: 168b0136c5aa23945b9b0a573f310f2d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541262683786560491, guid: 168b0136c5aa23945b9b0a573f310f2d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6541262683786560491, guid: 168b0136c5aa23945b9b0a573f310f2d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 168b0136c5aa23945b9b0a573f310f2d, type: 3}
 --- !u!1 &1494616308 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1907711743982075400, guid: b7f381756e1db194e836402044906067, type: 3}
@@ -832,18 +775,65 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8643028700558743026, guid: b7f381756e1db194e836402044906067, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8643028700558743026, guid: b7f381756e1db194e836402044906067, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8643028700558743026, guid: b7f381756e1db194e836402044906067, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5535760491669349896}
+    - target: {fileID: 8643028700558743026, guid: b7f381756e1db194e836402044906067, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8643028700558743026, guid: b7f381756e1db194e836402044906067, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnShopExit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8643028700558743026, guid: b7f381756e1db194e836402044906067, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ShopExitButton, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8643028700558743026, guid: b7f381756e1db194e836402044906067, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 6558144320343225483, guid: b7f381756e1db194e836402044906067, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5852347677607181322, guid: b7f381756e1db194e836402044906067, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5535760491669349896}
   m_SourcePrefab: {fileID: 100100000, guid: b7f381756e1db194e836402044906067, type: 3}
+--- !u!1 &5535760491669349895 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5852347677607181322, guid: b7f381756e1db194e836402044906067, type: 3}
+  m_PrefabInstance: {fileID: 5535760491669349894}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5535760491669349896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5535760491669349895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bbf3cfa7d527ec4ca00d46d16cffa07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopExitButton
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 280703715}
-  - {fileID: 1419254204}
   - {fileID: 193863457}
   - {fileID: 667618390}
   - {fileID: 5535760491669349894}
