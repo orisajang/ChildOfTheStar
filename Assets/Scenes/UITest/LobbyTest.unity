@@ -1229,9 +1229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BgmPlayer
   bgmList:
-  - Casual 2 Loop
-  - Casual 10 Loop
-  - village_loop
+  - bgm_lobby
 --- !u!4 &957127493
 Transform:
   m_ObjectHideFlags: 0
