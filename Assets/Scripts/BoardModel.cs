@@ -362,6 +362,8 @@ public class BoardModel
                                 _tiles[lineIndex, targetCol].AddKeyword(TileKeyword.Crack);
                             }
                         }
+                        //일단 매칭확인하면 바로 사운드 재생
+                        SoundManager.Instance.PlayEffect("sfx_playerattack");
                     }
 
                     count = 1;
@@ -420,6 +422,8 @@ public class BoardModel
                                 _tiles[targetRow, lineIndex].AddKeyword(TileKeyword.Crack);
                             }
                         }
+                        //일단 매칭확인하면 바로 사운드 재생
+                        SoundManager.Instance.PlayEffect("sfx_playerattack");
                     }
 
                     count = 1;
