@@ -70,5 +70,11 @@ public class GameManager : Singleton<GameManager>
         SceneManager.LoadScene(SceneName.EarnedResource);
     }
 
-    
+    public void GoToShopScene()
+    {
+        Debug.Log("상점씬으로 이동");
+        SceneManager.LoadScene(SceneName.EarnedResource);
+    }
+
+
 }
