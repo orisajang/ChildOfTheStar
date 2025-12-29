@@ -36,7 +36,7 @@ public class Monster : MonoBehaviour
     public int _monsterId { get; private set; }
     string _monsterName;
     eMonsterType _monsterType;
-    eMonsterSize _monsterSize;
+    public eMonsterSize _monsterSize { get; private set; }
     public int _monsterHp { get; private set; }
     public int _monsterAttackPower { get; private set; }
     int _monsterMaxEnergy;
@@ -86,6 +86,9 @@ public class Monster : MonoBehaviour
     Animator _animator;
     MonsterAnimatorFactory monsterAnimatorFactory = new MonsterAnimatorFactory();
     AnimatorOverrideController animatorOverrideController;
+
+    //몬스터 HP바 이벤트
+    public event Action<float,Monster> OnMonsterHpChanged;
     private void Awake()
     {
         _delay = new WaitForSeconds(1);
@@ -307,6 +310,10 @@ public class Monster : MonoBehaviour
     public void TakeDamage(int dmg)
     {
         _monsterCurrentHp -= dmg;
+
+        float amount = (float)_monsterCurrentHp / _monsterHp;
+        OnMonsterHpChanged?.Invoke(amount,this);
+
         // 몬스터 HPBar 갱신
         if (monsterHPBarUi != null)
         {
