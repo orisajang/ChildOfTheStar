@@ -173,8 +173,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LobbyUI
   lobbyButton: {fileID: 188008174}
   dungeonButton: {fileID: 547342081}
-  characterButton: {fileID: 2086046090}
   panel: {fileID: 1983222749}
+  backgroundImage: {fileID: 0}
 --- !u!114 &188008177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -753,8 +753,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DungeonButton
   lobbyButton: {fileID: 188008174}
   dungeonButton: {fileID: 547342081}
-  characterButton: {fileID: 2086046090}
   panel: {fileID: 1983222749}
+  backgroundImage: {fileID: 0}
 --- !u!1 &575318169
 GameObject:
   m_ObjectHideFlags: 0
@@ -2541,14 +2541,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4189315914075274544, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 2020328513}
-    - target: {fileID: 4189315914075274544, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CloseSetting
-      objectReference: {fileID: 0}
     - target: {fileID: 4239190897311454288, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2557,14 +2549,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Set
       objectReference: {fileID: 0}
-    - target: {fileID: 5964906544540708585, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7082211261179562336, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7334888637247663037, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2572,10 +2556,6 @@ PrefabInstance:
     - target: {fileID: 8541272203566805023, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9017810786730419980, guid: e4e4bcbba07665b47a81ff05d1cc23e0, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
