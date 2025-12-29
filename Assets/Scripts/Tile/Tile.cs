@@ -28,7 +28,10 @@ public class Tile : MonoBehaviour
     private TileSO _nextTileSO = null;
     private bool _willDestroy = false;
     private bool _willRebirth = false;
-    private SpriteRenderer _renderer;
+    [SerializeField] private SpriteRenderer _baseRenderer;
+    [SerializeField] private SpriteRenderer _rareRenderer;
+    [SerializeField] private SpriteRenderer _iconRenderer;
+    [SerializeField] private SpriteRenderer _effectRenderer;
     private Action<Tile> _returnTile;
 
 
@@ -55,7 +58,6 @@ public class Tile : MonoBehaviour
         {
             _statusDictionary.Add(seq, new List<TileStatusBase>());
         }
-        _renderer = GetComponent<SpriteRenderer>();
 
     }
 
@@ -66,8 +68,18 @@ public class Tile : MonoBehaviour
         _row = row;
         _tileDataSO = tileSO;
         _curColor = _tileDataSO.Color;
-        _renderer.color = _tileDataSO.SpriteColor;
-        _renderer.sprite = _tileDataSO.Sprite;
+        _baseRenderer.sprite = _tileDataSO.BaseSprite;
+        _iconRenderer.sprite = null;
+        _rareRenderer.sprite = null;
+        _effectRenderer.enabled = false;
+        if (_tileDataSO.Icon != null)
+        {
+            _iconRenderer.sprite = _tileDataSO.IconSprite;
+        }
+        if (_tileDataSO.RareSprite != null)
+        {
+            _rareRenderer.sprite = _tileDataSO.RareSprite;
+        }
         _nextTileSO = null;
         _willDestroy = false;
 
@@ -81,7 +93,6 @@ public class Tile : MonoBehaviour
 
 
         _returnTile = returnTile;
-
 
     }
 
@@ -158,6 +169,7 @@ public class Tile : MonoBehaviour
     /// <param name="StautsData">상태이상 SO</param>
     public void AddStatus(TileStatus statusType, TileStatusBase StautsData)
     {
+        _effectRenderer.enabled = true;
         _statusDictionary[statusType].Add(StautsData);
 
         switch (statusType)
@@ -223,18 +235,29 @@ public class Tile : MonoBehaviour
             }
         }
 
+        Rebirth();
+    }
+    public void Rebirth()
+    {
         if (_nextTileSO != null)
         {
             _tileDataSO = _nextTileSO;
             _nextTileSO = null;
             _willRebirth = false;
             _curColor = _tileDataSO.Color;
-            _renderer.color = _tileDataSO.SpriteColor;
-            _renderer.sprite = _tileDataSO.Sprite;
+            _baseRenderer.sprite = _tileDataSO.BaseSprite;
+
+            if (_tileDataSO.Icon != null)
+            {
+                _iconRenderer.sprite = _tileDataSO.IconSprite;
+            }
+            if (_tileDataSO.RareSprite != null)
+            {
+                _rareRenderer.sprite = _tileDataSO.RareSprite;
+            }
 
         }
     }
-
     public void Destroy()
     {
         SkillManager.Instance.IncreaseDestroyCount();
@@ -289,4 +312,6 @@ public class Tile : MonoBehaviour
     {
         return _tileDataSO.Speed;
     }
+
+   
 }

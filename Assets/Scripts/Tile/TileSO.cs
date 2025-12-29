@@ -15,7 +15,9 @@ public class TileSO : ScriptableObject
     [SerializeField] private string _description;
     [SerializeField] private TileColor _color;
     [SerializeField] private Color _spriteColor;
-    [SerializeField] private Sprite _sprite;
+    [SerializeField] private Sprite _baseSprite;
+    [SerializeField] private Sprite _rareSprite;
+    [SerializeField] private Sprite _iconSprite;
     [SerializeField] private int _rarity;
     [SerializeField] private int _price;
     [SerializeField] private int _speed;
@@ -28,7 +30,9 @@ public class TileSO : ScriptableObject
     public string Description => _description;
     public TileColor Color => _color;
     public Color SpriteColor => _spriteColor;
-    public Sprite Sprite => _sprite;
+    public Sprite BaseSprite => _baseSprite;
+    public Sprite RareSprite => _rareSprite;
+    public Sprite IconSprite => _iconSprite;
     public int Rarity => _rarity;
     public int Price => _price;
     public int Speed => _speed;

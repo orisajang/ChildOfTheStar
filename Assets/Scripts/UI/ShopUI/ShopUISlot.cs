@@ -7,7 +7,9 @@ public class ShopUISlot : MonoBehaviour
 {
     public enum SlotType { ShopTile, DeckTile, ExchangeTarget }
 
+    [SerializeField] private Image _tile;
     [SerializeField] private Image _icon;
+    [SerializeField] private Image _rare;
     [SerializeField] private TextMeshProUGUI _nameText;
 
     [SerializeField] private GameObject _shopUIGroup;
@@ -34,8 +36,16 @@ public class ShopUISlot : MonoBehaviour
         _type = type;
         _main = main;
         _isSelected = false;
-
-        _icon.sprite = data.Sprite;
+        _rare.enabled = false;
+        _tile.sprite = data.BaseSprite;
+        if(data.IconSprite != null)
+            _icon.sprite = data.IconSprite;
+        if(data.RareSprite != null)
+        {
+            _rare.sprite = data.RareSprite;
+            _rare.enabled = true;
+            _rare.SetNativeSize();
+        }
         _nameText.text = data.Name;
         _selectionBorder.SetActive(false);
 

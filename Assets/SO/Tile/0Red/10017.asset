@@ -24,8 +24,10 @@ MonoBehaviour:
   _icon: 2
   _description: 
   _color: 2
-  _spriteColor: {r: 0.9339623, g: 0.3815163, b: 0.24230155, a: 1}
-  _sprite: {fileID: 7482667652216324306, guid: 6b34972c1fa0c5145905179c7255f794, type: 3}
+  _spriteColor: {r: 1, g: 0, b: 0, a: 1}
+  _baseSprite: {fileID: -8826805962741192054, guid: 066f086d75220b44ca8770f49bca4675, type: 3}
+  _rareSprite: {fileID: 4526512983881493643, guid: 5828f8b4187fd0543b1e2cf6f4a57414, type: 3}
+  _iconSprite: {fileID: 7493596533453431557, guid: 4b89786b8327e8642966cf8a80e82665, type: 3}
   _rarity: 3
   _price: 3
   _speed: 2
