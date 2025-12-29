@@ -104,6 +104,7 @@ public class DungeonManager : Singleton<DungeonManager>
     {
         _currentStageNumber = 0;
         _clearedStageIndexDic.Clear();
+        Debug.Log("플레이어 사망으로 던전매니저 스테이지 정보 초기화");
     }
     public void SetDungeonText(TextMeshProUGUI textUI)
     {

@@ -60,6 +60,7 @@ public class ShopManager : Singleton<ShopManager>
         var priceTag = GetPrice(tileToBuy);
 
         _useDeck.Add(tileToBuy);
+        _shopTileSlots.Remove(tileToBuy);
         Debug.Log($" 구매 성공: {tileToBuy.Name}");
         SoundManager.Instance.PlayBGM("sfx_shop");
     }
@@ -94,7 +95,9 @@ public class ShopManager : Singleton<ShopManager>
         }
 
         _useDeck.Add(targetTile);
-        Debug.Log($" {targetTile.Name} 교환");
+
+        _shopTileSlots.Remove(targetTile);
+        Debug.Log($" 교환 성공");
         SoundManager.Instance.PlayBGM("sfx_shop");
         return true; 
     }
