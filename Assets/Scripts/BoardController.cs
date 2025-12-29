@@ -141,6 +141,8 @@ public class BoardController : MonoBehaviour
     {
         if (isClicked)
         {
+            SoundManager.Instance.PlayEffect("타일 집는 소리 + 드래그 + 놓는 소리");
+
             var indexs = GetAdjacentIndex(clickPos);
             startIndexRow = indexs[0];
             startIndexCol = indexs[1];

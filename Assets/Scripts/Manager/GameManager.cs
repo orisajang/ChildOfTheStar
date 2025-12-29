@@ -35,28 +35,38 @@ public class GameManager : Singleton<GameManager>
     {
         //전투 시작 시
         Debug.Log("배틀씬으로 이동");
+        string[] SceneChangeSound = { "화면 전환1", "화면 전환2" };
+        SoundManager.Instance.PlayEffect(SceneChangeSound[UnityEngine.Random.Range(0, SceneChangeSound.Length)]);
         SceneManager.LoadScene(SceneName.Battle);
     }
     public void GoToTitleScene()
     {
         //게임시작, 게임종료될 경우 이 메서드 사용
         Debug.Log("타이틀씬으로 이동");
+        string[] SceneChangeSound = { "화면 전환1", "화면 전환2" };
+        SoundManager.Instance.PlayEffect(SceneChangeSound[UnityEngine.Random.Range(0, SceneChangeSound.Length)]);
         SceneManager.LoadScene(SceneName.Tile);
     }
     public void GoToStageScene()
     {
         //게임시작, 게임종료될 경우 이 메서드 사용
         Debug.Log("스테이지씬으로 이동");
+        string[] SceneChangeSound = { "화면 전환1", "화면 전환2" };
+        SoundManager.Instance.PlayEffect(SceneChangeSound[UnityEngine.Random.Range(0, SceneChangeSound.Length)]);
         SceneManager.LoadScene(SceneName.Stage);
     }
     public void GoToLobbyScene()
     {
         Debug.Log("로비씬으로 이동");
+        string[] SceneChangeSound = { "화면 전환1", "화면 전환2" };
+        SoundManager.Instance.PlayEffect(SceneChangeSound[UnityEngine.Random.Range(0, SceneChangeSound.Length)]);
         SceneManager.LoadScene(SceneName.Lobby);
     }
     public void GoToResourceEarnedScene()
     {
         Debug.Log("인게임클리어후 자원획득량창으로 이동");
+        string[] SceneChangeSound = { "화면 전환1", "화면 전환2" };
+        SoundManager.Instance.PlayEffect(SceneChangeSound[UnityEngine.Random.Range(0, SceneChangeSound.Length)]);
         SceneManager.LoadScene(SceneName.EarnedResource);
     }
 
