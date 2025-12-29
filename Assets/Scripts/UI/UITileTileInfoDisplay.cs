@@ -26,7 +26,7 @@ public class UITileTileInfoDisplay : MonoBehaviour
             tile.GetStatusCount(TileStatus.Destruction),
             tile.GetStatusCount(TileStatus.Recovery)
             );
-        UpdateSkilInfo(tile.TileData.name,
+        UpdateSkilInfo(tile.TileData.Name,
                               tile.TileData.descriptionText,
                               tile.TileData.Rarity.ToString());
     }

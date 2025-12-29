@@ -24,7 +24,7 @@ public class DisplayHoldingTileUI : MonoBehaviour
                 _holdingTileDict[tile.Id]._tileNum++;
             }
 
-            _holdingTileDict.Add(tile.Id,new HoldingTileInfo(1,tile.Name,tile.descriptionText, tile.IconSprite));
+            _holdingTileDict.Add(tile.Id,new HoldingTileInfo(1,tile.Name,tile.descriptionText, tile.IconSprite,tile.BaseSprite,tile.RareSprite));
             
 
         }
@@ -46,7 +46,7 @@ public class DisplayHoldingTileUI : MonoBehaviour
             {
                 _holdingTilesUIs.Add(Instantiate(_effectUIPrefeb, transform).GetComponent<TileInfoUI>());
             }
-            _holdingTilesUIs[uiInfoCount].UpdateTileInfo(_holdingTileDict[key]._tileNum, _holdingTileDict[key]._tileName, _holdingTileDict[key]._tileDescription, _holdingTileDict[key]._tileIcon);
+            _holdingTilesUIs[uiInfoCount].UpdateTileInfo(_holdingTileDict[key]._tileNum, _holdingTileDict[key]._tileName, _holdingTileDict[key]._tileDescription, _holdingTileDict[key]._tileIcon, _holdingTileDict[key]._tileSprite, _holdingTileDict[key]._rareSprite);
             _holdingTilesUIs[uiInfoCount].gameObject.SetActive(true);
             uiInfoCount++;
         }
@@ -66,12 +66,18 @@ class HoldingTileInfo
     public string _tileName;
     public string _tileDescription;
     public Sprite _tileIcon;
+    public Sprite _tileSprite; 
+    public Sprite _rareSprite;
 
-    public HoldingTileInfo(int num, string name, string description,Sprite icon)
+    public HoldingTileInfo(int num, string name, string description,Sprite icon, Sprite tile, Sprite rare)
     {
         _tileDescription = description;
         _tileNum = num;
         _tileName = name;
-        _tileIcon = icon;
+        _tileSprite = tile;
+        if(icon != null)
+            _tileIcon = icon;
+        if(rare != null)
+            _rareSprite = rare;
     }
 }
