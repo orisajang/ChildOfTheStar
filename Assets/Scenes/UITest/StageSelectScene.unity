@@ -684,6 +684,7 @@ GameObject:
   - component: {fileID: 281547657}
   - component: {fileID: 281547659}
   - component: {fileID: 281547658}
+  - component: {fileID: 281547660}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -809,6 +810,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 281547656}
   m_CullTransparentMesh: 1
+--- !u!114 &281547660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281547656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da408197d2586d44a8f359225165a0a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DungeonInfoUI
 --- !u!1 &316371231
 GameObject:
   m_ObjectHideFlags: 0
@@ -4073,9 +4086,9 @@ RectTransform:
   - {fileID: 2023437970}
   - {fileID: 2132777966}
   - {fileID: 1948437715}
-  - {fileID: 553203806}
   - {fileID: 644354243}
   - {fileID: 637474750}
+  - {fileID: 553203806}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5451,7 +5464,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 3
 --- !u!222 &1948437718
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5622,7 +5635,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 3
 --- !u!222 &2023437973
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5917,7 +5930,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 3
 --- !u!222 &2132777969
 CanvasRenderer:
   m_ObjectHideFlags: 0

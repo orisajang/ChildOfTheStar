@@ -175,6 +175,7 @@ MonoBehaviour:
   lobbyButton: {fileID: 188008174}
   dungeonButton: {fileID: 547342081}
   panel: {fileID: 1983222749}
+  backgroundImage: {fileID: 1720443344}
 --- !u!114 &188008177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3019,7 +3020,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 2
 --- !u!222 &2020939710
 CanvasRenderer:
   m_ObjectHideFlags: 0
