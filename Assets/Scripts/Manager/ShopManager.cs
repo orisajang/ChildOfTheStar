@@ -61,6 +61,7 @@ public class ShopManager : Singleton<ShopManager>
 
         _useDeck.Add(tileToBuy);
         Debug.Log($" 구매 성공: {tileToBuy.Name}");
+        SoundManager.Instance.PlayBGM("sfx_shop");
     }
 
     public void OnSellTile(TileSO tileToSell)
@@ -69,6 +70,7 @@ public class ShopManager : Singleton<ShopManager>
         {
             _useDeck.Remove(tileToSell);
             Debug.Log($" 판매 완료: {tileToSell.Name}");
+            SoundManager.Instance.PlayBGM("sfx_shop");
         }
     }
 
@@ -93,7 +95,7 @@ public class ShopManager : Singleton<ShopManager>
 
         _useDeck.Add(targetTile);
         Debug.Log($" {targetTile.Name} 교환");
-
+        SoundManager.Instance.PlayBGM("sfx_shop");
         return true; 
     }
     private Rarity GetRandomRarity()

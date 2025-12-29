@@ -48,6 +48,7 @@ public class StageManager : Singleton<StageManager>
             //웨이브가 더 안남아있음., 다음 스테이지로 이동하도록 처리해야함
             //실제 게임에서는 스테이지 클리어 했다면 스테이지 선택창으로 다시 돌아감. (자동으로 다음 스테이지 실행하지 않는다)
             //DungeonManager.Instance.ReturnToStageSelect();
+            DungeonManager.Instance.StageNumberIncrease();
             GameManager.Instance.GoToResourceEarnedScene();
         }
         else
@@ -62,7 +63,7 @@ public class StageManager : Singleton<StageManager>
         Debug.Log($"현재 스테이지번호:{_currentStageData.stageId} 몬스터 웨이브: {_currentWaveIndex+1}번째");
 
         //StageSelectScene 디버그용 코드 (삭졔예정)=> 몬스터 소환안하고 턴매니저 없이 스테이지 자동 진행
-        //currentWaveIndex++; //디버그용 코드
+        //_currentWaveIndex++; //디버그용 코드
         //PlayNextStage();    //디버그용 코드
         //return;             //디버그용 코드
 

@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI.Table;
@@ -26,7 +28,6 @@ public class BoardController : MonoBehaviour
     //거리 이동량
     private float tileSoundEffectMove = 0.25f;
     private float tileSoundEffectMovement = 0f;
-
     private Vector2 _startPos;
     private Vector2 _oldMousePosition;
     private Vector2 _deltaMousePosition;
@@ -34,6 +35,17 @@ public class BoardController : MonoBehaviour
 
     //타일 이동 방향
     private TileMoveDirection _curTileMoveDir;
+
+    //타일이 터졌을때 어떤 이펙트가 실행되어야하는지 이름을 설정한 딕셔너리
+    private Dictionary<TileColor, string> _tileColorToEffectNameDic = new Dictionary<TileColor, string>()
+    {
+        {TileColor.Black, "effect_attack_white" },
+        {TileColor.White, "effect_attack_white" },
+        {TileColor.Red, "effect_attack_red" },
+        {TileColor.Green, "effect_attack_green" },
+        {TileColor.Blue, "effect_attack_blue" }
+    };
+
     private void Awake()
     {
         if (SkillManager.Instance != null)
@@ -97,6 +109,8 @@ public class BoardController : MonoBehaviour
         //보드 비활성화를 위해 이벤트 추가
         _boardModel.OnResolveFinished += OnBoardResolveFinished;
         _boardModel.OnResolveStart += OnBoardResolveStart;
+        //타일 터지는 이펙트를 위해서 이벤트 추가
+        _boardModel.onTileEffectPlay += PlayTileEffect;
     }
     private void OnDisable()
     {
@@ -106,6 +120,16 @@ public class BoardController : MonoBehaviour
         _boardModel.OnTileMoveEnd -= DecreasePlayerMovePoint;
         _boardModel.OnResolveStart -= OnBoardResolveStart;
         _boardModel.OnResolveFinished -= OnBoardResolveFinished;
+        _boardModel.onTileEffectPlay -= PlayTileEffect;
+    }
+
+    private void PlayTileEffect(Tile tile)
+    {
+        TileColor color = tile.Color;
+        string effectName = _tileColorToEffectNameDic[tile.Color];
+        //터져야되는 타일 위치 지정
+        Vector3 tilePos = _tilePoints[tile.Row, tile.Col];
+        EffectSpawner.Instance.GetEffectScript(effectName, tilePos);
     }
 
     /// <summary>

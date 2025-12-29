@@ -52,15 +52,27 @@ public class SoundManager : Singleton<SoundManager>
     /// </summary>
     private AudioClip GetClip(string clipName)
     {
-        AudioClip clip = null;
-        mClipsDictionary.TryGetValue(clipName, out clip);
+        if (mClipsDictionary.TryGetValue(clipName, out var clip))
+        {
+            return clip;
+        }
+
+        clip = Resources.Load<AudioClip>($"Sound/BGM/{clipName}");
 
         if (clip == null)
         {
-            Debug.LogError("클립이 없습니다.");
-            return null;
+            clip = Resources.Load<AudioClip>($"Sound/SFX/{clipName}");
         }
-        return clip;
+
+        if (clip != null)
+        {
+            mClipsDictionary.Add(clipName, clip);
+            return clip;
+        }
+
+        Debug.LogError("클립이 없습니다.");
+
+        return null;
     }
 
     /// <summary>
