@@ -75,6 +75,8 @@ public class BoardModel
 
     private BoardViewer _boardViewer;
 
+    //이펙트 터질때 어느 타일이 터졌는지 알아야해서 이벤트 추가
+    public event Action<Tile> onTileEffectPlay;
     public BoardModel()
     {
         _tiles = new Tile[Rows, Columns];
@@ -489,6 +491,11 @@ public class BoardModel
 
             //과충전 증감 연산 체크
             CalcOverChargeValue();
+
+            //터진 타일의 색상을 확인해서 이펙트를 표시해주자
+            onTileEffectPlay?.Invoke(tile);
+            
+
         }
 
     }
