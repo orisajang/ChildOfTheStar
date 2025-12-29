@@ -42,6 +42,30 @@ public class DungeonManager : Singleton<DungeonManager>
     public int LastSelectStageIndexKey { get; private set; }
     private int currentSelectStageIndex = 0;
     private TextMeshProUGUI _dungeonInfoText;
+    //스테이지별 배경 추가 (1-1 -> 11, 3-2 -> 32로 매칭해서 사용)
+    private Dictionary<string, string> stageBackgroundNameDic = new Dictionary<string, string>()
+    {
+        {"11","stage_bg_101" },
+        {"12","stage_bg_102" },
+        {"13","stage_bg_102" },
+        {"14","stage_bg_103" },
+        {"15","stage_bg_104" },
+        {"21","stage_bg_201" },
+        {"22","stage_bg_201" },
+        {"23","stage_bg_202" },
+        {"24","stage_bg_203" },
+        {"25","stage_bg_204" },
+        {"31","stage_bg_301" },
+        {"32","stage_bg_302" },
+        {"33","stage_bg_302" },
+        {"34","stage_bg_303" },
+        {"35","stage_bg_304" },
+        {"41","stage_bg_401" },
+        {"42","stage_bg_401" },
+        {"43","stage_bg_402" },
+        {"44","stage_bg_403" },
+        {"45","stage_bg_404" }
+    };
     protected override void Awake()
     {
         base.Awake();
@@ -279,7 +303,10 @@ public class DungeonManager : Singleton<DungeonManager>
         //return;
 
         //스테이지매니저에 정보 설정
-        StageManager.Instance.SetStageInstanceData(currentSelectStage);
+        //던전번호랑 스테이지번호를 합친 스트링값
+        string dungeonAddStringStage = $"{_currentDungeonNumber}{_currentStageNumber}";
+        string backgroundName = stageBackgroundNameDic[dungeonAddStringStage]; //stage_bg_101
+        StageManager.Instance.SetStageInstanceData(currentSelectStage, backgroundName);
         //전투 씬으로 이동
         GameManager.Instance.GoToBattleScene();
 

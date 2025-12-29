@@ -17,19 +17,26 @@ public class StageManager : Singleton<StageManager>
     private int _currentWaveIndex;
     //인게임 레벨
     public InGameLevel _currentLevel { get; private set; }
+    public string _backgroundName;
 
     protected override void Awake()
     {
         base.Awake();
         if (Instance != this) return; //이거도 추가
     }
-    public void SetStageInstanceData(StageCSVData stageInstancedata)
+    public void SetStageInstanceData(StageCSVData stageInstancedata, string backGroundName)
     {
+        _backgroundName = backGroundName;
         _currentStageData = stageInstancedata;
         _currentLevel = stageInstancedata.stageDifficulty;
     }
     public void StartStageTask()
     {
+        //배경 설정을 위해 오브젝트 하나 생성
+        GameObject backgroundObject = new GameObject("backGround");
+        SpriteRenderer backgroundComponent = backgroundObject.AddComponent<SpriteRenderer>();
+        backgroundComponent.sprite = Resources.Load<Sprite>($"Image/{_backgroundName}");
+
         //게임매니저에서 스테이지 몇을 시작하라는 명령이 오면 해당 정보를 가지고 스테이지를 실행을 한다.
         List<MonsterWaveCSVData> waveData = _currentStageData.monsterWaveList;
         _currentStageInstanceId = _currentStageData.stageId;
