@@ -25,10 +25,10 @@ public class ShopManager : Singleton<ShopManager>
 
     [SerializeField] private List<TileSO> _useDeck = new List<TileSO>();
 
-    [SerializeField] private List<TileSO> _shopTileSlots = new List<TileSO>();
+    [SerializeField] private List<TileSO> _shopTileSlots = new List<TileSO>(30);
 
-    public List<TileSO> baseDeck => _baseDeck;
-    public List<TileSO> useDeck => _useDeck;
+    public List<TileSO> BaseDeck => _baseDeck;
+    public List<TileSO> UseDeck => _useDeck;
     public List<TileSO> ShopTileSlots => _shopTileSlots;
 
     protected override void Awake()
@@ -41,14 +41,14 @@ public class ShopManager : Singleton<ShopManager>
         }
     }
 
-    public void RefreshShopSlots()
+    public void SuffleShopSlots()
     {
         _shopTileSlots.Clear();
         int totalSlots = 30;
 
         for (int i = 0; i < totalSlots; i++)
         {
-            TileSO tile = GetRandomTileOfRarity(GetRandomRarity());
+            TileSO tile = GetRandomTile(GetRandomRarity());
 
             if (tile != null) _shopTileSlots.Add(tile);
         }
@@ -62,7 +62,7 @@ public class ShopManager : Singleton<ShopManager>
         if (ColorResourceManager.Instance.TryPurchase(priceTag))
         {
             _useDeck.Add(tileToBuy);
-            Debug.Log($"[Shop] 구매 성공: {tileToBuy.Name}");
+            Debug.Log($" 구매 성공: {tileToBuy.Name}");
         }
     }
 
@@ -71,47 +71,58 @@ public class ShopManager : Singleton<ShopManager>
         if (_useDeck.Contains(tileToSell))
         {
             _useDeck.Remove(tileToSell);
-            Debug.Log($"[Shop] 판매 완료: {tileToSell.Name}");
+            Debug.Log($" 판매 완료: {tileToSell.Name}");
         }
     }
 
-    public void OnExchangeTiles(List<TileSO> selectedTiles)
+    public bool OnTargetExchange(List<TileSO> inputTiles, TileSO targetTile)
     {
-        if (selectedTiles == null || selectedTiles.Count != 3) return;
+        if (inputTiles == null || inputTiles.Count != 3)
+            return false; 
 
-        TileColor baseColor = selectedTiles[0].Color;
-        foreach (var t in selectedTiles) if (t.Color != baseColor) return;
-        foreach (var t in selectedTiles) if (!_useDeck.Contains(t)) return;
-
-        foreach (var t in selectedTiles) _useDeck.Remove(t);
-
-        TileSO newTile = GetRandomTileExcludingColor(baseColor);
-        if (newTile != null)
+        TileColor baseColor = inputTiles[0].Color;
+        foreach (var target in inputTiles)
         {
-            _useDeck.Add(newTile);
-            Debug.Log($"[Shop] 교환 성공: {newTile.Name}");
+            if (target.Color != baseColor) 
+                return false; 
+            if (!_useDeck.Contains(target)) 
+                return false; 
         }
-    }
 
+        foreach (var target in inputTiles)
+        {
+            _useDeck.Remove(target);
+        }
+
+        _useDeck.Add(targetTile);
+        Debug.Log($" {targetTile.Name} 교환");
+
+        return true; 
+    }
     private Rarity GetRandomRarity()
     {
         int rnd = Random.Range(0, 100);
 
-        if (rnd < 30) return Rarity.Common;    
-        if (rnd < 55) return Rarity.Uncommon; 
-        if (rnd < 75) return Rarity.Rare;      
-        if (rnd < 90) return Rarity.Epic;      
+        if (rnd < 30)
+            return Rarity.Common;
+        if (rnd < 55)
+            return Rarity.Uncommon;
+        if (rnd < 75)
+            return Rarity.Rare;
+        if (rnd < 90) return
+                Rarity.Epic;
 
-        return Rarity.Legendary;               
+
+        return Rarity.Legendary;
     }
 
-    private TileSO GetRandomTileOfRarity(Rarity rarity)
+    private TileSO GetRandomTile(Rarity rarity)
     {
         foreach (var group in _rarityGroup)
         {
             if (group.rarity == rarity)
             {
-                if (group.tiles.Count == 0) 
+                if (group.tiles.Count == 0)
                     return null;
                 return group.tiles[Random.Range(0, group.tiles.Count)];
             }
@@ -119,33 +130,22 @@ public class ShopManager : Singleton<ShopManager>
         return null;
     }
 
-    private TileSO GetRandomTileExcludingColor(TileColor excludeColor)
-    {
-        List<TileSO> candidates = new List<TileSO>();
-        foreach (var group in _rarityGroup)
-        {
-            foreach (var tile in group.tiles)
-            {
-                if (tile.Color != excludeColor) candidates.Add(tile);
-            }
-        }
-        if (candidates.Count == 0) return null;
-        return candidates[Random.Range(0, candidates.Count)];
-    }
 
     public Dictionary<TileColor, int> GetPrice(TileSO tile)
     {
         var priceTable = new Dictionary<TileColor, int>();
 
-        int rarity = tile.Rarity; 
+        int rarity = tile.Rarity;
         TileColor mainColor = tile.Color;
 
         if (rarity <= 3)
         {
             int cost = 0;
-            if (rarity == 1) cost = 5;
-            else if (rarity == 2) cost = 10;
-            else cost = 15; 
+            if (rarity == 1)
+                cost = 5;
+            else if (rarity == 2)
+                cost = 10;
+            else cost = 15;
 
             priceTable.Add(mainColor, cost);
         }
@@ -154,14 +154,15 @@ public class ShopManager : Singleton<ShopManager>
             int mainCost = 0;
             if (rarity == 4)
                 mainCost = 20;
-            else mainCost = 25; 
+            else
+                mainCost = 25;
 
             priceTable.Add(mainColor, mainCost);
 
             if (mainColor == TileColor.Red || mainColor == TileColor.Blue || mainColor == TileColor.Green)
             {
                 int subCost = 0;
-                if (rarity == 4) 
+                if (rarity == 4)
                     subCost = 5;
                 else subCost = 10;
 
@@ -185,7 +186,7 @@ public class ShopManager : Singleton<ShopManager>
             {
                 int subCost = 0;
                 if (rarity == 4) subCost = 10;
-                else subCost = 20; 
+                else subCost = 20;
 
                 if (mainColor == TileColor.White)
                     priceTable.Add(TileColor.Black, subCost);

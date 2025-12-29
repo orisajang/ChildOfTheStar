@@ -23,6 +23,6 @@ MonoBehaviour:
   _color: 2
   _spriteColor: {r: 1, g: 0, b: 0, a: 1}
   _sprite: {fileID: -2413806693520163455, guid: 82fb0554e76abfb4f97b697674a2b30e, type: 3}
-  _rarity: 0
+  _rarity: 1
   _price: 0
   _speed: 2
