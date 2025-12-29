@@ -46,21 +46,22 @@ public class StageSelectUIManager : Singleton<StageSelectUIManager>
                 Button btn_capture = btn;
                 btn_capture.interactable = false;
                 btn_capture.onClick.AddListener(() => StageInstanceBtnClick(btn_capture));
+                string btnName = btn.name;
 
                 //추가로 이미 이전에 클리어한 스테이지버튼들의 색상을 빨간색으로 지정해주자
-                if(selStageInfo.ContainsKey(rowIndex) &&
-                    selStageInfo[rowIndex] == colIndex)
+                if(selStageInfo.ContainsKey(rowIndex+1) &&
+                    selStageInfo[rowIndex+1] == colIndex)
                 {
                     btn_capture.image.color = Color.gray;
-                    //마지막 플레이어 위치를 다시 표시하기위해
                     int lastPos = DungeonManager.Instance.LastSelectStageIndexKey;
-                    if (lastPos == rowIndex)
+                    if (lastPos == rowIndex + 1)
                     {
                         RectTransform btnTransform = btn_capture.GetComponent<RectTransform>();
                         Vector2 pos = btnTransform.anchoredPosition;
 
                         _playerImage.rectTransform.anchoredPosition = pos; //위치가 이상함
                     }
+
                 }
 
                 listBuf.Add(btn);

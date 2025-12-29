@@ -102,13 +102,16 @@ public class DungeonManager : Singleton<DungeonManager>
         InitCurrentDengeonStageData();
     }
 
-    //private void SetStageDataForStageManager(int dengeonSelect)
+    public void StageNumberIncrease()
+    {
+        _currentStageNumber++;
+    }
     public void SetStageDataForStageManager()
     {
         //예시) 던전 1을 선택, 스테이지는 무조건 1부터 시작
         //int dengeonSelect = 4;
         //currentDengeonNumber = dengeonSelect;
-        _currentStageNumber++;
+        //_currentStageNumber++;
 
         string dungeonSelectKey = (_currentDungeonNumber * 10).ToString(); //10
         string stageSelectKeyString = dungeonSelectKey.ToString() + "000" + _currentStageNumber.ToString(); //10 000 1
@@ -203,7 +206,7 @@ public class DungeonManager : Singleton<DungeonManager>
     public void ReturnToStageSelect()
     {
         //현재 스테이지 번호가 총 스테이지 갯수보다 많다면
-        if (_currentStageNumber >= _stageDataDic.Count)
+        if (_currentStageNumber > _stageDataDic.Count)
         {
             //스테이지를 전부 클리어했으니 해당 작업 진행
             Debug.Log("해당 던전의 모든 스테이지 클리어");
@@ -211,14 +214,18 @@ public class DungeonManager : Singleton<DungeonManager>
         }
         else
         {
+            if (_currentStageNumber == 0) _currentStageNumber = 1;
             //아니라면 계속 다음 스테이지 진행할 수 있게 다음 스테이지 랜덤으로 버튼 활성화
             //클리어한 스테이지 번호 추가
-            if(_currentStageNumber > 0)
+            if (_currentStageNumber > 1)
             {
                 //둘다 0부터 시작하게 하자
                 int stageNum = _currentStageNumber - 1;
-                _clearedStageIndexDic.Add(stageNum, currentSelectStageIndex);
-                LastSelectStageIndexKey = stageNum;
+                if(!_clearedStageIndexDic.ContainsKey(stageNum))
+                {
+                    _clearedStageIndexDic.Add(stageNum, currentSelectStageIndex);
+                    LastSelectStageIndexKey = stageNum;
+                }
             }
             //다음 스테이지를 위해 준비
             SetStageDataForStageManager();
