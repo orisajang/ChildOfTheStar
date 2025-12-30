@@ -20,6 +20,9 @@ public class VolumeUI : MonoBehaviour
         bgmSlider.value = bgm;
         effectSlider.value = effect;
 
+        lastBGMSliderValue = bgm;
+        lastEffectSliderValue = effect;
+
         SLIDER_ModifyBGMVolume();
         SLIDER_ModifyEffectVolume();
 
@@ -32,7 +35,6 @@ public class VolumeUI : MonoBehaviour
         ToggleBGMMute();
         ToggleEffectMute();
     }
-
     public void SLIDER_ModifyBGMVolume()
     {
         float value = bgmSlider.value;
