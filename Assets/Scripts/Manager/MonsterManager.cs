@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class MonsterManager : Singleton<MonsterManager>
 {
@@ -20,7 +21,7 @@ public class MonsterManager : Singleton<MonsterManager>
     [SerializeField] GameObject _monsterPrefab;
     //몬스터가 생성될 위치
     [SerializeField] Transform _monsterCreatePos;
-    Transform[] _monsterCreatePosArray;
+    //Transform[] _monsterCreatePosArray;
     //몬스터가 소환될 위치
     int _currentSpawnIndex = 0;
     //생성한 몬스터 저장
@@ -52,6 +53,19 @@ public class MonsterManager : Singleton<MonsterManager>
         {3, "sfx_stage3monsterdown" },
         {4, "sfx_stage4monsterdown" },
     };
+
+
+    [SerializeField] List<Image> _monsterSmallList;
+    [SerializeField] List<Image> _monsterSmallBackgroundList;
+    [SerializeField] List<Transform> _monsterSpwanPosition;
+    int monsterSmallIndex;
+    [SerializeField] Image _monsterHPBarMidium;
+    [SerializeField] Image _monsterHPBarBig;
+    [SerializeField] Image _monsterHPBarMidiumBackground;
+    [SerializeField] Image _monsterHPBarBigBackground;
+    //딕셔너리 hp바
+    Dictionary<Monster, Image> monsterHpDic = new Dictionary<Monster, Image>();
+    Dictionary<Monster, GameObject> monsterHpBackgroundDic = new Dictionary<Monster, GameObject>();
 
     protected override void Awake()
     {
@@ -125,11 +139,11 @@ public class MonsterManager : Singleton<MonsterManager>
     }
     private void SetMonsterSpawnPosition()
     {
-        _monsterCreatePosArray = new Transform[_monsterCreatePos.childCount];
-        for (int i = 0; i < _monsterCreatePos.childCount; i++)
-        {
-            _monsterCreatePosArray[i] = _monsterCreatePos.GetChild(i);
-        }
+        //_monsterCreatePosArray = new Transform[_monsterCreatePos.childCount];
+        //for (int i = 0; i < _monsterCreatePos.childCount; i++)
+        //{
+        //    _monsterCreatePosArray[i] = _monsterCreatePos.GetChild(i);
+        //}
     }
     /// <summary>
     /// 몬스터에 대한 정보를 CSV에서 불러와서 SET
@@ -190,29 +204,7 @@ public class MonsterManager : Singleton<MonsterManager>
         //행동 정보를 불러옴
         _monsterActionDataDic = _monsterActionCSVLoader.LoadData("MonsterActionCSVData");
     }
-    /// <summary>
-    /// _monsterDic에 저장된 ID값을 입력하면 해당 정보로 몬스터를 생성해주도록
-    /// </summary>
-    private void MakeMonsterById(int id)
-    {
-        //몬스터 데이터를 꺼내서 몬스터 정보 지정
-        MonsterCSVData data = _monsterDataDic[id];
-        Monster mon = _monsterPrefab.GetComponent<Monster>();
-        //몬스터 생성 (임시 테스트)
-        if(_currentSpawnIndex < _monsterCreatePosArray.Length)
-        {
-            //몬스터 생성후 몬스터를 매니저에서 가지고있음
-            //오브젝트풀로 몬스터 하나 받아오도록 설정
-            Monster monsterBuf = MonsterSpawner.Instance.GetMonsterByPool(_monsterCreatePosArray[_currentSpawnIndex]);
-            monsterBuf.SetMonsterInfo(data);
-            _spawnedMonster.Add(monsterBuf);
-            //몬스터 사망시 생존 몬스터 삭제
-            monsterBuf.OnMonsterDead += MonsterRemove;
-            monsterBuf.OnMonsterActEnd += MonsterActEnd;
-            _currentSpawnIndex++;
-        }
 
-    }
     /// <summary>
     /// 스테이지매니저에서 웨이브마다 소환되는 몬스터에 대한 정보를 받아서 몬스터 생성
     /// </summary>
@@ -223,50 +215,98 @@ public class MonsterManager : Singleton<MonsterManager>
         //monsterInfo.monsterNumber;
         //소환위치 초기화
         _currentSpawnIndex = 0;
+        monsterSmallIndex = 0;
+        int monsterSummonIndex = 1;
+
+        var temp = monsterInfos.ToList();
+        temp.RemoveAll(a => a.monsterId == 0);
+        monsterInfos = temp.ToArray();
+
+        //Array.Sort(monsterInfos,(a,b)=>a.monsterNumber.CompareTo(b.monsterNumber));
+        Array.Sort(monsterInfos, (a, b) => _monsterDataDic[b.monsterId].monsterSize.CompareTo(_monsterDataDic[a.monsterId].monsterSize));
 
         for (int index = 0; index < monsterInfos.Length; index++)
         {
             //몬스터 데이터를 꺼내서 몬스터 정보 지정
             int spawnCount = monsterInfos[index].monsterNumber;
-            int bossCount = 1;
+            if (spawnCount == 0) continue;
             for (int spawnIndex = 0; spawnIndex < spawnCount; spawnIndex++)
             {
                 MonsterCSVData data = _monsterDataDic[monsterInfos[index].monsterId];
                 Monster mon = _monsterPrefab.GetComponent<Monster>();
-                //몬스터 생성
-                if (_currentSpawnIndex < _monsterCreatePosArray.Length)
-                {
-                    //몬스터 생성후 몬스터를 매니저에서 가지고있음
-                    //오브젝트풀로 몬스터 하나 받아오도록 설정
-                    Transform spawnPos = null;
-                    if (data.monsterType == eMonsterType.Boss)
-                    {
-                        //보스는 마지막 위치에
-                        spawnPos = _monsterCreatePosArray[_monsterCreatePosArray.Length - bossCount];
-                        bossCount++;
-                    }
-                    else
-                    {
-                        //일반 몬스터는 하나하나씩
-                        spawnPos = _monsterCreatePosArray[_currentSpawnIndex];
-                    }
 
-                    Monster monsterBuf = MonsterSpawner.Instance.GetMonsterByPool(spawnPos);
-                    monsterBuf.SetMonsterInfo(data);
-                    _spawnedMonster.Add(monsterBuf);
-                    //몬스터 사망시 생존 몬스터 삭제
-                    monsterBuf.OnMonsterDead += MonsterRemove;
-                    monsterBuf.OnMonsterActEnd += MonsterActEnd;
-                    _currentSpawnIndex++;
+                //몬스터 생성후 몬스터를 매니저에서 가지고있음
+                //오브젝트풀로 몬스터 하나 받아오도록 설정
+                Transform spawnPos = null;
+                    
+                if (data.monsterSize == eMonsterSize.Medium ||
+                    data.monsterSize == eMonsterSize.Large)
+                {
+                    spawnPos = _monsterSpwanPosition[0];
                 }
+                else
+                {
+                    spawnPos = _monsterSpwanPosition[monsterSummonIndex];
+                }
+                    
+
+
+                Monster monsterBuf = MonsterSpawner.Instance.GetMonsterByPool(spawnPos);
+                monsterBuf.SetMonsterInfo(data);
+                _spawnedMonster.Add(monsterBuf);
+                //몬스터 사망시 생존 몬스터 삭제
+                monsterBuf.OnMonsterDead += MonsterRemove;
+                monsterBuf.OnMonsterActEnd += MonsterActEnd;
+
+                //SummonIndex 위치에 있는 hp바를 켜준다 
+                //추가로 몬스터 타입별로 크기가 다른 hp바를 해야함
+
+                GameObject obj = null;
+                GameObject objBackground = null;
+                if(data.monsterSize == eMonsterSize.Small)
+                {
+                    obj = _monsterSmallList[monsterSummonIndex-1].transform.gameObject;
+                    objBackground = _monsterSmallBackgroundList[monsterSummonIndex-1].transform.gameObject;
+                }
+                else if (data.monsterSize == eMonsterSize.Medium)
+                {
+                    obj = _monsterHPBarMidium.transform.gameObject;
+                    objBackground = _monsterHPBarMidiumBackground.transform.gameObject;
+                }
+                else if (data.monsterSize == eMonsterSize.Large)
+                {
+                    obj = _monsterHPBarBig.transform.gameObject;
+                    objBackground = _monsterHPBarBigBackground.transform.gameObject;
+                }
+
+                obj.SetActive(true);
+                objBackground.SetActive(true);
+                monsterBuf.OnMonsterHpChanged += MonsterHpBarChange;
+                Image hpImage = obj.GetComponent<Image>();
+                monsterHpDic.Add(monsterBuf, hpImage);
+                monsterHpBackgroundDic.Add(monsterBuf, objBackground);
+
+                monsterSummonIndex++;
             }
         }
     }
+    private void MonsterHpBarChange(float amount, Monster mon)
+    {
+
+        monsterHpDic[mon].fillAmount = amount;
+    }
+
     /// <summary>
     /// 몬스터가 사망하면 몬스터매니저의 몬스터생존여부도 삭제
     /// </summary>
     private void MonsterRemove(Monster monster)
     {
+        //hp바 반환
+        monsterHpDic[monster].fillAmount = 1;
+        //monsterHpDic.Remove(monster);
+        monsterHpDic[monster].transform.gameObject.SetActive(false);
+        monsterHpBackgroundDic[monster].SetActive(false);
+
         //몬스터 스테이지 번호를 알기위해 2번째 숫자만 가져온다
         int monsterId = (monster._monsterId / 100) % 10;
         string deadEffectName = monsterDeadSoundDic[monsterId];
