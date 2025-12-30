@@ -103,6 +103,7 @@ public class Player : MonoBehaviour
     {
         MovementPointCurrent = MovementPointMax;
         Shield = 0;
+        UIManager.Instance.PlayerStatusUI.UpdateHP(CharacterHpCurrent, CharacterHpMax);
         UIManager.Instance.PlayerStatusUI.UpdateShield(Shield);
         UIManager.Instance.PlayerStatusUI.UpdateMovePoint(MovementPointCurrent, MovementPointMax);
         OverHealToshield = false;
