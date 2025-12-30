@@ -176,23 +176,18 @@ public class Tile : MonoBehaviour
         {
             case TileStatus.Frenzy:
                 _frenzyNum++;
-                Debug.Log($"{_row},{_col}에 광분 부여됨");
                 break;
             case TileStatus.Recovery:
                 _recoveryNum++;
-                Debug.Log($"{_row},{_col}에 회복 부여됨");
                 break;
             case TileStatus.Growth:
                 _growthNum++;
-                Debug.Log($"{_row},{_col}에 성장 부여됨");
                 break;
             case TileStatus.Destruction:
                 _destructionNum++;
-                Debug.Log($"{_row},{_col}에 파괴 부여됨");
                 break;
             case TileStatus.Rebirth:
                 _rebirthNum++;
-                Debug.Log($"{_row},{_col}에 윤회 부여됨");
                 break;
         }
     }

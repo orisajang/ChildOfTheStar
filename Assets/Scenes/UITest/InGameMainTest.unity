@@ -1416,6 +1416,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6592436136643641798, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6592436136643641798, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
+      propertyPath: m_ScreenMatchMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6592436136643641798, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6942380971602468036, guid: a7bcb2b922cfb224b98e548c99913ff4, type: 3}
       propertyPath: m_SizeDelta.y
       value: 30
@@ -1602,7 +1614,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 389187905695741617, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 657783822522452863, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1675,6 +1687,22 @@ PrefabInstance:
     - target: {fileID: 7010574128780154533, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
       propertyPath: m_Name
       value: TileBoard
+      objectReference: {fileID: 0}
+    - target: {fileID: 8423897598976024784, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8423897598976024784, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
+      propertyPath: m_ScreenMatchMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8423897598976024784, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 640
+      objectReference: {fileID: 0}
+    - target: {fileID: 8423897598976024784, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 360
       objectReference: {fileID: 0}
     - target: {fileID: 8662707038922529452, guid: e458f2e9e10c5d54aa247fb7f8888465, type: 3}
       propertyPath: m_Color.a

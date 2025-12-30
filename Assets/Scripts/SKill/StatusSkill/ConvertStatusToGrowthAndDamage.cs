@@ -34,7 +34,6 @@ public class ConvertStatusToGrowthAndDamage : TileSkillBase
 
         if (MonsterManager.Instance != null && MonsterManager.Instance._targetMonster != null)
         {
-            Debug.Log($"[Skill] 성장 변환 후 총 {finalDamage} 피해를 입힙니다.");
             MonsterManager.Instance._targetMonster.TakeDamage(finalDamage);
         }
     }

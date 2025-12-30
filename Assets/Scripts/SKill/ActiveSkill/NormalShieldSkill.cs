@@ -9,7 +9,6 @@ public class NormalShieldSkill : TileSkillBase
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
         int growthValue = casterTile.GetApplyGrowth(_shieldAmout);
-        Debug.Log($"플레이어 {growthValue} 실드 회복");
 
         //여기서 플레이어 쉴드 처리
         PlayerManager.Instance._player.AddShieldValue(growthValue);

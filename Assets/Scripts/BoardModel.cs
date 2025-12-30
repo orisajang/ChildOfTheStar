@@ -182,6 +182,7 @@ public class BoardModel
                 MatchTile(TileMoveDirection.Horizontal, row, matched);
             }
         }
+        GetAllMatch();
 
         _MatchedColorHash.Clear();
         //과충전 관련 체크 항목 초기화

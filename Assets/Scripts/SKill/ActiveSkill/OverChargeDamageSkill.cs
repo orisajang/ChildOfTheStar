@@ -9,7 +9,7 @@ public class OverChargeDamageSkill : TileSkillBase
     {
         
         int growthValue = casterTile.GetApplyGrowth(_damage)* SkillManager.Instance.BoardController.BoardModel.OverChargeValue;
-        Debug.Log($"적에게 {growthValue} 피해");
+       
         if (MonsterManager.Instance._targetMonster != null)
         {
             MonsterManager.Instance._targetMonster.TakeDamage(growthValue);

@@ -8,7 +8,6 @@ public class SelfDamageSkill : TileSkillBase
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
         int growthValue = casterTile.GetApplyGrowth(_damage);
-        Debug.Log($"플레이어에게 {growthValue} 피해");
         PlayerManager.Instance._player.TakeDamage(growthValue);
 
     }
