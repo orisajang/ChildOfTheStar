@@ -22,6 +22,7 @@ public class SettingUI : MonoBehaviour
 
     public void GoToStageSelectScene()
     {
+        DungeonManager.Instance.OnStageInfoInit();
         GameManager.Instance.GoToStageScene();
     }
     public void GameExit()
