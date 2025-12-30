@@ -70,7 +70,7 @@ public class SoundManager : Singleton<SoundManager>
             return clip;
         }
 
-        Debug.LogError("클립이 없습니다.");
+        Debug.LogWarning("클립이 없습니다.");
 
         return null;
     }
