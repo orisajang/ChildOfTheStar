@@ -17,13 +17,14 @@ public class SettingUI : MonoBehaviour
 
     public void SeceneChange()
     {
-        SceneManager.LoadScene("LobbyTest");
+        GameManager.Instance.GoToLobbyScene();
     }
 
     public void GoToStageSelectScene()
     {
         DungeonManager.Instance.OnStageInfoInit();
         GameManager.Instance.GoToStageScene();
+        ShopManager.Instance.Init();
     }
     public void GameExit()
     {

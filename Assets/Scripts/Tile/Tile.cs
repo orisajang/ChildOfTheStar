@@ -125,10 +125,16 @@ public class Tile : MonoBehaviour
             {
                 foreach (var status in statusList)
                 {
-                    status.Execute(board, this);
+                    if (status != null)
+                    {
+                        status.Execute(board, this);
+                    }
+                    
                 }
             }
         }
+        ClearStatus();
+        _effectRenderer.enabled = false;
     }
     public void ClearStatus()
     {
@@ -171,6 +177,9 @@ public class Tile : MonoBehaviour
     {
         _effectRenderer.enabled = true;
         _statusDictionary[statusType].Add(StautsData);
+#if UNITY_EDITOR
+                Debug.Log($"타일 {Row},{Col}에 {statusType}상태이상 부여");
+#endif 
 
         switch (statusType)
         {
@@ -262,9 +271,10 @@ public class Tile : MonoBehaviour
 
         _returnTile?.Invoke(this);
     }
-    public void ChangeTileColor(TileColor color)
+    public void ChangeTileColor(TileColor color, Sprite sprite)
     {
         _curColor = color;
+        _baseRenderer.sprite = sprite;
         SkillManager.Instance.TileEventBus.TriggerEvent(SkillEventType.OnColorChanged);
     }
     /// <summary>

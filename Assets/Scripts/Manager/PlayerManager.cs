@@ -56,6 +56,7 @@ public class PlayerManager : Singleton<PlayerManager>
         DungeonManager.Instance.OnStageInfoInit();
         //스테이지 씬으로 이동
         GameManager.Instance.GoToStageScene();
+        ShopManager.Instance.Init();
     }
     /// <summary>
     /// 플레이어 행동력 1 감소하는 메서드

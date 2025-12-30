@@ -9,15 +9,10 @@ public class ColorChange : TileSkillBase
     [SerializeField] TileColor _searchColor = TileColor.None;
     [Tooltip("변경 후 색, None일경우 랜덤")]
     [SerializeField] TileColor _applyColor = TileColor.White;
-    private TileColor[] _colors = new TileColor[] { TileColor.Black, TileColor.White, TileColor.Red, TileColor.Blue, TileColor.Green };
+    [Tooltip("색상별 스프라이트 리스트")]
+    [SerializeField] private List<TileColorData> _colorDataList = new List<TileColorData>();
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
-        TileColor applyColor = _applyColor;
-        if (applyColor == TileColor.None)
-        {
-            int randomIndex = Random.Range(0, _colors.Length);
-            applyColor = _colors[randomIndex];
-        }
 
         List<Tile> targetTiles = ListPool<Tile>.Get();
 
@@ -46,7 +41,31 @@ public class ColorChange : TileSkillBase
         if (targetTiles.Count > 0)
         {
             int randomIndex = Random.Range(0, targetTiles.Count);
-            targetTiles[randomIndex].ChangeTileColor(applyColor);
+
+            TileColor finalColor;
+            Sprite finalSprite = null;
+
+            if (_applyColor == TileColor.None)
+            {
+                int randomColor = Random.Range(0, _colorDataList.Count);
+                TileColorData randomData = _colorDataList[randomColor];
+
+                finalColor = randomData.Color;
+                finalSprite = randomData._sprite;
+            }
+            else
+            {
+                finalColor = _applyColor;
+                foreach (var data in _colorDataList)
+                {
+                    if (data.Color == finalColor)
+                    {
+                        finalSprite = data._sprite;
+                    }
+                }
+            }
+
+            targetTiles[randomIndex].ChangeTileColor(finalColor, finalSprite);
         }
         ListPool<Tile>.Release(targetTiles);
     }

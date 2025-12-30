@@ -12,7 +12,6 @@ public class RebirthStatus : TileStatusBase
         int rows = board.GetLength(0);
         int cols = board.GetLength(1);
 
-
         for (int row = 0; row < rows; row++)
         {
             for (int col = 0; col < cols; col++)
@@ -44,6 +43,10 @@ public class RebirthStatus : TileStatusBase
                 continue;
 
             tile.ReserveRebirth(casterTile.TileData);
+
+#if UNITY_EDITOR
+            Debug.Log($"윤회 실행{tile.Row},{tile.Col}");
+#endif
             return;
         }
 

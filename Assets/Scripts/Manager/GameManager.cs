@@ -39,26 +39,22 @@ public class GameManager : Singleton<GameManager>
     }
     public void GoToTitleScene()
     {
-        //게임시작, 게임종료될 경우 이 메서드 사용
-      //  Debug.Log("타이틀씬으로 이동");
         SceneManager.LoadScene(SceneName.Tile);
     }
     public void GoToStageScene()
     {
-        //게임시작, 게임종료될 경우 이 메서드 사용
-    //    Debug.Log("스테이지씬으로 이동");
         SceneManager.LoadScene(SceneName.Stage);
     }
     public void GoToLobbyScene()
     {
-  //      Debug.Log("로비씬으로 이동");
+        ShopManager.Instance.Init();
         SceneManager.LoadScene(SceneName.Lobby);
     }
     public void GoToResourceEarnedScene()
     {
-//        Debug.Log("인게임클리어후 자원획득량창으로 이동");
-        SceneManager.LoadScene(SceneName.EarnedResource);
+        //        Debug.Log("인게임클리어후 자원획득량창으로 이동");
         ShopManager.Instance.SuffleShopSlots();
+        SceneManager.LoadScene(SceneName.EarnedResource);
     }
 
     public void GoToShopScene()

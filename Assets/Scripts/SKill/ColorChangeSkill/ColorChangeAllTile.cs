@@ -1,6 +1,13 @@
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
-using UnityEngine.Pool;
+[System.Serializable]
+public class TileColorData
+{
+    public TileColor Color;
+    public Sprite _sprite;
+}
+
 
 [CreateAssetMenu(fileName = "ColorChangeAllTile", menuName = "Scriptable Objects/ColorChange/ColorChangeAllTile")]
 public class ColorChangeAllTile : TileSkillBase
@@ -9,7 +16,8 @@ public class ColorChangeAllTile : TileSkillBase
     [SerializeField] TileColor _searchColor = TileColor.None;
     [Tooltip("변경 후 색, None일경우 랜덤")]
     [SerializeField] TileColor _applyColor = TileColor.White;
-    private TileColor[] _colors = new TileColor[] { TileColor.Black, TileColor.White, TileColor.Red, TileColor.Blue, TileColor.Green };
+    [Tooltip("색상별 스프라이트 리스트")]
+    [SerializeField] private List<TileColorData> _colorDataList = new List<TileColorData>();
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
         TileColor applyColor = _applyColor;
@@ -32,12 +40,29 @@ public class ColorChangeAllTile : TileSkillBase
 
                 if (isColorMatch)
                 {
+                    TileColor finalColor;
+                    Sprite finalSprite=null;
+
                     if (_applyColor == TileColor.None)
                     {
-                        int randomIndex = Random.Range(0, _colors.Length);
-                        applyColor = _colors[randomIndex];
+                        int randomIndex = Random.Range(0, _colorDataList.Count);
+                        TileColorData randomData = _colorDataList[randomIndex];
+
+                        finalColor = randomData.Color;
+                        finalSprite = randomData._sprite;
                     }
-                    target.ChangeTileColor(applyColor);
+                    else
+                    {
+                        finalColor = _applyColor;
+                        foreach (var data in _colorDataList)
+                        {
+                            if (data.Color == finalColor)
+                            {
+                                finalSprite = data._sprite;
+                            }
+                        }
+                    }
+                    target.ChangeTileColor(finalColor, finalSprite);
                 }
             }
         }

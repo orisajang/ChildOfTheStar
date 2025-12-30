@@ -419,6 +419,7 @@ public class BoardModel
                             if (count >=4)
                             {
                                 _tiles[targetRow, lineIndex].AddKeyword(TileKeyword.Rampage);
+
                             }
                             if (isCrack)
                             {
