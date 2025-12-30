@@ -15,7 +15,7 @@ public class DungeonButton : MonoBehaviour
         panel.SetActive(true);
         dungeonButton.SetActive(false);
 
-        backgroundImage.sprite = Resources.Load<Sprite>("Image/" + "selectstage_bg");
+        backgroundImage.sprite = Resources.Load<Sprite>("Image/" + "dungeon_bg");
 
         //RectTransform rect = characterButton.GetComponent<RectTransform>();
         //rect.anchoredPosition = new Vector2(112f, 28f);
