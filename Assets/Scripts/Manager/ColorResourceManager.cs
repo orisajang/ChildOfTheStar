@@ -81,12 +81,7 @@ public class ColorResourceManager : Singleton<ColorResourceManager>
             _currentColorResourceDic[color] = 0;
         }
     }
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="priceTable"></param>
-    /// <returns></returns>
-    public bool TryPurchase(Dictionary<TileColor, int> priceTable)
+    public bool TryTrade(Dictionary<TileColor, int> priceTable)
     {
         foreach (var pair in priceTable)
         {

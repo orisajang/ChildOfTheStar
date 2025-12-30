@@ -496,8 +496,6 @@ public class BoardModel
             SetColorOverChargeInfo(tile.Color);
             _MatchedColorHash.Add(tile.Color);
 
-            //과충전 증감 연산 체크
-            CalcOverChargeValue();
 
             //터진 타일의 색상을 확인해서 이펙트를 표시해주자
             onTileEffectPlay?.Invoke(tile);
@@ -507,6 +505,9 @@ public class BoardModel
             if (tile != null)
                 tile.ApplyReserve(Tiles);
         }
+
+        //과충전 증감 연산 체크
+        CalcOverChargeValue();
     }
     /// <summary>
     /// 과충전 체크할때 색상별 타일이 얼마만큼 터졌는지 확인 필요

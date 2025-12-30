@@ -16,6 +16,10 @@ public class TileEventBus
     private Dictionary<SkillEventType, List<TileSkillBase>> _battleEvents = new Dictionary<SkillEventType, List<TileSkillBase>>();
     private Dictionary<TileStatus, List<TileSkillBase>> _statusEvents = new Dictionary<TileStatus, List<TileSkillBase>>();
 
+    public void TurnStartInit()
+    {
+        ClearAll();
+    }
     public void ClearAll()
     {
         foreach (var list in _battleEvents.Values) list.Clear();

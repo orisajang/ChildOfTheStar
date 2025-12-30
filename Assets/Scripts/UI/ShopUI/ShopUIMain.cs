@@ -254,19 +254,18 @@ public class ShopUIMain : MonoBehaviour
         var price = ShopManager.Instance.GetPrice(_currentSelectedTile);
 
        
-        if (price != null && ColorResourceManager.Instance.TryPurchase(price))
+        if (price != null && ColorResourceManager.Instance.TryTrade(price))
         {
             ShopManager.Instance.OnBuyTile(_currentSelectedTile);
-            _popupBuy.SetActive(false);
             DisplayDeck();
             UpdateResourceUI();
             DisPlayShopList();
         }
         else
         {
-            _popupBuy.SetActive(false);
             DisplayErrorPopup("재화가 부족합니다.");
         }
+        _popupBuy.SetActive(false);
     }
 
     public void OpenRemovePopup(TileSO data)
@@ -281,9 +280,19 @@ public class ShopUIMain : MonoBehaviour
 
     public void ConfirmRemove()
     {
-        ShopManager.Instance.OnSellTile(_currentSelectedTile);
+        var price = ShopManager.Instance.GetRemovePrice(_currentSelectedTile);
+        if (price != null && ColorResourceManager.Instance.TryTrade(price))
+        {
+            ShopManager.Instance.OnSellTile(_currentSelectedTile);
+            ShopManager.Instance.IncreaseRemovePrice(_currentSelectedTile.Color);
+            DisplayDeck();
+            UpdateResourceUI();
+        }
+        else
+        {
+            DisplayErrorPopup("재화가 부족합니다.");
+        }
         _popupRemove.SetActive(false);
-        DisplayDeck();
     }
     public void CheckExchangeCondition()
     {

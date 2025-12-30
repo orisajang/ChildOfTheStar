@@ -174,6 +174,7 @@ public class Player : MonoBehaviour
         UIManager.Instance.PlayerStatusUI.UpdateHP(CharacterHpCurrent, CharacterHpMax);
         UIManager.Instance.PlayerStatusUI.UpdateShield(Shield);
 
+        SkillManager.Instance.TileEventBus.TriggerEvent(SkillEventType.OnDamage);
 
         SoundManager.Instance.PlayEffect("sfx_playerhit");
 

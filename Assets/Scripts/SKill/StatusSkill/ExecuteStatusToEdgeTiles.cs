@@ -34,12 +34,19 @@ public class ExecuteStatusToEdgeTiles : TileSkillBase
             }
         }
 
+#if UNITY_EDITOR
+        Debug.Log($"가장자리 타일수 {edgeTiles.Count}");
+#endif
         if (edgeTiles.Count > 0)
         {
             foreach (Tile tile in edgeTiles)
             {
                 if (tile != null)
                     tile.ExecuteStatus(board);
+
+#if UNITY_EDITOR
+                Debug.Log($"가장 자리 상태 실행({tile.Row}, {tile.Col}).");
+#endif
             }
         }
 

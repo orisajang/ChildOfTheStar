@@ -26,10 +26,14 @@ public class ShopManager : Singleton<ShopManager>
     [SerializeField] private List<TileSO> _useDeck = new List<TileSO>();
 
     [SerializeField] private List<TileSO> _shopTileSlots = new List<TileSO>(30);
+    [SerializeField] private int _baseRemovePrice = 100;
+    [SerializeField] private int _RemovePriceIncrease = 50;
+    [SerializeField] private Dictionary<TileColor, int> _RemovepriceTable = new Dictionary<TileColor, int>();
 
     public List<TileSO> BaseDeck => _baseDeck;
     public List<TileSO> UseDeck => _useDeck;
     public List<TileSO> ShopTileSlots => _shopTileSlots;
+
 
     protected override void Awake()
     {
@@ -39,6 +43,8 @@ public class ShopManager : Singleton<ShopManager>
         {
             _useDeck = new List<TileSO>(_baseDeck);
         }
+
+        InitSellPrice();
     }
 
     public void Init()
@@ -49,6 +55,14 @@ public class ShopManager : Singleton<ShopManager>
         _useDeck.Clear();
         _useDeck.AddRange(_baseDeck);
 
+    }
+
+    public void InitSellPrice()
+    {
+        foreach (TileColor color in System.Enum.GetValues(typeof(TileColor)))
+        {
+            _RemovepriceTable[color] = _baseRemovePrice;
+        }
     }
     public void SuffleShopSlots()
     {
@@ -66,8 +80,6 @@ public class ShopManager : Singleton<ShopManager>
 
     public void OnBuyTile(TileSO tileToBuy)
     {
-        var priceTag = GetPrice(tileToBuy);
-
         _useDeck.Add(tileToBuy);
         _shopTileSlots.Remove(tileToBuy);
         SoundManager.Instance.PlayEffect("sfx_shop");
@@ -203,5 +215,25 @@ public class ShopManager : Singleton<ShopManager>
             }
         }
         return priceTable;
+    }
+
+    public Dictionary<TileColor, int> GetRemovePrice(TileSO tile)
+    {
+        var priceTable = new Dictionary<TileColor, int>();
+
+        TileColor mainColor = tile.Color;
+        if (_RemovepriceTable.ContainsKey(mainColor))
+        {
+            priceTable.Add(mainColor, _RemovepriceTable[mainColor]);
+        }
+        return priceTable;
+    }
+
+    public void IncreaseRemovePrice(TileColor color)
+    {
+        if (_RemovepriceTable.ContainsKey(color))
+        {
+            _RemovepriceTable[color] += _RemovePriceIncrease;
+        }
     }
 }

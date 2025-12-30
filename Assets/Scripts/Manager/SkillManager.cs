@@ -59,6 +59,7 @@ public class SkillManager : Singleton<SkillManager>
         _destoryTileCount = 0; 
         TotalOverchargeIncrease = 0;
         LastOverchargeIncrease = 0;
+        TileEventBus.TurnStartInit();
     }
     public void TurnEnd()
     {

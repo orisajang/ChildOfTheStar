@@ -11,6 +11,9 @@ public class ReduceOverchargeByIncrease : TileSkillBase
 
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
+#if UNITY_EDITOR
+        Debug.Log($"물꿈꽃 발동");
+#endif
         int currentTotal = SkillManager.Instance.TotalOverchargeIncrease; 
         int lastAmount = SkillManager.Instance.LastOverchargeIncrease;          
         int prevTotal = currentTotal - lastAmount;                          
@@ -20,13 +23,16 @@ public class ReduceOverchargeByIncrease : TileSkillBase
 
       
         int triggerCount = currentNum - prevNum;
-
+#if UNITY_EDITOR
+        Debug.Log($"과충전 {prevTotal} 증가로 인해 {triggerCount}회 발동");
+#endif
         if (triggerCount > 0)
         {
             int totalReduce = triggerCount * _reduceAmount;
           
             SkillManager.Instance.BoardController.BoardModel.SetOverChargeValue(-totalReduce);
-          
+
         }
+
     }
 }

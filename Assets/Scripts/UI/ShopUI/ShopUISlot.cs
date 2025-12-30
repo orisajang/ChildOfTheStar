@@ -66,7 +66,10 @@ public class ShopUISlot : MonoBehaviour
             
             if(_main.CurrentMode == ShopUIMain.UIMode.Shop)
             {
+                _shopUIGroup.SetActive(true);
                 _ButtonText.text = "제거";
+                var prices = ShopManager.Instance.GetRemovePrice(data);
+                _priceText.text = GetRemovePriceText(prices);
             }
             else
             {
@@ -190,6 +193,25 @@ public class ShopUISlot : MonoBehaviour
                 text += $"하양 별:{color.Value} ";
             else if (color.Key == TileColor.Black) 
                 text += $"검정 별:{color.Value} ";
+        }
+        return text;
+    }
+
+    private string GetRemovePriceText(Dictionary<TileColor, int> prices)
+    {
+        string text = "";
+        foreach (var color in prices)
+        {
+            if (color.Key == TileColor.Red)
+                text += $"제거 비용: {color.Value} ";
+            else if (color.Key == TileColor.Blue)
+                text += $"제거 비용: {color.Value} ";
+            else if (color.Key == TileColor.Green)
+                text += $"제거 비용: {color.Value} ";
+            else if (color.Key == TileColor.White)
+                text += $"제거 비용: {color.Value} ";
+            else if (color.Key == TileColor.Black)
+                text += $"제거 비용: {color.Value} ";
         }
         return text;
     }

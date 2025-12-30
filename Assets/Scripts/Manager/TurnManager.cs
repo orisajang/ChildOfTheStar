@@ -63,6 +63,7 @@ public class TurnManager : Singleton<TurnManager>
             PlayerManager.Instance._player.PlayerTurnInit();
 
             StartPlayerBoardDisable();
+            SkillManager.Instance.TurnStartInit();
         }
     }
     /// <summary>
@@ -112,7 +113,6 @@ public class TurnManager : Singleton<TurnManager>
         {
             //스테이지 종료 처리 필요
             StageManager.Instance.PlayNextStage();
-            SkillManager.Instance.TurnStartInit();
             return;
         }
 

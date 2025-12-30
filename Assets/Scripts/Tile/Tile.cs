@@ -72,6 +72,7 @@ public class Tile : MonoBehaviour
         _iconRenderer.sprite = null;
         _rareRenderer.sprite = null;
         _effectRenderer.enabled = false;
+        Matched = false;
         if (_tileDataSO.Icon != null)
         {
             _iconRenderer.sprite = _tileDataSO.IconSprite;
@@ -230,6 +231,8 @@ public class Tile : MonoBehaviour
 
                 SkillManager.Instance.IsExecuteNextDestory = false;
                 _willDestroy = false;
+                replaceDestruction = false;
+                SkillManager.Instance.IsExecuteNextDestory =false;
                 this.ExecuteTile(board);
             }
             else
