@@ -1,10 +1,7 @@
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
-using UnityEngine.U2D;
 using System;
 using System.Collections.Generic;
 using System.Collections;
-using System.Threading;
 
 public static class MonsterAnimatorParameterName
 {
@@ -194,7 +191,7 @@ public class Monster : MonoBehaviour
     /// </summary>
     public void MonsterActStart()
     {
-        Debug.Log($"{_monsterName}행동 시작");
+       // Debug.Log($"{_monsterName}행동 시작");
         //몬스터 초기값
         MonsterInit();
 
@@ -363,7 +360,7 @@ public class Monster : MonoBehaviour
         {
             monsterHPBarUi.UpdateHP(_monsterCurrentHp);
         }
-        Debug.Log($"몬스터 회복 현재 체력은{_monsterCurrentHp}");
+       // Debug.Log($"몬스터 회복 현재 체력은{_monsterCurrentHp}");
     }
 }
 
