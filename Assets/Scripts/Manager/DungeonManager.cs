@@ -166,6 +166,11 @@ public class DungeonManager : Singleton<DungeonManager>
                 }
         }
     }
+
+    public void RePlayCurrentDungeonBGM()
+    {
+        PlayDungeonBGM(_currentDungeonNumber);
+    }
     public void StageNumberIncrease()
     {
         _currentStageNumber++;
@@ -283,9 +288,7 @@ public class DungeonManager : Singleton<DungeonManager>
             AllStageClear();
         }
         else
-        {
-			SoundManager.Instance.PlayEffect("sfx_stagevictory");
-			
+        {	
             if (_currentStageNumber == 0) _currentStageNumber = 1;
             //아니라면 계속 다음 스테이지 진행할 수 있게 다음 스테이지 랜덤으로 버튼 활성화
             //클리어한 스테이지 번호 추가
