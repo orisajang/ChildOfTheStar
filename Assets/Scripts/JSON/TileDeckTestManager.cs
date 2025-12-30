@@ -27,7 +27,7 @@ public class TileDeckTestManager : Singleton<TileDeckTestManager>
     private void SetFilePath()
     {
         filePath = Path.Combine(Application.persistentDataPath, "playerData.json");
-        Debug.Log("파일경로: " + filePath);
+        //Debug.Log("파일경로: " + filePath);
     }
     public void MakeInitSaveData()
     {
@@ -36,7 +36,7 @@ public class TileDeckTestManager : Singleton<TileDeckTestManager>
         playerDataJson.currentDengeonNumber = 1;
         string json = JsonUtility.ToJson(playerDataJson, true);
         File.WriteAllText(filePath, json);
-        Debug.Log("플레이어 초기 데이터 저장완료");
+        //Debug.Log("플레이어 초기 데이터 저장완료");
     }
     private void OnEnable()
     {
@@ -120,7 +120,7 @@ public class TileDeckTestManager : Singleton<TileDeckTestManager>
         
         string json = JsonUtility.ToJson(_playerDataJson, true);
         File.WriteAllText(filePath, json);
-        Debug.Log($"플레이어 데이터 저장완료: {filePath}");
+    //    Debug.Log($"플레이어 데이터 저장완료: {filePath}");
     }
     public PlayerDataJson LoadData()
     {
@@ -131,7 +131,7 @@ public class TileDeckTestManager : Singleton<TileDeckTestManager>
         {
             string json = File.ReadAllText(filePath);
             PlayerDataJson playerDataJson = JsonUtility.FromJson<PlayerDataJson>(json);
-            Debug.Log("로드 완료");
+      //      Debug.Log("로드 완료");
             return playerDataJson;
         }
         else

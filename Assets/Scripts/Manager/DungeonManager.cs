@@ -104,7 +104,7 @@ public class DungeonManager : Singleton<DungeonManager>
     {
         _currentStageNumber = 0;
         _clearedStageIndexDic.Clear();
-        Debug.Log("플레이어 사망으로 던전매니저 스테이지 정보 초기화");
+        //Debug.Log("플레이어 사망으로 던전매니저 스테이지 정보 초기화");
     }
     public void SetDungeonText(TextMeshProUGUI textUI)
     {
@@ -199,7 +199,7 @@ public class DungeonManager : Singleton<DungeonManager>
                 selectInstanceIndex = index;
                 currentSelectStage = currentStageInstanceList[index];
                 currentSelectStageIndex = selectInstanceIndex;
-                Debug.Log($"랜덤으로 선택된 스테이지: {currentSelectStage.stageId}");
+              //  Debug.Log($"랜덤으로 선택된 스테이지: {currentSelectStage.stageId}");
                 break;
             }
         }
@@ -279,7 +279,7 @@ public class DungeonManager : Singleton<DungeonManager>
         if (_currentStageNumber > _stageDataDic.Count)
         {
             //스테이지를 전부 클리어했으니 해당 작업 진행
-            Debug.Log("해당 던전의 모든 스테이지 클리어");
+        //    Debug.Log("해당 던전의 모든 스테이지 클리어");
             AllStageClear();
         }
         else

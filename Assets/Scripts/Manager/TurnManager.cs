@@ -47,10 +47,10 @@ public class TurnManager : Singleton<TurnManager>
         //플레이어턴 시작 이벤트 시작
         OnPlayerTurnStart?.Invoke();
 
-        Debug.Log("플레이어 턴 시작");
+        //Debug.Log("플레이어 턴 시작");
         if (PlayerManager.Instance._player.CharacterHpCurrent <= 0)
         {
-            Debug.Log("플레이어 사망 상태입니다.");
+          //  Debug.Log("플레이어 사망 상태입니다.");
             CurrentTurn = Turn.Nune;
             return;
         }
@@ -74,7 +74,7 @@ public class TurnManager : Singleton<TurnManager>
         boardBlock.SetBoardActive(true);
 
         //타겟 몬스터 지정할때까지 기다려야함. 게임뷰에서 몬스터를 클릭하면 그 이후부터 타일 활성화 (StartPlayerBoardEnable 메서드 실행)
-        Debug.Log("타겟 몬스터를 클릭해주세요");
+    //    Debug.Log("타겟 몬스터를 클릭해주세요");
         MonsterManager.Instance.EnableSelectMonsterTarget();
     }
     /// <summary>
@@ -85,10 +85,10 @@ public class TurnManager : Singleton<TurnManager>
         
         //마우스클릭기능 비활성화 하고
         MonsterManager.Instance.DisableSelectMonsterTarget();
-        Debug.Log("타겟 몬스터가 지정되었습니다");
+  //      Debug.Log("타겟 몬스터가 지정되었습니다");
         //이후 타일 이동 시작
         boardBlock.SetBoardActive(false);
-        Debug.Log("플레이어 턴 시작");
+//        Debug.Log("플레이어 턴 시작");
     }
     /// <summary>
     /// 타일 이동이 1회끝났을때 호출되는 메서드
@@ -105,7 +105,7 @@ public class TurnManager : Singleton<TurnManager>
     /// <param name="movePoint">플레이어 현재 행동력</param>
     private void CheckPlayerTurnEnd(int movePoint)
     {
-        Debug.Log($"플레이어 행동력:{movePoint}");
+       // Debug.Log($"플레이어 행동력:{movePoint}");
         //몬스터가 남아있는지 확인
         int monsterCount = MonsterManager.Instance.RemainMonster;
         if(monsterCount <= 0)
@@ -169,7 +169,7 @@ public class TurnManager : Singleton<TurnManager>
         //if (_monsterHp <= 0)
         if (MonsterManager.Instance.SpawnedMonster.Count == 0)
         {
-            Debug.Log("모든 몬스터 사망 상태입니다.");
+//            Debug.Log("모든 몬스터 사망 상태입니다.");
             CurrentTurn = Turn.Nune;
             return;
         }
@@ -184,7 +184,7 @@ public class TurnManager : Singleton<TurnManager>
 
             //보유한 몬스터를 전부 전투 처리
             MonsterManager.Instance.StartMonsterAction();
-
+//
             Debug.Log("몬스터 턴 시작");
         }
     }

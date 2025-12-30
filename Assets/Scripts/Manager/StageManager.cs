@@ -71,7 +71,7 @@ public class StageManager : Singleton<StageManager>
     }
     private void StartMonsterWave(List<MonsterWaveCSVData> waveData)
     {
-        Debug.Log($"현재 스테이지번호:{_currentStageData.stageId} 몬스터 웨이브: {_currentWaveIndex+1}번째");
+        //Debug.Log($"현재 스테이지번호:{_currentStageData.stageId} 몬스터 웨이브: {_currentWaveIndex+1}번째");
 
         //StageSelectScene 디버그용 코드 (삭졔예정)=> 몬스터 소환안하고 턴매니저 없이 스테이지 자동 진행
         //_currentWaveIndex++; //디버그용 코드

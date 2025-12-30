@@ -138,7 +138,7 @@ public class BoardController : MonoBehaviour
     private void DecreasePlayerMovePoint()
     {
         //플레이어 1회 행동 처리 (1칸이라도 이동했을때)
-        Debug.LogWarning("플레이어 행동1회끝");
+        //Debug.LogWarning("플레이어 행동1회끝");
         TurnManager.Instance.OnPlayerTurnEndOnce();
     }
 

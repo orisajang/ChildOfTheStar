@@ -123,7 +123,7 @@ public class MonsterManager : Singleton<MonsterManager>
     }
     private void OnMouseClick(InputAction.CallbackContext ctx)
     {
-        Debug.Log("클릭중");
+        // Debug.Log("클릭중");
         Vector2 screenPos = _pointAction.ReadValue<Vector2>();
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
         RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero, 100f, _monsterLayer);

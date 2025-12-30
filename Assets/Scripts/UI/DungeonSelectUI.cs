@@ -57,7 +57,7 @@ public class DungeonSelectUI : MonoBehaviour
     }
     public void OnDungeonSelect(int dengeonNumber)
     {
-        Debug.Log($"선택한 던전 번호: {dengeonNumber}");
+        //Debug.Log($"선택한 던전 번호: {dengeonNumber}");
         //던전 정보 설정
         DungeonManager.Instance.SetDengeonNumber(dengeonNumber + 1);
         //씬 이동

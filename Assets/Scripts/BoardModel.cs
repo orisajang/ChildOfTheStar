@@ -220,7 +220,7 @@ public class BoardModel
         if (_isOverCharge)
         {
             _isOverCharge = false;
-            Debug.LogWarning("과충전 해제");
+            //Debug.LogWarning("과충전 해제");
         }
     }
 
@@ -263,7 +263,7 @@ public class BoardModel
             loopSafety++;
         }
         OnResolveFinished?.Invoke();
-		Debug.LogWarning("타일이동 종료 이벤트 발송");
+		//Debug.LogWarning("타일이동 종료 이벤트 발송");
         OnTileMoveEnd?.Invoke();
     }
     /// <summary>
@@ -581,7 +581,7 @@ public class BoardModel
             //계산값을 현재 과충전 게이지에 넣어준다
             SetOverChargeValue(totalOverChargeValue);
             calc2 = totalOverChargeValue - calc1;
-            Debug.LogWarning($"현재 과충전 게이지: {_overChargeValue},체크1값:{calc1} 체크2값:{calc2} 계산했던 과충전게이지 {totalOverChargeValue} 현재 과충전 턴{_loopMatchCount}");
+            //Debug.LogWarning($"현재 과충전 게이지: {_overChargeValue},체크1값:{calc1} 체크2값:{calc2} 계산했던 과충전게이지 {totalOverChargeValue} 현재 과충전 턴{_loopMatchCount}");
             UIManager.Instance.OverchargeUI.UpdateOverCharge(_overChargeValue);
         }
 
@@ -611,7 +611,7 @@ public class BoardModel
         {
             //과충전이라는 것을 알리는 기능을 추가하자
             _isOverCharge = true;
-            Debug.LogWarning("과충전 상태 진입!");
+            //Debug.LogWarning("과충전 상태 진입!");
         }
     }
     public int GetChargeOverflow()

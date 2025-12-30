@@ -34,36 +34,36 @@ public class GameManager : Singleton<GameManager>
     public void GoToBattleScene()
     {
         //전투 시작 시
-        Debug.Log("배틀씬으로 이동");
+        //Debug.Log("배틀씬으로 이동");
         SceneManager.LoadScene(SceneName.Battle);
     }
     public void GoToTitleScene()
     {
         //게임시작, 게임종료될 경우 이 메서드 사용
-        Debug.Log("타이틀씬으로 이동");
+      //  Debug.Log("타이틀씬으로 이동");
         SceneManager.LoadScene(SceneName.Tile);
     }
     public void GoToStageScene()
     {
         //게임시작, 게임종료될 경우 이 메서드 사용
-        Debug.Log("스테이지씬으로 이동");
+    //    Debug.Log("스테이지씬으로 이동");
         SceneManager.LoadScene(SceneName.Stage);
     }
     public void GoToLobbyScene()
     {
-        Debug.Log("로비씬으로 이동");
+  //      Debug.Log("로비씬으로 이동");
         SceneManager.LoadScene(SceneName.Lobby);
     }
     public void GoToResourceEarnedScene()
     {
-        Debug.Log("인게임클리어후 자원획득량창으로 이동");
+//        Debug.Log("인게임클리어후 자원획득량창으로 이동");
         SceneManager.LoadScene(SceneName.EarnedResource);
         ShopManager.Instance.SuffleShopSlots();
     }
 
     public void GoToShopScene()
     {
-        Debug.Log("상점씬으로 이동");
+ //       Debug.Log("상점씬으로 이동");
         SceneManager.LoadScene(SceneName.Shop);
     }
 

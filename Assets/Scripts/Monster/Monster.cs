@@ -194,7 +194,7 @@ public class Monster : MonoBehaviour
     /// </summary>
     public void MonsterActStart()
     {
-        Debug.Log($"{_monsterName}행동 시작");
+        ////Debug.Log($"{_monsterName}행동 시작");
         //몬스터 초기값
         MonsterInit();
 
@@ -319,7 +319,7 @@ public class Monster : MonoBehaviour
         {
             monsterHPBarUi.UpdateHP(_monsterCurrentHp);
         }
-        Debug.Log($"몬스터 현재 체력은{_monsterCurrentHp}");
+        //Debug.Log($"몬스터 현재 체력은{_monsterCurrentHp}");
         if (_monsterCurrentHp <= 0)
         {
             //monsterDeathSoundEffect();
@@ -361,7 +361,7 @@ public class Monster : MonoBehaviour
         {
             monsterHPBarUi.UpdateHP(_monsterCurrentHp);
         }
-        Debug.Log($"몬스터 회복 현재 체력은{_monsterCurrentHp}");
+//        Debug.Log($"몬스터 회복 현재 체력은{_monsterCurrentHp}");
     }
 }
 

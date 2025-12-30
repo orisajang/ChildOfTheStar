@@ -51,7 +51,7 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         //게임매니저에 보내거나.. 그런 처리 진행
         _player.PlayerStateInit();
-        Debug.Log("플레이어 사망");
+        //Debug.Log("플레이어 사망");
         //스테이지 0번부터로 초기화
         DungeonManager.Instance.OnStageInfoInit();
         //스테이지 씬으로 이동
@@ -63,7 +63,7 @@ public class PlayerManager : Singleton<PlayerManager>
     public void OnPlayerMovePointDecrease()
     {
         int currentMovePoint = _player.PlayerActDo();
-        Debug.Log($"현재 행동력 {currentMovePoint}");
+        //Debug.Log($"현재 행동력 {currentMovePoint}");
         //플레이어의 현재 행동력값 보내기
         SendPlayerMovePoint?.Invoke(currentMovePoint);
     }

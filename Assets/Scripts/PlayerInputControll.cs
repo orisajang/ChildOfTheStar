@@ -108,7 +108,9 @@ public class PlayerInputControll : MonoBehaviour
             if (Vector2.Distance(_mousePos, _oldMousePos) < 0.2f) return;
             _oldMousePos = _mousePos;
             _hoveringHit = Physics2D.Raycast(_mousePos, Vector2.zero);
+#if UNITY_EDITOR
             Debug.DrawRay(_mousePos, Vector2.up,Color.red);
+#endif
             if (!_hoveringHit) return;
             if (_oldHoverHit == _hoveringHit.transform) return;
             _oldHoverHit = _hoveringHit.transform;

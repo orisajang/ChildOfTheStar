@@ -14,13 +14,13 @@ public class BoardBlock : MonoBehaviour
         if(Active)
         {
             boardBlocker.SetActive(Active);
-            Debug.Log("보드 비활성화");
+            //Debug.Log("보드 비활성화");
         }
 
         else if(Active == false)
         {
             boardBlocker.SetActive(Active);
-            Debug.Log("보드 활성화");
+            //Debug.Log("보드 활성화");
         }
     }
 }

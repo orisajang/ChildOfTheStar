@@ -118,7 +118,6 @@ public class Player : MonoBehaviour
         if (isImmortalityityFinished)
         {
             TakeDamage(5);
-            Debug.Log("불사 종료 피해");
             isImmortalityityFinished = false;
         }
     }
@@ -142,7 +141,6 @@ public class Player : MonoBehaviour
             CharacterHpCurrent = CharacterHpMax;
         }
 
-        Debug.Log($"현재 플레이어 체력:{CharacterHpCurrent}");
 
         UIManager.Instance.PlayerStatusUI.UpdateHP(CharacterHpCurrent, CharacterHpMax);
         if (OverHealToshield)
@@ -166,7 +164,6 @@ public class Player : MonoBehaviour
         }
         //실제 데미지 기반으로 HP차감
         CharacterHpCurrent -= damage;
-        Debug.Log($"현재 플레이어 체력:{CharacterHpCurrent}");
         //소리 설정
         SoundManager.Instance.PlayEffect(_playerSoundTypeDic[ePlayerSoundType.hit]);
         //피격 이펙트 재생 (반환 받기만 하면 이펙트가 스스로 재생하고 끝남
@@ -197,7 +194,6 @@ public class Player : MonoBehaviour
     public void AddShieldValue(int value)
     {
         Shield += value;
-        Debug.Log($"현재 플레이어 쉴드값: {Shield}");
 
         UIManager.Instance.PlayerStatusUI.UpdateShield(Shield);
     }
