@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.Animations;
+using UnityEngine.Animations;
 using UnityEngine;
 
 public static class MonsterActionClipName
@@ -11,11 +11,11 @@ public static class MonsterActionClipName
 }
 public class MonsterAnimatorFactory
 {
-    private AnimatorController _baseController;
+    private RuntimeAnimatorController _baseController;
 
     public AnimatorOverrideController CreateOverrideController(Dictionary<eMonsterAction,string> actionNameDic)
     {
-        if (_baseController == null) _baseController = Resources.Load<AnimatorController>("Monster/Base/MonsterAnimation_base");
+        if (_baseController == null) _baseController = Resources.Load<RuntimeAnimatorController>("Monster/Base/MonsterAnimation_base");
         AnimatorOverrideController overrideController = new AnimatorOverrideController(_baseController);
 
         //기존 Clip리스트 가져오기
