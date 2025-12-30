@@ -27,7 +27,7 @@ public class SoundManager : Singleton<SoundManager>
     protected override void Awake()
     {
         base.Awake();
-
+       
         bgmSource = gameObject.AddComponent<AudioSource>();
         bgmSource.loop = true;
         bgmSource.outputAudioMixerGroup = mAudioMixer.FindMatchingGroups("BGM")[0];
@@ -44,6 +44,30 @@ public class SoundManager : Singleton<SoundManager>
             {
                 mClipsDictionary.Add(clip.name, clip);
             }
+        }
+    }
+
+    private void Start()
+    {
+        float bgm = PlayerPrefs.GetFloat("BGM_VOL", 1f);
+        float effect = PlayerPrefs.GetFloat("EFFECT_VOL", 1f);
+
+        if (PlayerPrefs.GetInt("BGM_MUTE", 0) == 1)
+        {
+            mAudioMixer.SetFloat("BGM", -80f);
+        }
+        else
+        {
+            mAudioMixer.SetFloat("BGM", Mathf.Lerp(-80f, 0f, bgm));
+        }
+
+        if (PlayerPrefs.GetInt("EFFECT_MUTE", 0) == 1)
+        {
+            mAudioMixer.SetFloat("EFFECT", -80f);
+        }
+        else
+        {
+            mAudioMixer.SetFloat("EFFECT", Mathf.Lerp(-80f, 0f, effect));
         }
     }
 

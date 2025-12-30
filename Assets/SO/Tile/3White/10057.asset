@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a8be61759a24b046a7b2e046ffcb273, type: 3}
   m_Name: 10057
   m_EditorClassIdentifier: Assembly-CSharp::TileSO
-  descriptionText: "\uBB34\uC791\uC704 \uD0C0\uC77C\uC5D0 \uC724\uD68C\uB97C \uBD80\uC5EC\uD569\uB2C8\uB2E4.
-    \uC870\uD654: 1\uD68C \uBC18\uBCF5\uD569\uB2C8\uB2E4."
+  descriptionText: "\uBCF4\uB4DC\uC758 \uBB34\uC791\uC704 \uD0C0\uC77C\uC758 \uC0C9\uC744
+    \uD558\uC580\uC0C9\uC73C\uB85C \uAD50\uCCB4\uD569\uB2C8\uB2E4."
   _preSkillSOList: []
   _skillSOList:
   - {fileID: 11400000, guid: c782fcd077022a64ab1bf0507ed4758d, type: 2}

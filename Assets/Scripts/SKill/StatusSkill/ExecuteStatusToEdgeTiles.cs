@@ -17,9 +17,12 @@ public class ExecuteStatusToEdgeTiles : TileSkillBase
         {
             for (int c = 0; c < col; c++)
             {
+                if(board[r, c] == null) 
+                    continue;
                 Tile target = board[r, c];
 
-                if (target == null) continue;
+                if (target == null) 
+                    continue;
 
               
                 bool isEdge = (r == 0 || r == row - 1 || c == 0 || c == col - 1);
@@ -35,7 +38,8 @@ public class ExecuteStatusToEdgeTiles : TileSkillBase
         {
             foreach (Tile tile in edgeTiles)
             {
-                tile.ExecuteStatus(board);
+                if (tile != null)
+                    tile.ExecuteStatus(board);
             }
         }
 

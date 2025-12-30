@@ -15,4 +15,4 @@ MonoBehaviour:
   descriptionText: 
   _skillCondition: {fileID: 0}
   _statusType: 4
-  _tileStatus: {fileID: 0}
+  _tileStatus: {fileID: 11400000, guid: b70c1ccfbcb2d29498004f3c0c022ab4, type: 2}

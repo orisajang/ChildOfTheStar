@@ -13,19 +13,23 @@ public class AddStatusToEdgeTiles : TileSkillBase
 
         List<Tile> edgeTiles = ListPool<Tile>.Get();
 
-        int row = board.GetLength(0);
+        int rows = board.GetLength(0);
         int col = board.GetLength(1);
 
-        for (int r = 0; r < row; r++)
+        for (int r = 0; r < rows; r++)
         {
             for (int c = 0; c < col; c++)
             {
+                if (board[r, c] == null) 
+                    continue;
+
                 Tile target = board[r, c];
 
-                if (target == null) continue;
+                if (target == null) 
+                    continue;
 
               
-                bool isEdge = (r == 0 || r == row - 1 || c == 0 || c == col - 1);
+                bool isEdge = (r == 0 || r == rows - 1 || c == 0 || c == col - 1);
 
                 if (isEdge)
                 {
@@ -33,6 +37,9 @@ public class AddStatusToEdgeTiles : TileSkillBase
                 }
             }
         }
+#if UNITY_EDITOR
+        Debug.Log("붕괴부여");
+#endif 
         foreach (Tile tile in edgeTiles)
         {
             tile.AddStatus(_statusType, _tileStatus);

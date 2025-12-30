@@ -21,11 +21,15 @@ public class AddStatusToRandomTile : TileSkillBase
         {
             for (int c = 0; c < col; c++)
             {
+                if (board[r, c] == null) 
+                    continue;
                 Tile target = board[r, c];
 
-                if (target == null) continue;
+                if (target == null) 
+                    continue;
 
-                if (target == casterTile) continue;
+                if (target == casterTile) 
+                    continue;
 
                 bool isColorMatch = (_color == TileColor.None) || (target.Color == _color);
 

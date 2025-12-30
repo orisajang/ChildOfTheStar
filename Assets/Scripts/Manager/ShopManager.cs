@@ -41,6 +41,15 @@ public class ShopManager : Singleton<ShopManager>
         }
     }
 
+    public void Init()
+    {
+#if UNITY_EDITOR
+        Debug.Log("ShopManager Init");
+#endif
+        _useDeck.Clear();
+        _useDeck.AddRange(_baseDeck);
+
+    }
     public void SuffleShopSlots()
     {
         _shopTileSlots.Clear();
