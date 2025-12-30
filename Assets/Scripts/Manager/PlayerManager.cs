@@ -63,7 +63,9 @@ public class PlayerManager : Singleton<PlayerManager>
     public void OnPlayerMovePointDecrease()
     {
         int currentMovePoint = _player.PlayerActDo();
+#if UNITY_EDITOR
         Debug.Log($"현재 행동력 {currentMovePoint}");
+#endif
         //플레이어의 현재 행동력값 보내기
         SendPlayerMovePoint?.Invoke(currentMovePoint);
     }

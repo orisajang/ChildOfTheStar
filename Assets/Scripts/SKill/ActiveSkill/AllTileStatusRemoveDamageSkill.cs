@@ -39,7 +39,6 @@ public class AllTileStatusRemoveDamageSkill : TileSkillBase
             int totalDamage = statusCount * _damage;
 
             //int growthValue = casterTile.GetApplyGrowth(_damage)* statusNum;
-            Debug.Log($"적에게 {totalDamage} 피해");
 
             if (MonsterManager.Instance._targetMonster != null)
             {

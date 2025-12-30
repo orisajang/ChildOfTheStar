@@ -36,7 +36,6 @@ public class DamageBasedOnWillDestroy : TileSkillBase
             }
 
             int growthValue = casterTile.GetApplyGrowth(totalDamage);
-            Debug.Log($"모든 적에게 {growthValue} 피해");
             for (int i = monsters.Count - 1; i >= 0; i--)
             {
                 monsters[i].TakeDamage(growthValue);

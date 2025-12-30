@@ -8,7 +8,6 @@ public class SelfHeallSkill : TileSkillBase
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
         int growthValue = casterTile.GetApplyGrowth(_heal);
-        Debug.Log($"플레이어 {growthValue} 회복");
         PlayerManager.Instance._player.TakeHeal(growthValue);
     }
 }

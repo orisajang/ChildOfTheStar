@@ -319,7 +319,9 @@ public class Monster : MonoBehaviour
         {
             monsterHPBarUi.UpdateHP(_monsterCurrentHp);
         }
+#if UNITY_EDITOR
         Debug.Log($"몬스터 현재 체력은{_monsterCurrentHp}");
+#endif
         if (_monsterCurrentHp <= 0)
         {
             //monsterDeathSoundEffect();

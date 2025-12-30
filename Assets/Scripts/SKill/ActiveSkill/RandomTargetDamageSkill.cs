@@ -15,7 +15,6 @@ public class RandomTargetDamageSkill : TileSkillBase
         }
 
         int growthValue = casterTile.GetApplyGrowth(_damage);
-        Debug.Log($"랜덤 적에게 {growthValue} 피해");
 
         int randTarget = Random.Range(0, monsters.Count);
 

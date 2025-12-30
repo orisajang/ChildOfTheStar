@@ -12,8 +12,10 @@ public abstract class TileSkillBase: ScriptableObject
         if (_skillCondition == null || _skillCondition.CanExecute(board,casterTile))
         {
            Execute(board, casterTile);
-           Debug.Log($"{casterTile.TileData.Name}");
         }
+#if UNITY_EDITOR
+        Debug.Log($"{casterTile.TileData.Name}");
+#endif
     }
     protected abstract void Execute(Tile[,] board, Tile casterTile);
 }

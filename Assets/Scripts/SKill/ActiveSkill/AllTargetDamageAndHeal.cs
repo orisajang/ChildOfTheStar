@@ -12,7 +12,6 @@ public class AllTargetDamageAndHeal : TileSkillBase
 
         int totalHealAmount = 0;
         int growthValue = casterTile.GetApplyGrowth(_damage);
-        Debug.Log($"모든 적에게 {growthValue} 피해");
         for (int i = monsters.Count - 1; i >= 0; i--)
         {
             monsters[i].TakeDamage(growthValue);
@@ -21,7 +20,6 @@ public class AllTargetDamageAndHeal : TileSkillBase
         }
         if (totalHealAmount > 0)
         {
-            Debug.Log($"총 {totalHealAmount}만큼 회복");
             PlayerManager.Instance._player.TakeHeal(totalHealAmount);
         }
     }
