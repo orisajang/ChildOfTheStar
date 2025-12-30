@@ -52,6 +52,7 @@ public class GameManager : Singleton<GameManager>
     }
     public void GoToResourceEarnedScene()
     {
+        SoundManager.Instance.PlayEffect("sfx_stagevictory");
         //        Debug.Log("인게임클리어후 자원획득량창으로 이동");
         ShopManager.Instance.SuffleShopSlots();
         SceneManager.LoadScene(SceneName.EarnedResource);
