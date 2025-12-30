@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2a85d2ac3911df4b922d797163ee369, type: 3}
   m_Name: AddDestructionToBlack
   m_EditorClassIdentifier: Assembly-CSharp::SetStatus
-  descriptionText: "\uC870\uAC74\uC5C6\uC774 \uC790\uC2E0\uC744 \uC81C\uC678\uD55C
-    \uB79C\uB364 \uD0C0\uC77C \uB300\uC0C1\uC73C\uB85C \uBD95\uAD34 \uBD80\uC5EC"
+  descriptionText: "\uAC80\uC740 \uD0C0\uC77C\uC911 \uB79C\uB364 \uD0C0\uC77C \uB300\uC0C1\uC73C\uB85C
+    \uBD95\uAD34 \uBD80\uC5EC"
   _skillCondition: {fileID: 0}
   _targetColor: 0
   _Status: 4

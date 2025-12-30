@@ -483,8 +483,6 @@ public class BoardModel
         }
         foreach (Tile tile in matchedTiles)
         {
-
-            tile.ApplyReserve(Tiles);
             _brokenTileIndex.Add(new Pos(tile.Row, tile.Col));
             _tiles[tile.Row, tile.Col] = null;
             ReturnTile(tile);
@@ -501,10 +499,12 @@ public class BoardModel
 
             //터진 타일의 색상을 확인해서 이펙트를 표시해주자
             onTileEffectPlay?.Invoke(tile);
-            
-
         }
-
+        foreach (Tile tile in _tiles)
+        {
+            if (tile != null)
+                tile.ApplyReserve(Tiles);
+        }
     }
     /// <summary>
     /// 과충전 체크할때 색상별 타일이 얼마만큼 터졌는지 확인 필요

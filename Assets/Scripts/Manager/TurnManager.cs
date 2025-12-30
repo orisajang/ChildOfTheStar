@@ -184,8 +184,6 @@ public class TurnManager : Singleton<TurnManager>
 
             //보유한 몬스터를 전부 전투 처리
             MonsterManager.Instance.StartMonsterAction();
-//
-            Debug.Log("몬스터 턴 시작");
         }
     }
 

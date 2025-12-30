@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ConvertSurroundTileStatus
   descriptionText: 
   _skillCondition: {fileID: 0}
-  _statusType: 2
+  _status: 2
+  _color: 5
   _tileStatus: {fileID: 11400000, guid: b09eae41a7a6b8c48bdee7558871c570, type: 2}

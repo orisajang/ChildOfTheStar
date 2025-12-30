@@ -15,6 +15,6 @@ MonoBehaviour:
   descriptionText: "\uD3ED\uC8FC \uC0C1\uD0DC\uC77C\uB54C \uBE68\uAC04\uC0C9 \uD0C0\uC77C
     \uC911 \uB79C\uB364\uC73C\uB85C \uAD11\uBD84 \uBD80\uC5EC"
   _skillCondition: {fileID: 11400000, guid: 28ee73f68b353ea4796ebf3f985bdaf2, type: 2}
-  _status: 0
-  _color: 2
+  _targetColor: 5
+  _Status: 0
   _tileStatus: {fileID: 11400000, guid: 90f1d650fd4c81a44b81b8edf2e3e8fe, type: 2}
