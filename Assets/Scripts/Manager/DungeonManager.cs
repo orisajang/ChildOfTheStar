@@ -166,7 +166,24 @@ public class DungeonManager : Singleton<DungeonManager>
                 }
         }
     }
-
+    public void PlayStageBGM()
+    {
+        // 보스 스테이지면
+        if (_currentStageNumber == 5)
+        {
+            switch (_currentDungeonNumber)
+            {
+                case 1: SoundManager.Instance.PlayBGM("bgm_bossstage"); break;
+                case 2: SoundManager.Instance.PlayBGM("bgm_2bossstage"); break;
+                case 3: SoundManager.Instance.PlayBGM("bgm_3bossstage"); break;
+                case 4: SoundManager.Instance.PlayBGM("bgm_4bossstage"); break;
+            }
+        }
+        else
+        {
+            PlayDungeonBGM(_currentDungeonNumber);
+        }
+    }
     public void RePlayCurrentDungeonBGM()
     {
         PlayDungeonBGM(_currentDungeonNumber);
@@ -326,6 +343,7 @@ public class DungeonManager : Singleton<DungeonManager>
         string dungeonAddStringStage = $"{_currentDungeonNumber}{_currentStageNumber}";
         string backgroundName = stageBackgroundNameDic[dungeonAddStringStage]; //stage_bg_101
         StageManager.Instance.SetStageInstanceData(currentSelectStage, backgroundName, _currentStageNumber);
+        PlayStageBGM();
         //전투 씬으로 이동
         GameManager.Instance.GoToBattleScene();
 
