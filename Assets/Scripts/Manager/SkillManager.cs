@@ -16,7 +16,6 @@ public class SkillManager : Singleton<SkillManager>
     public bool notSelfDamagedFrenzy { get; set; } = false;
     public bool IsExecuteNextDestory { get; set; } = true;
     public int TotalOverchargeIncrease { get; private set; } = 0;
-    public int LastOverchargeIncrease { get; private set; } = 0;
 
     private void Start()
     {
@@ -27,11 +26,11 @@ public class SkillManager : Singleton<SkillManager>
     }
     public void OverchargeIncrease(int amount)
     {
-        if (amount <= 0) return;
+        if (amount <= 0) 
+            return;
 
-        LastOverchargeIncrease = amount;
         TotalOverchargeIncrease += amount; 
-        TileEventBus.TriggerEvent(SkillEventType.OnOvercharge);
+        TileEventBus.TriggerEvent(SkillEventType.OnOvercharge,amount);
     }
     public int GetStack(int Tile_ID)
     {
@@ -58,7 +57,6 @@ public class SkillManager : Singleton<SkillManager>
         IsExecuteNextDestory = false;
         _destoryTileCount = 0; 
         TotalOverchargeIncrease = 0;
-        LastOverchargeIncrease = 0;
         TileEventBus.TurnStartInit();
     }
     public void TurnEnd()

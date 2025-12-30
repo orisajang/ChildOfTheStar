@@ -129,7 +129,6 @@ public class TurnManager : Singleton<TurnManager>
             PlayerManager.Instance._player.PlayerTurnend();
             SkillManager.Instance.TurnEnd();
             SkillManager.Instance.TileEventBus.TriggerEvent(SkillEventType.OnTurnEnd);
-            SkillManager.Instance.TileEventBus.ClearAll();
         }
     }
 

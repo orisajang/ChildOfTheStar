@@ -12,5 +12,8 @@ public class RegisterSkillEvent : TileSkillBase
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
         SkillManager.Instance.TileEventBus.Register(_eventType, _skill);
+#if UNITY_EDITOR
+        Debug.Log($"{_eventType} 이벤트에 {_skill.name} 스킬 등록");
+#endif
     }
 }

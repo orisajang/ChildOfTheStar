@@ -12,9 +12,7 @@ public class DestructionStatus : TileStatusBase
         int startCol = casterTile.Col;
         int rows = board.GetLength(0);
         int cols = board.GetLength(1);
-#if UNITY_EDITOR
-        Debug.Log("붕괴 실행");
-#endif
+
         for (int r = 1; r <= 5; r++)
         {
             _targets.Clear();

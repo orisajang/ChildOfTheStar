@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-
+using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 public enum SkillEventType
 {
     OnDamage,
@@ -30,6 +31,9 @@ public class TileEventBus
     /// </summary>
     public void Register(SkillEventType type, TileSkillBase skill)
     {
+#if UNITY_EDITOR
+        Debug.Log($"이벤트버스에 {type} 이벤트로 {skill.name} 스킬 등록");
+#endif
         AddToDict(_battleEvents, type, skill);
     }
 
@@ -48,6 +52,20 @@ public class TileEventBus
     public void TriggerEvent(SkillEventType type)
     {
         Execute(_battleEvents, type, SkillManager.Instance.BoardController.BoardModel.Tiles);
+
+#if UNITY_EDITOR
+        Debug.Log($"{type} 이벤트 발동");
+#endif
+    }
+
+
+    public void TriggerEvent(SkillEventType type, int val)
+    {
+        Execute(_battleEvents, type, SkillManager.Instance.BoardController.BoardModel.Tiles,val);
+
+#if UNITY_EDITOR
+        Debug.Log($"{type} 이벤트 발동");
+#endif
     }
 
     /// <summary>
@@ -68,17 +86,38 @@ public class TileEventBus
         dictionary[key].Add(skill);
     }
 
-    private void Execute<T>(Dictionary<T, List<TileSkillBase>> dictionary, T key, Tile[,] board)
+    private void Execute<T>(Dictionary<T, List<TileSkillBase>> dictionary, T key, Tile[,] board, int val = 0)
     {
-
+        // 1. 딕셔너리에 키(이벤트 타입)가 있는지 확인
         if (dictionary.TryGetValue(key, out var list))
         {
-
-            for (int i = list.Count - 1; i >= 0; i--)
+            // 2. 리스트에 등록된 스킬이 있는지 확인
+            if (list != null && list.Count > 0)
             {
+                for (int i = list.Count - 1; i >= 0; i--)
+                {
+                    // [수정됨] 0 대신 val을 넘겨줘야 정확하게 계산됨!
+                    list[i].TryExecute(board, null, val);
 
-                list[i].TryExecute(board, null);
+#if UNITY_EDITOR
+                    Debug.Log($"<color=green>[성공]</color> {key} 이벤트 발동! -> {list[i].name} 스킬 실행함. (전달값: {val})");
+#endif
+                }
             }
+            else
+            {
+#if UNITY_EDITOR
+                // 리스트는 있는데 비어있음
+                Debug.LogWarning($"<color=yellow>[실패]</color> {key} 이벤트가 왔는데, 등록된 스킬 리스트가 비어있습니다 (Count 0).");
+#endif
+            }
+        }
+        else
+        {
+#if UNITY_EDITOR
+            // 딕셔너리에 키조차 없음 (한 번도 Register 된 적 없음)
+            Debug.LogWarning($"<color=red>[실패]</color> {key} 이벤트는 아무도 등록(Register)하지 않았습니다.");
+#endif
         }
     }
 }

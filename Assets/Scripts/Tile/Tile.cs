@@ -124,13 +124,14 @@ public class Tile : MonoBehaviour
         {
             if (_statusDictionary.TryGetValue(seq, out var statusList))
             {
-                foreach (var status in statusList)
+                for (int i = statusList.Count - 1; i >= 0; i--)
                 {
+                    var status = statusList[i];
+
                     if (status != null)
                     {
                         status.Execute(board, this);
                     }
-                    
                 }
             }
         }
