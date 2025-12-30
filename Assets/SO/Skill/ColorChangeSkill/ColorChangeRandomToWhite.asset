@@ -16,3 +16,14 @@ MonoBehaviour:
   _skillCondition: {fileID: 0}
   _searchColor: 5
   _applyColor: 1
+  _colorDataList:
+  - Color: 0
+    _sprite: {fileID: -6908462752098142862, guid: 80358013345d88542a85b84420f4e23a, type: 3}
+  - Color: 4
+    _sprite: {fileID: -8767837544140584667, guid: 7acb9c0d3b8c2004ea435396b9b5198e, type: 3}
+  - Color: 2
+    _sprite: {fileID: -8826805962741192054, guid: 75957bb3f3f48d2418287c6b64ef83a4, type: 3}
+  - Color: 3
+    _sprite: {fileID: 8078610641323114602, guid: a2da496743a9a7c4fb6d51b5582bb1c9, type: 3}
+  - Color: 1
+    _sprite: {fileID: 338935320413467609, guid: 62c77dec24a3aa24797b628b186c08ba, type: 3}
