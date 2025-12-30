@@ -162,27 +162,28 @@ public class BoardModel
             }
         }
 
-        HashSet<Pos> matched = new HashSet<Pos>();
+        HashSet<Pos> matched = GetAllMatch();
 
-        if (direction == TileMoveDirection.Horizontal)
-        {
-            MatchTile(TileMoveDirection.Horizontal, lineIndex, matched);
+        //if (direction == TileMoveDirection.Horizontal)
+        //{
+        //    MatchTile(TileMoveDirection.Horizontal, lineIndex, matched);
 
-            for (int col = 0; col < _columns; col++)
-            {
-                MatchTile(TileMoveDirection.Vertical, col, matched);
-            }
-        }
-        else
-        {
-            MatchTile(TileMoveDirection.Vertical, lineIndex, matched);
+        //    for (int col = 0; col < _columns; col++)
+        //    {
+        //        MatchTile(TileMoveDirection.Vertical, col, matched);
+        //    }
+        //}
+        //else
+        //{
+        //    MatchTile(TileMoveDirection.Vertical, lineIndex, matched);
 
-            for (int row = 0; row < _rows; row++)
-            {
-                MatchTile(TileMoveDirection.Horizontal, row, matched);
-            }
-        }
-        GetAllMatch();
+        //    for (int row = 0; row < _rows; row++)
+        //    {
+        //        MatchTile(TileMoveDirection.Horizontal, row, matched);
+        //    }
+        //}
+
+        //HashSet<Pos> matches = GetAllMatch();
 
         _MatchedColorHash.Clear();
         //과충전 관련 체크 항목 초기화
