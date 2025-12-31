@@ -15,5 +15,5 @@ MonoBehaviour:
   descriptionText: 
   _skillCondition: {fileID: 0}
   _skills:
-  - {fileID: 11400000, guid: 5861e2063efa6084391a0ceb83d5a70a, type: 2}
   - {fileID: 11400000, guid: 090746b758da23b4cbc3f32a66cca57e, type: 2}
+  - {fileID: 11400000, guid: 5861e2063efa6084391a0ceb83d5a70a, type: 2}

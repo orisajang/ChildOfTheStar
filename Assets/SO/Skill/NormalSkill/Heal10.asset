@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 44f4b16a7c756ba4cbfe791f9a5be148, type: 3}
-  m_Name: HpAlmost50% Heal 9
+  m_Name: Heal10
   m_EditorClassIdentifier: Assembly-CSharp::SelfHeallSkill
   descriptionText: "\uCCB4\uB825 10 \uD68C\uBCF5"
   _skillCondition: {fileID: 0}

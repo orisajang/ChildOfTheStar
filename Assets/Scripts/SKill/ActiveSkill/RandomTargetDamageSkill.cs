@@ -20,5 +20,8 @@ public class RandomTargetDamageSkill : TileSkillBase
 
         if (monsters[randTarget] != null)
             monsters[randTarget].TakeDamage(_damage);
+#if UNITY_EDITOR
+        Debug.Log($"랜덤타겟 {monsters[randTarget].name}에게 {growthValue}의 피해를 입혔습니다.");
+#endif
     }
 }

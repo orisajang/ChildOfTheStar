@@ -7,7 +7,6 @@ public class OverchargeIncrease : TileSkillBase
     public int OverCharge => _overCharge;
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
-        int growthValue = casterTile.GetApplyGrowth(_overCharge);
-        SkillManager.Instance.BoardController.BoardModel.SetOverChargeValue(growthValue);
+        SkillManager.Instance.BoardController.BoardModel.SetOverChargeValue(_overCharge);
     }
 }

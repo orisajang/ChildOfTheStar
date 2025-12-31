@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Resources;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -75,7 +74,7 @@ public class TileDeckTestManager : Singleton<TileDeckTestManager>
             colorDataList.Add(colorResourceDataBuf);
         }
         _playerDataJson.colorResourceDataList = colorDataList;
-        _playerDataJson.currentDengeonNumber = DungeonManager.Instance.CurrentDungeonNumber;
+        _playerDataJson.currentDengeonNumber = DungeonManager.Instance.MaxDungeonNumber;
         _playerDataJson.currentStageNumber = DungeonManager.Instance.CurrentStageNumber;
         //_playerDataJson.playerTileDeck = new List<TileDeckDataJson>(tileDeckDataList);
     }

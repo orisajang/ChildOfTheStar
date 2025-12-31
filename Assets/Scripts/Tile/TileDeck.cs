@@ -169,12 +169,4 @@ public class TileDeck : MonoBehaviour
         SuffleDeck();
     }
 
-    public void AddTile(TileSO tileSO)
-    {
-        _copyDeck.Add(tileSO);
-    }
-    public void RemoveTile(TileSO tileSO)
-    {
-        _copyDeck.Remove(tileSO);
-    }
 }

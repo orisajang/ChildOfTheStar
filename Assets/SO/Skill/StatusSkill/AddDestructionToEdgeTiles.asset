@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b35b39594fa842944acd0681105bd6ce, type: 3}
   m_Name: AddDestructionToEdgeTiles
   m_EditorClassIdentifier: Assembly-CSharp::AddStatusToEdgeTiles
-  descriptionText: 
+  descriptionText: "\uAC00\uC7A5\uC790\uB9AC\uC5D0 \uBD95\uAD34\uBD80\uC5EC"
   _skillCondition: {fileID: 0}
   _statusType: 4
   _tileStatus: {fileID: 11400000, guid: b70c1ccfbcb2d29498004f3c0c022ab4, type: 2}

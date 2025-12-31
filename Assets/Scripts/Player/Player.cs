@@ -142,7 +142,7 @@ public class Player : MonoBehaviour
             CharacterHpCurrent = CharacterHpMax;
         }
 
-
+        SkillManager.Instance.TileEventBus.TriggerEvent(SkillEventType.OnRecovery);
         UIManager.Instance.PlayerStatusUI.UpdateHP(CharacterHpCurrent, CharacterHpMax);
         if (OverHealToshield)
         {
@@ -173,7 +173,6 @@ public class Player : MonoBehaviour
 
         UIManager.Instance.PlayerStatusUI.UpdateHP(CharacterHpCurrent, CharacterHpMax);
         UIManager.Instance.PlayerStatusUI.UpdateShield(Shield);
-        Debug.Log($"플레이어가 {damage} 데미지를 받았습니다. 현재 체력 {CharacterHpCurrent}");
         SkillManager.Instance.TileEventBus.TriggerEvent(SkillEventType.OnDamage);
 
         SoundManager.Instance.PlayEffect("sfx_playerhit");

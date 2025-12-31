@@ -1,14 +1,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public class SkillExecute
+{
+    [SerializeField] private TileSkillBase _skill;
+    [SerializeField] private SkillConditionBase _skillConditionBase;
+}
+
+
+
 [CreateAssetMenu(fileName = "TileSO", menuName = "Scriptable Objects/TileSO")]
 public class TileSO : ScriptableObject
 {
+    [SerializeField] private List<SkillExecute> _skillExecuteList;
+
+
+
+
+
     [TextArea(3, 10)]
     public string descriptionText;
 
     [SerializeField] private List<TileSkillBase> _preSkillSOList;
     [SerializeField] private List<TileSkillBase> _skillSOList;
+
+
+
     [SerializeField] private int _id;
     [SerializeField] private string _name;
     [SerializeField] private string _icon;

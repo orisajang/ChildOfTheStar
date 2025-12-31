@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d5a76c76e4e81e408485a81009d9c21, type: 3}
-  m_Name: OnGrowth10048
-  m_EditorClassIdentifier: Assembly-CSharp::RegisterStatusEvent
+  m_Script: {fileID: 11500000, guid: ff178578c8981c347b4775bd63305157, type: 3}
+  m_Name: RandomTargetDamage 2
+  m_EditorClassIdentifier: Assembly-CSharp::RandomTargetDamageSkill
   descriptionText: 
   _skillCondition: {fileID: 0}
-  _status: 2
-  _skill: {fileID: 11400000, guid: cfacac25cfe55aa45af66e588dbc39f9, type: 2}
+  _damage: 2

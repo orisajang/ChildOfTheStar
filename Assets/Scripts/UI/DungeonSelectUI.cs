@@ -31,11 +31,10 @@ public class DungeonSelectUI : MonoBehaviour
     /// </summary>
     public void DungeonSelect()
     {
-        currentDungeon = DungeonManager.Instance.CurrentDungeonNumber;
+        currentDungeon = DungeonManager.Instance.MaxDungeonNumber;
         for (int i = 0; i < dungeonButtons.Length; i++)
         {
-            //bool isUnlocked = i < currentDungeon;
-            bool isUnlocked = i == currentDungeon-1;
+            bool isUnlocked = i < currentDungeon;
 
             dungeonButtons[i].interactable = isUnlocked;
 
@@ -60,8 +59,9 @@ public class DungeonSelectUI : MonoBehaviour
         //Debug.Log($"선택한 던전 번호: {dengeonNumber}");
         //던전 정보 설정
         DungeonManager.Instance.SetDengeonNumber(dengeonNumber + 1);
+        ShopManager.Instance.EnterDungeon(dengeonNumber);
         //씬 이동
         GameManager.Instance.GoToStageScene();
-        
+
     }
 }

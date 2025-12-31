@@ -13,6 +13,8 @@ public class DungeonManager : Singleton<DungeonManager>
 {
     //각 던전이 어떤 스테이지를 가지고있는지와 현재 스테이지가 몇스테이지인지,  스테이지별로 랜덤확률로 스테이지 선택
     //최대 던전번호 (클리어한 던전중에 가장 높은 던전)
+
+    public int MaxDungeonNumber { get ; set; } = 1;
     public int CurrentDungeonNumber => _currentDungeonNumber;
     public int CurrentStageNumber => _currentStageNumber;
     //현재 던전번호
@@ -90,6 +92,7 @@ public class DungeonManager : Singleton<DungeonManager>
     {
         PlayerDataJson dunGeonData = TileDeckTestManager.Instance.LoadData();
         _currentDungeonNumber = dunGeonData.currentDengeonNumber;
+        MaxDungeonNumber = dunGeonData.currentDengeonNumber;
         _currentStageNumber = dunGeonData.currentStageNumber;
         ColorResourceManager.Instance.SetResource(dunGeonData.colorResourceDataList);
         _loadedDungeonData = new LoadedDungeonData();
@@ -119,12 +122,10 @@ public class DungeonManager : Singleton<DungeonManager>
     {
         if(_loadedDungeonData != null && _loadedDungeonData._loadedDungeonNumber == dungeonNumber)
         {
-            //불러온 던전 정보가 있다면
             _currentStageNumber = _loadedDungeonData._loadedStageNumber;
         }
         else
         {
-            //스테이지 번호 0으로 초기화
             _currentStageNumber = 0;
         }
 
@@ -263,15 +264,15 @@ public class DungeonManager : Singleton<DungeonManager>
     /// </summary>
     public void InitForNextDungeon()
     {
-        if(_currentDungeonNumber < 4)
+        if (MaxDungeonNumber < 4)
         {
-            _currentDungeonNumber++;
+            if (MaxDungeonNumber == _currentDungeonNumber)
+            {
+                MaxDungeonNumber++;
+            }
             _currentStageNumber = 0;
             _loadedDungeonData = null;
         }
-
-
-
     }
     public void SetShopButton(ShopEnterButton shopButton)
     {
@@ -287,7 +288,8 @@ public class DungeonManager : Singleton<DungeonManager>
         //SetStageDataForStageManager();
         //스테이지가 전부 끝났다면 던전 선택화면으로 돌아가면 됨.
         //GameManager.Instance.GoToTitleScene();
-        
+        ShopManager.Instance.SaveCurrentDeck();
+
         //다음 던전을 위한 초기화
         InitForNextDungeon();
         //정보 저장

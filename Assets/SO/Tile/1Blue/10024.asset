@@ -18,6 +18,7 @@ MonoBehaviour:
   _skillSOList:
   - {fileID: 11400000, guid: ca82c299ddee45f4698185de8aa05d17, type: 2}
   - {fileID: 11400000, guid: 0999145a52b2f6c4aa5f2ddefda98806, type: 2}
+  - {fileID: 11400000, guid: 478b3b6cecca13344b9a596b14f072fa, type: 2}
   _id: 10024
   _name: "\uD750\uB974\uB294 \uAFC8"
   _icon: 1
