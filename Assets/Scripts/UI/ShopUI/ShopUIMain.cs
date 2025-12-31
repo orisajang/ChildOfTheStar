@@ -147,6 +147,21 @@ public class ShopUIMain : MonoBehaviour
             _shopBottomPanel.Panel.SetActive(true);
             SetDescriptionlUI(_shopBottomPanel, slot.Data);
 
+            foreach (Transform child in _shopContent)
+            {
+                var slotContent = child.GetComponent<ShopUISlot>();
+                if (slotContent != null)
+                    slotContent.SetShopButtonState(false);
+            }
+            foreach (Transform child in _deckContent)
+            {
+                var slotContent = child.GetComponent<ShopUISlot>();
+                if (slotContent != null)
+                    slotContent.SetShopButtonState(false);
+            }
+
+            slot.SetShopButtonState(true);
+
             var button = _shopBottomPanel.Button;
             button.gameObject.SetActive(true);
 
@@ -159,6 +174,20 @@ public class ShopUIMain : MonoBehaviour
         {
             if (CurrentMode == UIMode.Shop)
             {
+                foreach (Transform child in _shopContent)
+                {
+                    var slotContent = child.GetComponent<ShopUISlot>();
+                    if (slotContent != null)
+                        slotContent.SetShopButtonState(false);
+                }
+                foreach (Transform child in _deckContent)
+                {
+                    var slotContent = child.GetComponent<ShopUISlot>();
+                    if (slotContent != null)
+                        slotContent.SetShopButtonState(false);
+                }
+
+                slot.SetShopButtonState(true);
                 _shopBottomPanel.Panel.SetActive(true);
                 SetDescriptionlUI(_shopBottomPanel, slot.Data);
                _shopBottomPanel.Button.gameObject.SetActive(false);
