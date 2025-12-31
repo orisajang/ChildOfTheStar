@@ -321,6 +321,25 @@ public class Monster : MonoBehaviour
             //monsterDeathSoundEffect();
             MonsterDead();
         }
+        switch (color)
+        {
+            case TileColor.Red:
+                EffectSpawner.Instance.GetEffectScript("effect_attack_red", transform.position);
+                break;
+            case TileColor.White:
+                EffectSpawner.Instance.GetEffectScript("effect_attack_white", transform.position);
+                break;
+            case TileColor.Blue:
+                EffectSpawner.Instance.GetEffectScript("effect_attack_blue", transform.position);
+                break;
+            case TileColor.Black:
+                EffectSpawner.Instance.GetEffectScript("effect_attack_white", transform.position);
+                break;
+            case TileColor.Green:
+                EffectSpawner.Instance.GetEffectScript("effect_attack_green", transform.position);
+                break;
+        }
+
     }
 
     ///// <summary>
