@@ -9,6 +9,9 @@ public class ConvertSurroundTileStatus : TileSkillBase
     [SerializeField] TileStatusBase _tileStatus;
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
+#if UNITY_EDITOR
+        Debug.Log($"주변 타일 상태이상 변환 스킬 실행");
+#endif
         List<Tile> targetTiles = ListPool<Tile>.Get();
 
         int row = board.GetLength(0);
@@ -21,12 +24,14 @@ public class ConvertSurroundTileStatus : TileSkillBase
         {
             for (int c = centerCol - 1; c <= centerCol + 1; c++)
             {
-                if (r < 0 || r >= row || c < 0 || c >= col) continue;
+                if (r < 0 || r >= row || c < 0 || c >= col) 
+                    continue;
 
                 Tile target = board[r, c];
 
                 if (target == null) continue;
                 if (target == casterTile) continue;
+                if (target.Matched) continue;
 
                 targetTiles.Add(target);
             }
@@ -56,6 +61,9 @@ public class ConvertSurroundTileStatus : TileSkillBase
                 for (int count = 0; count < totalCount; count++)
                 {
                     target.AddStatus(_statusType, _tileStatus);
+#if UNITY_EDITOR
+                    Debug.Log($"타일 {target.Row},{target.Col}에 {_statusType}상태이상 {count + 1}회 부여");
+#endif
                 }
             }
         }

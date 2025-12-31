@@ -22,7 +22,7 @@ public class DistributeStatusToRandomTiles : TileSkillBase
 
                 if (target == null) continue;
                 if (target == casterTile) continue;
-
+                if (target.Matched) continue;
                 bool isColorMatch = (_color == TileColor.None) || (target.Color == _color);
 
                 if (isColorMatch)

@@ -16,6 +16,7 @@ public class TileDeck : MonoBehaviour
     [SerializeField]private List<TileSO> _drawDeck = new List<TileSO>();
     private Queue<Tile> _tilePool = new Queue<Tile>();
 
+    public List<TileSO> CopyDeck => _copyDeck;
     public List<TileSO> DrawDeck => _drawDeck;
     private void Awake()
     {
