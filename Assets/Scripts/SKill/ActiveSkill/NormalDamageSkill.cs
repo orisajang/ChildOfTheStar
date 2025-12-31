@@ -7,6 +7,10 @@ public class NormalDamageSkill : TileSkillBase
     public int Damage=> _damage;
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
+        TileColor casterColor = TileColor.White;
+        if (casterTile != null)
+            casterColor = casterTile.Color;
+
         int growthValue=_damage;
         if (casterTile != null)
         {
@@ -29,7 +33,7 @@ public class NormalDamageSkill : TileSkillBase
 
         if (targetMonster != null)
         {
-            targetMonster.TakeDamage(growthValue);
+            targetMonster.TakeDamage(growthValue, casterColor);
         }
     }
 }

@@ -7,6 +7,10 @@ public class RandomTargetDamageSkill : TileSkillBase
     public int Damage=> _damage;
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
+        TileColor casterColor = TileColor.White;
+        if (casterTile != null)
+            casterColor = casterTile.Color;
+
         var monsters = MonsterManager.Instance.SpawnedMonster;
         if (monsters == null
             || monsters.Count <= 0)
@@ -19,7 +23,7 @@ public class RandomTargetDamageSkill : TileSkillBase
         int randTarget = Random.Range(0, monsters.Count);
 
         if (monsters[randTarget] != null)
-            monsters[randTarget].TakeDamage(_damage);
+            monsters[randTarget].TakeDamage(_damage,casterColor);
 #if UNITY_EDITOR
         Debug.Log($"랜덤타겟 {monsters[randTarget].name}에게 {growthValue}의 피해를 입혔습니다.");
 #endif

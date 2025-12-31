@@ -13,6 +13,10 @@ public class DamageBasedOnWillDestroy : TileSkillBase
         int col = board.GetLength(1);
         int destroyCount = 0;
 
+        TileColor casterColor = TileColor.White;
+        if (casterTile != null)
+            casterColor = casterTile.Color;
+
         for (int r = 0; r < row; r++)
         {
             for (int c = 0; c < col; c++)
@@ -38,7 +42,7 @@ public class DamageBasedOnWillDestroy : TileSkillBase
             int growthValue = casterTile.GetApplyGrowth(totalDamage);
             for (int i = monsters.Count - 1; i >= 0; i--)
             {
-                monsters[i].TakeDamage(growthValue);
+                monsters[i].TakeDamage(growthValue, casterColor);
             }
         }
     }

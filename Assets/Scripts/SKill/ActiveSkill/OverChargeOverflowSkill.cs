@@ -8,6 +8,9 @@ public class OverChargeOverflowSkill : TileSkillBase
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
 
+        TileColor casterColor = TileColor.White;
+        if (casterTile != null)
+            casterColor = casterTile.Color;
         var monsters = MonsterManager.Instance.SpawnedMonster;
         if (monsters == null || monsters.Count <= 0) return;
         int overFlow = SkillManager.Instance.BoardController.BoardModel.GetChargeOverflow() *_damage;
@@ -15,7 +18,7 @@ public class OverChargeOverflowSkill : TileSkillBase
         int growthValue = casterTile.GetApplyGrowth(_damage);
         for (int i = monsters.Count - 1; i >= 0; i--)
         {
-            monsters[i].TakeDamage(growthValue);
+            monsters[i].TakeDamage(growthValue, casterColor);
         }
     }
 }

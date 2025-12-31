@@ -6,6 +6,11 @@ public class FrenzyStatus : TileStatusBase
     [SerializeField] private int _damage = 1;
     public override void Execute(Tile[,] board, Tile casterTile)
     {
+
+        TileColor casterColor = TileColor.White;
+        if (casterTile != null)
+            casterColor = casterTile.Color;
+
         SkillManager.Instance.TileEventBus.TriggerEvent(TileStatus);
         if ( SkillManager.Instance.notSelfDamagedFrenzy)
         {
@@ -22,7 +27,7 @@ public class FrenzyStatus : TileStatusBase
 
             int randTarget = Random.Range(0, monsters.Count);
             if (monsters[randTarget]!=null)
-                monsters[randTarget].TakeDamage(_damage);
+                monsters[randTarget].TakeDamage(_damage,casterColor);
 #if UNITY_EDITOR
             Debug.Log($"타오르는 용기 발동 : 몬스터 {monsters[randTarget].name}에게 {_damage} 피해");
 #endif

@@ -14,10 +14,14 @@ public class AllTargetDamageSkill : TileSkillBase
             return;
         }
 
+        TileColor casterColor = TileColor.White;
+        if (casterTile != null)
+            casterColor = casterTile.Color;
+
         int growthValue = casterTile.GetApplyGrowth(_damage);
         for (int i = monsters.Count - 1; i >= 0; i--)
         {
-            monsters[i].TakeDamage(growthValue);
+            monsters[i].TakeDamage(growthValue,casterColor);
         }
 
     }

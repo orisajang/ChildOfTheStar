@@ -8,6 +8,11 @@ public class StackDamageSkill : TileSkillBase
     public int Damage=> _damage;
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
+
+        TileColor casterColor = TileColor.White;
+        if (casterTile != null)
+            casterColor = casterTile.Color;
+
         int growthValue = casterTile.GetApplyGrowth(1);
         int finalValue = growthValue * SkillManager.Instance.GetStack(casterTile.TileData.Id) * _damage;
         SkillManager.Instance.AddStack(casterTile.TileData.Id);
@@ -27,7 +32,7 @@ public class StackDamageSkill : TileSkillBase
 
         if (targetMonster != null)
         {
-            targetMonster.TakeDamage(finalValue);
+            targetMonster.TakeDamage(finalValue, casterColor);
         }
 
 

@@ -40,6 +40,10 @@ public class AllTileStatusRemoveDamageSkill : TileSkillBase
 
             //int growthValue = casterTile.GetApplyGrowth(_damage)* statusNum;
 
+            TileColor casterColor = TileColor.White;
+            if (casterTile != null)
+                casterColor = casterTile.Color;
+
             var targetMonster = MonsterManager.Instance._targetMonster;
 
             if (targetMonster == null)
@@ -55,7 +59,7 @@ public class AllTileStatusRemoveDamageSkill : TileSkillBase
 
             if (targetMonster != null)
             {
-                targetMonster.TakeDamage(totalDamage);
+                targetMonster.TakeDamage(totalDamage,casterColor);
             }
         }
        

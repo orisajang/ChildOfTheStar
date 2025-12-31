@@ -9,6 +9,11 @@ public class ConvertStatusToGrowthAndDamage : TileSkillBase
 
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
+
+        TileColor casterColor = TileColor.White;
+        if (casterTile != null)
+            casterColor = casterTile.Color;
+
         int statusCount = 0;
 
         if (casterTile.StatusDictionarty != null)
@@ -48,7 +53,7 @@ public class ConvertStatusToGrowthAndDamage : TileSkillBase
 
         if (targetMonster != null)
         {
-            targetMonster.TakeDamage(finalDamage);
+            targetMonster.TakeDamage(finalDamage,casterColor);
         }
     }
 }

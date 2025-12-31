@@ -7,7 +7,10 @@ public class OverChargeDamageSkill : TileSkillBase
     public int Damage=> _damage;
     protected override void Execute(Tile[,] board, Tile casterTile)
     {
-        
+        TileColor casterColor = TileColor.White;
+        if (casterTile != null)
+            casterColor = casterTile.Color;
+
         int growthValue = casterTile.GetApplyGrowth(_damage)* SkillManager.Instance.BoardController.BoardModel.OverChargeValue;
 
 
@@ -26,7 +29,7 @@ public class OverChargeDamageSkill : TileSkillBase
 
         if (targetMonster != null)
         {
-            targetMonster.TakeDamage(growthValue);
+            targetMonster.TakeDamage(growthValue, casterColor);
         }
     }
 }
