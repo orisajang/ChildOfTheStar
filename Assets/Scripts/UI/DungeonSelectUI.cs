@@ -59,7 +59,7 @@ public class DungeonSelectUI : MonoBehaviour
         //Debug.Log($"선택한 던전 번호: {dengeonNumber}");
         //던전 정보 설정
         DungeonManager.Instance.SetDengeonNumber(dengeonNumber + 1);
-        ShopManager.Instance.EnterDungeon(dengeonNumber);
+        ShopManager.Instance.LoadDeckSave(dengeonNumber);
         //씬 이동
         GameManager.Instance.GoToStageScene();
 

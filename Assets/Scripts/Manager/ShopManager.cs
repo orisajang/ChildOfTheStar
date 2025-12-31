@@ -61,18 +61,15 @@
             }
         }
     protected override void Awake()
-        {
-            base.Awake();
-            InitTileDB();
+    {
+        base.Awake();
+        InitTileDB();
+        LoadFromFile();
 
-            LoadFromFile();
-        if (_useDeck.Count == 0)
-            {
-                _useDeck.AddRange(_baseDeck);
-        }
+        LoadDeckSave(_currentDungeonID);
 
-            InitSellPrice();
-        }
+        InitSellPrice();
+    }
 
 
     private void InitTileDB()
@@ -96,13 +93,13 @@
     }
     public void Init()
         {
-            _useDeck.Clear();
-            _useDeck.AddRange(_baseDeck);
-            InitSellPrice();
+        InitSellPrice();
 
-        }
+        LoadDeckSave(_currentDungeonID);
+    }
 
-        public void InitSellPrice()
+
+    public void InitSellPrice()
         {
             foreach (TileColor color in System.Enum.GetValues(typeof(TileColor)))
             {
@@ -283,7 +280,7 @@
         }
 
 
-    public void EnterDungeon(int dungeonId)
+    public void LoadDeckSave(int dungeonId)
     {
         InitSellPrice();
         _currentDungeonID = dungeonId;
