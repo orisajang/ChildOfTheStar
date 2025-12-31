@@ -42,7 +42,7 @@ public class ExecuteStatusToEdgeTiles : TileSkillBase
             foreach (Tile tile in edgeTiles)
             {
                 if (tile != null)
-                    tile.ExecuteStatus(board);
+                    tile.ExecuteStatus(board,true);
 
 #if UNITY_EDITOR
                 Debug.Log($"가장 자리 상태 실행({tile.Row}, {tile.Col}).");

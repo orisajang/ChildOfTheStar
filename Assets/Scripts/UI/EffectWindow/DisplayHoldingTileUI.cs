@@ -17,15 +17,16 @@ public class DisplayHoldingTileUI : MonoBehaviour
 
     private void GetTileInfo()
     {
-        foreach(var tile in _tileDeck.DrawDeck)
+        foreach(var tile in _tileDeck.CopyDeck)
         {
             if (_holdingTileDict.ContainsKey(tile.Id))
             {
                 _holdingTileDict[tile.Id]._tileNum++;
             }
-
-            _holdingTileDict.Add(tile.Id,new HoldingTileInfo(1,tile.Name,tile.descriptionText, tile.IconSprite,tile.BaseSprite,tile.RareSprite));
-            
+            else 
+            {
+                _holdingTileDict.Add(tile.Id, new HoldingTileInfo(1, tile.Name, tile.descriptionText, tile.IconSprite, tile.BaseSprite, tile.RareSprite));
+            }
 
         }
     }

@@ -22,7 +22,7 @@ public class AllTileStatusRemoveDamageSkill : TileSkillBase
                 Tile target = board[r, c];
 
                 if (target == null) continue;
-
+                if (target == casterTile) continue;
                 target.ExecuteStatus(board);
                 if (_targetStatuses != null)
                 {

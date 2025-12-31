@@ -117,7 +117,7 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public void ExecuteStatus(Tile[,] board)
+    public void ExecuteStatus(Tile[,] board,bool statusClear=false)
     {
         //스테이터스 딕셔너리 순서대로 쭉죽 스테이터스가 가지고있는 함수 실행
         foreach (var seq in _statusSequence)
@@ -135,11 +135,12 @@ public class Tile : MonoBehaviour
                 }
             }
         }
-        ClearStatus();
-        _effectRenderer.enabled = false;
+        if (statusClear)
+            ClearStatus();
     }
     public void ClearStatus()
     {
+        _effectRenderer.enabled = false;
         _frenzyNum = 0;
         _recoveryNum = 0;
         _growthNum = 0;
@@ -169,6 +170,7 @@ public class Tile : MonoBehaviour
         {
             skill.TryExecute(board, this);
         }
+        ClearStatus();
     }
     /// <summary>
     /// 해당 상태이상 리스트에 상태이상 추가

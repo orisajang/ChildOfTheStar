@@ -42,6 +42,8 @@ public class AddStatusToEdgeTiles : TileSkillBase
 #endif 
         foreach (Tile tile in edgeTiles)
         {
+            if (tile.Matched)
+                continue;
             tile.AddStatus(_statusType, _tileStatus);
         }
 

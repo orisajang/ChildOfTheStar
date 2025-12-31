@@ -25,6 +25,7 @@ public class ConvertAllStatusToRandomTile : TileSkillBase
                 Tile target = board[r, c];
 
                 if (target == null) continue;
+                if (target.Matched) continue;
 
                 int currentTileStatusCount = 0;
                 currentTileStatusCount += target.GetStatusCount(TileStatus.Frenzy);

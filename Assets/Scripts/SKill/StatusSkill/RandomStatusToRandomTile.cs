@@ -37,6 +37,8 @@ public class RandomStatusToRandomTile : TileSkillBase
 
                 if (target == casterTile) continue;
 
+                if (target.Matched) continue;
+
                 bool isColorMatch = (_color == TileColor.None) || (target.Color == _color);
 
                 if (isColorMatch)

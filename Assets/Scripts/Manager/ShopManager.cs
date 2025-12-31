@@ -96,11 +96,9 @@
     }
     public void Init()
         {
-    #if UNITY_EDITOR
-            Debug.Log("ShopManager Init");
-    #endif
             _useDeck.Clear();
             _useDeck.AddRange(_baseDeck);
+            InitSellPrice();
 
         }
 
@@ -287,6 +285,7 @@
 
     public void EnterDungeon(int dungeonId)
     {
+        InitSellPrice();
         _currentDungeonID = dungeonId;
 
         DungeonDeckSaveData targetSlot = null;
@@ -315,7 +314,6 @@
         else
         {
             _useDeck.AddRange(_baseDeck);
-            SaveCurrentDeck();
         }
     }
 
