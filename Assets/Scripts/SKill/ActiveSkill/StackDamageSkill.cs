@@ -12,10 +12,24 @@ public class StackDamageSkill : TileSkillBase
         int finalValue = growthValue * SkillManager.Instance.GetStack(casterTile.TileData.Id) * _damage;
         SkillManager.Instance.AddStack(casterTile.TileData.Id);
 
+        var targetMonster = MonsterManager.Instance._targetMonster;
 
-        if(MonsterManager.Instance._targetMonster != null)
+        if(targetMonster == null )
         {
-            MonsterManager.Instance._targetMonster.TakeDamage(finalValue);
+            var monsters = MonsterManager.Instance.SpawnedMonster;
+            if (monsters == null || monsters.Count <= 0)
+            {
+                return;
+            }
+            int randTarget = Random.Range(0, monsters.Count);
+            targetMonster = monsters[randTarget];
         }
+
+        if (targetMonster != null)
+        {
+            targetMonster.TakeDamage(finalValue);
+        }
+
+
     }
 }

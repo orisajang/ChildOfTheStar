@@ -9,10 +9,24 @@ public class OverChargeDamageSkill : TileSkillBase
     {
         
         int growthValue = casterTile.GetApplyGrowth(_damage)* SkillManager.Instance.BoardController.BoardModel.OverChargeValue;
-       
-        if (MonsterManager.Instance._targetMonster != null)
+
+
+        var targetMonster = MonsterManager.Instance._targetMonster;
+
+        if (targetMonster == null)
         {
-            MonsterManager.Instance._targetMonster.TakeDamage(growthValue);
+            var monsters = MonsterManager.Instance.SpawnedMonster;
+            if (monsters == null || monsters.Count <= 0)
+            {
+                return;
+            }
+            int randTarget = Random.Range(0, monsters.Count);
+            targetMonster = monsters[randTarget];
+        }
+
+        if (targetMonster != null)
+        {
+            targetMonster.TakeDamage(growthValue);
         }
     }
 }
