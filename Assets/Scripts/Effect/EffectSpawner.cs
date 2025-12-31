@@ -5,7 +5,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public enum EffectOwner
 {
-    Monster, Player
+    Monster, Player,None
 }
 
 public class EffectSpawner : Singleton<EffectSpawner>
@@ -32,6 +32,10 @@ public class EffectSpawner : Singleton<EffectSpawner>
         else if(owner == EffectOwner.Player)
         {
             effectResource = Resources.Load<EffectScript>("Effect/Player/" + effectName);
+        }
+        else
+        {
+            effectResource = Resources.Load<EffectScript>("Effect/" + effectName);
         }
         effectPrefabDic[effectName] = effectResource;
     }

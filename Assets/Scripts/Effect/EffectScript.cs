@@ -67,6 +67,7 @@ public class EffectScript : MonoBehaviour
         yield return null;
         while(true)
         {
+            if (_animator == null) break;
             //애니메이션 1회 실행한 상태인지 체크
             if(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime>= 1f)
             {

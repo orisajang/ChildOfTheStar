@@ -148,6 +148,10 @@ public class Player : MonoBehaviour
         {
             AddShieldValue(overHeal);
         }
+
+        string effectName = _playerEffectTypeDic[ePlayerEffectType.heal];
+        EffectSpawner.Instance.GetEffectScript(effectName, _playerPos);
+
         return overHeal;
     }
     public void TakeDamage(int damage)
@@ -197,6 +201,9 @@ public class Player : MonoBehaviour
         Shield += value;
 
         UIManager.Instance.PlayerStatusUI.UpdateShield(Shield);
+
+        string effectName = _playerEffectTypeDic[ePlayerEffectType.shield];
+        EffectSpawner.Instance.GetEffectScript(effectName, _playerPos);
     }
     /// <summary>
     /// 플레이어 이동력 1 감소
