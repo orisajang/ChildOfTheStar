@@ -9,7 +9,7 @@ public class MonsterHealSelfAction : MonsterAttackBehaviorStrategy
     {
         int healAmount = BattleManager.Instance.CalcMonsterHeal(monster._monsterAttackPower, monsterActionValue.monsterActionData.attackValue);
         monster.MonsterHealSelf(healAmount);
-        monster.MonsterEffectPlay(monsterActionValue.monsterActionData.effect);
+        monster.MonsterEffectPlay("effect_heal",monster.transform);
         //Debug.Log("몬스터 자힐");
     }
 }

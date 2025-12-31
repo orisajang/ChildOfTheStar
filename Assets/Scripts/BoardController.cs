@@ -39,11 +39,11 @@ public class BoardController : MonoBehaviour
     //타일이 터졌을때 어떤 이펙트가 실행되어야하는지 이름을 설정한 딕셔너리
     private Dictionary<TileColor, string> _tileColorToEffectNameDic = new Dictionary<TileColor, string>()
     {
-        {TileColor.Black, "effect_attack_white" },
-        {TileColor.White, "effect_attack_white" },
-        {TileColor.Red, "effect_attack_red" },
-        {TileColor.Green, "effect_attack_green" },
-        {TileColor.Blue, "effect_attack_blue" }
+        {TileColor.Black, "effect_tilematch_white" },
+        {TileColor.White, "effect_tilematch_white" },
+        {TileColor.Red, "effect_tilematch_red" },
+        {TileColor.Green, "effect_tilematch_green" },
+        {TileColor.Blue, "effect_tilematch_blue" }
     };
 
     private void Awake()
@@ -98,6 +98,13 @@ public class BoardController : MonoBehaviour
         _boardViewer.InitTileObject(_boardModel);
         //Model에 Viewer 연결 시켜줌
         _boardModel.SetBoardViewer(_boardViewer);
+
+        List<string> effectNameList = new List<string>();
+        foreach (var effectString in _tileColorToEffectNameDic.Values)
+        {
+            effectNameList.Add(effectString);
+        }
+        EffectSpawner.Instance.SetEffectPoolData(EffectOwner.None, effectNameList);
     }
     private void OnEnable()
     {

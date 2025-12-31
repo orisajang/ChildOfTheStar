@@ -237,14 +237,14 @@ public class Monster : MonoBehaviour
         //트리거 하나 작동시킴
         _animator.SetTrigger(str);
     }
-    public void MonsterEffectPlay(string effectName)
+    public void MonsterEffectPlay(string effectName,Transform Target)
     {
         //이펙트이름 하나 주면 풀에서 하나 꺼내도록
         if(effectName != "null")
         {
             //꺼내기만 하면 알아서 실행되고 비활성화됨: 이유- 애니메이션은 한번 실행하고 끝나면 코루틴으로 체크중이고 파티클도 한번실행하고 끝나면 유니티 이벤트 동작,
             //ParticleSystem은 Inspector에서 PlayOnAwake = true, Looping = false로 해줘야한다
-            EffectSpawner.Instance.GetEffectScript(effectName, transform.position); 
+            EffectSpawner.Instance.GetEffectScript(effectName, Target.position); 
         }
     }
     
