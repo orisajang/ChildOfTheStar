@@ -151,6 +151,17 @@ public class ShopUISlot : MonoBehaviour
         }
     }
 
+    public void SetShopButtonState(bool isTarget)
+    {
+        if (_type == SlotType.ExchangeTarget)
+            return;
+
+        _isSelected = isTarget;
+
+        _Border.SetActive(isTarget);
+
+    }
+
     public void ToggleSelection()
     {
         _isSelected = !_isSelected;
