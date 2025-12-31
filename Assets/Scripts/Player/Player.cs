@@ -182,7 +182,7 @@ public class Player : MonoBehaviour
 
         SoundManager.Instance.PlayEffect("sfx_playerhit");
 
-        if (CharacterHpCurrent < 0)
+        if (CharacterHpCurrent <= 0)
         {
             if (isImmortality)
             {
