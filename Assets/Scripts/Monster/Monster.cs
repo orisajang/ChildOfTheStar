@@ -304,7 +304,7 @@ public class Monster : MonoBehaviour
     /// 받는 데미지 처리
     /// </summary>
     /// <param name="dmg"></param>
-    public void TakeDamage(int dmg)
+    public void TakeDamage(int dmg,TileColor color)
     {
         _monsterCurrentHp -= dmg;
 
