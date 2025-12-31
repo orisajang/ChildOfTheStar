@@ -352,6 +352,8 @@ public class Monster : MonoBehaviour
         //최대체력 넘어갔으면 최대체력으로 설정
         if (_monsterCurrentHp > _monsterHp) _monsterCurrentHp = _monsterHp;
 
+        OnMonsterHpChanged?.Invoke(((float)_monsterCurrentHp / (float)_monsterHp), this);
+
         // 몬스터 HPBar 갱신
         if (monsterHPBarUi != null)
         {
